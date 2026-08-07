@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Luvish Gulati — Product-Minded Engineer &amp; AI Builder</title>
+<meta name="description" content="Product-minded software engineer and AI builder in Bengaluru. APM turned SWE intern, building Henry — an open-source, local-first AI chief-of-staff. Open to AI-PM and product-engineering roles.">
+<meta name="author" content="Luvish Gulati">
+<meta name="color-scheme" content="dark light">
+<link rel="canonical" href="https://luvishgulati03.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Luvish Gulati">
+<meta property="og:title" content="Luvish Gulati — Product-Minded Engineer &amp; AI Builder">
+<meta property="og:description" content="I don't just spec products — I ship them. APM → SWE intern → builder of Henry, an open-source AI chief-of-staff that runs my job hunt.">
+<meta property="og:url" content="https://luvishgulati03.github.io/">
+<meta property="og:image" content="https://luvishgulati03.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Luvish Gulati — product-minded engineer and AI builder.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Luvish Gulati — Product-Minded Engineer &amp; AI Builder">
+<meta name="twitter:description" content="I don't just spec products — I ship them. Builder of Henry, an open-source local-first AI chief-of-staff.">
+<meta name="twitter:image" content="https://luvishgulati03.github.io/assets/og.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e1a'/%3E%3Cpath d='M14 22l10 10-10 10' fill='none' stroke='%234ee6b8' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='31' y='38' width='19' height='6' rx='3' fill='%234ee6b8'/%3E%3C/svg%3E">
+
+<script>
+  /* Theme resolution before first paint — no flash. */
+  (function () {
+    try {
+      var saved = localStorage.getItem('lg-theme');
+      var sys = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', saved === 'light' || saved === 'dark' ? saved : sys);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+
+<style>
+/* ============================================================
+   TOKENS — dark-first, one accent, real light theme
+   ============================================================ */
+:root {
+  --bg:        #0a0e1a;
+  --bg-1:      #0d1220;
+  --bg-2:      #121829;
+  --bg-3:      #172038;
+  --line:      #1e2942;
+  --line-soft: #18213a;
+  --text:      #eae7e0;
+  --text-2:    #a8b0c4;
+  --text-3:    #767f96;
+  --accent:    #4ee6b8;
+  --accent-2:  #2fc79b;
+  --accent-dim:rgba(78,230,184,.13);
+  --accent-ink:#0a0e1a;
+  --warn:      #ffbf6b;
+  --shadow:    0 18px 44px -22px rgba(0,0,0,.9);
+  --glow:      0 0 0 1px rgba(78,230,184,.22), 0 12px 40px -18px rgba(78,230,184,.28);
+
+  --f-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "SF Mono", ui-monospace, SFMono-Regular, "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+
+  --wrap: 1080px;
+  --measure: 760px;
+  --pad: clamp(20px, 5vw, 44px);
+  --sec-y: clamp(72px, 11vh, 132px);
+  --r: 14px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:        #fbfaf7;
+    --bg-1:      #ffffff;
+    --bg-2:      #f4f3ee;
+    --bg-3:      #ecebe4;
+    --line:      #ddd9cf;
+    --line-soft: #e7e3d9;
+    --text:      #14181f;
+    --text-2:    #4c5566;
+    --text-3:    #6d7788;
+    --accent:    #0b7d63;
+    --accent-2:  #086350;
+    --accent-dim:rgba(11,125,99,.10);
+    --accent-ink:#ffffff;
+    --warn:      #9a5b00;
+    --shadow:    0 16px 40px -26px rgba(20,24,31,.35);
+    --glow:      0 0 0 1px rgba(11,125,99,.22), 0 12px 34px -20px rgba(11,125,99,.25);
+  }
+}
+
+:root[data-theme="light"] {
+  --bg:        #fbfaf7;
+  --bg-1:      #ffffff;
+  --bg-2:      #f4f3ee;
+  --bg-3:      #ecebe4;
+  --line:      #ddd9cf;
+  --line-soft: #e7e3d9;
+  --text:      #14181f;
+  --text-2:    #4c5566;
+  --text-3:    #6d7788;
+  --accent:    #0b7d63;
+  --accent-2:  #086350;
+  --accent-dim:rgba(11,125,99,.10);
+  --accent-ink:#ffffff;
+  --warn:      #9a5b00;
+  --shadow:    0 16px 40px -26px rgba(20,24,31,.35);
+  --glow:      0 0 0 1px rgba(11,125,99,.22), 0 12px 34px -20px rgba(11,125,99,.25);
+}
+
+:root[data-theme="dark"] {
+  --bg:        #0a0e1a;
+  --bg-1:      #0d1220;
+  --bg-2:      #121829;
+  --bg-3:      #172038;
+  --line:      #1e2942;
+  --line-soft: #18213a;
+  --text:      #eae7e0;
+  --text-2:    #a8b0c4;
+  --text-3:    #767f96;
+  --accent:    #4ee6b8;
+  --accent-2:  #2fc79b;
+  --accent-dim:rgba(78,230,184,.13);
+  --accent-ink:#0a0e1a;
+  --warn:      #ffbf6b;
+  --shadow:    0 18px 44px -22px rgba(0,0,0,.9);
+  --glow:      0 0 0 1px rgba(78,230,184,.22), 0 12px 40px -18px rgba(78,230,184,.28);
+}
+
+/* ============================================================
+   RESET / BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--f-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4 { margin: 0; font-weight: 620; letter-spacing: -0.028em; line-height: 1.12; }
+p { margin: 0 0 1.05em; color: var(--text-2); }
+p:last-child { margin-bottom: 0; }
+a { color: inherit; }
+ul { margin: 0; padding: 0; list-style: none; }
+img, svg { max-width: 100%; }
+strong { color: var(--text); font-weight: 600; }
+em { font-style: normal; color: var(--text); }
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--accent); color: var(--accent-ink);
+  padding: 10px 16px; border-radius: 0 0 8px 0; font: 600 14px/1 var(--f-sans);
+}
+.skip:focus { left: 0; }
+
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--pad); }
+.measure { max-width: var(--measure); }
+.mono {
+  font-family: var(--f-mono);
+  font-size: .74rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .25s ease, background .25s ease;
+}
+.nav.stuck { border-bottom-color: var(--line-soft); }
+.nav-in {
+  display: flex; align-items: center; gap: 20px;
+  height: 62px;
+}
+.brand {
+  display: inline-flex; align-items: baseline; gap: 9px; white-space: nowrap;
+  text-decoration: none; font-weight: 600; letter-spacing: -0.02em;
+  margin-right: auto; font-size: .98rem;
+}
+@media (max-width: 700px) { .brand .dot { display: none; } }
+.brand .caret { color: var(--accent); font-family: var(--f-mono); font-weight: 700; }
+.brand .dot { color: var(--text-3); font-weight: 400; font-size: .82rem; letter-spacing: .02em; }
+.nav-links { display: flex; gap: 26px; align-items: center; }
+.nav-links a {
+  position: relative; text-decoration: none; color: var(--text-2);
+  font-size: .875rem; font-weight: 500; padding: 4px 0;
+  transition: color .2s ease;
+}
+.nav-links a::after {
+  content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px;
+  background: var(--accent); transition: right .28s cubic-bezier(.22,.9,.3,1);
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { right: 0; }
+@media (max-width: 800px) { .nav-links { display: none; } }
+
+.tt {
+  display: inline-grid; place-items: center;
+  width: 36px; height: 36px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--bg-1); color: var(--text-2);
+  cursor: pointer; transition: color .2s, border-color .2s, transform .2s, background .2s;
+}
+.tt:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+.tt svg { width: 17px; height: 17px; display: none; }
+:root[data-theme="dark"] .tt .i-sun { display: block; }
+:root[data-theme="light"] .tt .i-moon { display: block; }
+
+/* ============================================================
+   SECTION FURNITURE
+   ============================================================ */
+section { padding-block: var(--sec-y); }
+section[id], #top { scroll-margin-top: 84px; }
+.sec-head {
+  display: flex; align-items: baseline; gap: 16px;
+  padding-bottom: 18px; margin-bottom: clamp(28px, 4vw, 46px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.sec-head .idx { color: var(--accent); font-family: var(--f-mono); font-size: .8rem; letter-spacing: .1em; flex: none; }
+.sec-head h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+.sec-head .note { margin-left: auto; color: var(--text-3); font-size: .8rem; text-align: right; }
+@media (max-width: 640px) { .sec-head .note { display: none; } }
+
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity .62s cubic-bezier(.22,.9,.3,1), transform .62s cubic-bezier(.22,.9,.3,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: calc(100svh - 62px);
+  display: flex; flex-direction: column; justify-content: center;
+  padding-block: clamp(36px, 7vh, 96px) clamp(28px, 5vh, 64px);
+  position: relative;
+}
+.hero::before {
+  content: ""; position: absolute; inset: -18% 0 26% 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(64% 52% at 22% 26%, var(--accent-dim), transparent 72%);
+}
+.eyebrow {
+  display: flex; align-items: flex-start; gap: 11px;
+  color: var(--text-2); font-family: var(--f-mono);
+  font-size: clamp(.65rem, 1.9vw, .72rem); line-height: 1.7;
+  letter-spacing: .14em; text-transform: uppercase; margin-bottom: clamp(16px, 3vh, 30px);
+}
+.eyebrow .pulse { margin-top: .55em; }
+.eyebrow b { color: var(--text); font-weight: 600; }
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none;
+  box-shadow: 0 0 0 0 var(--accent); animation: pulse 2.6s ease-out infinite; }
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 9px transparent; }
+}
+h1.big {
+  font-size: clamp(2.15rem, 5.4vw + .55rem, 4.4rem);
+  line-height: 1.03;
+  letter-spacing: -0.038em;
+  font-weight: 640;
+  max-width: 17ch;
+  margin-bottom: clamp(18px, 3vh, 30px);
+  text-wrap: balance;
+}
+h1.big .ship { color: var(--accent); }
+.sub {
+  max-width: 60ch; font-size: clamp(1rem, .42vw + .92rem, 1.16rem);
+  color: var(--text-2); margin-bottom: clamp(24px, 4vh, 38px); line-height: 1.62;
+}
+.sub b { color: var(--text); font-weight: 600; }
+.sub .sep { color: var(--accent); padding-inline: 4px; }
+
+.cta-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 11px 17px; border-radius: 11px; text-decoration: none;
+  font-size: .9rem; font-weight: 560; letter-spacing: -0.01em;
+  border: 1px solid var(--line); background: var(--bg-1); color: var(--text);
+  transition: transform .2s cubic-bezier(.22,.9,.3,1), border-color .2s, background .2s, color .2s, box-shadow .2s;
+}
+.btn svg { width: 16px; height: 16px; flex: none; }
+.btn:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow); }
+.btn.primary {
+  background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 620;
+}
+.btn.primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--accent-ink); box-shadow: var(--glow); }
+
+.scroll-cue {
+  margin-top: clamp(26px, 5vh, 56px); color: var(--text-3);
+  font-family: var(--f-mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+}
+.scroll-cue:hover { color: var(--accent); }
+.scroll-cue .ln { width: 46px; height: 1px; background: currentColor; opacity: .5; }
+@media (max-height: 720px) { .scroll-cue { display: none; } }
+
+/* ============================================================
+   PROOF STRIP (bento)
+   ============================================================ */
+.bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 900px) { .bento { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .bento { grid-template-columns: 1fr; } }
+.tile {
+  position: relative; overflow: hidden;
+  padding: 22px 22px 20px; border-radius: var(--r);
+  border: 1px solid var(--line); background: var(--bg-1);
+  transition: transform .24s cubic-bezier(.22,.9,.3,1), border-color .24s, box-shadow .24s;
+}
+.tile::after {
+  content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.22,.9,.3,1);
+}
+.tile:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 42%, var(--line)); box-shadow: var(--shadow); }
+.tile:hover::after { transform: scaleX(1); }
+.tile .num {
+  font-family: var(--f-mono); font-weight: 600; letter-spacing: -0.03em;
+  font-size: clamp(1.85rem, 3.1vw, 2.5rem); line-height: 1.05; color: var(--text);
+  display: block; margin-bottom: 8px;
+}
+.tile .num i { font-style: normal; color: var(--accent); }
+.tile .lab { display: block; font-size: .94rem; color: var(--text); font-weight: 520; margin-bottom: 5px; letter-spacing: -0.012em; }
+.tile .meta { display: block; font-family: var(--f-mono); font-size: .7rem; letter-spacing: .05em; color: var(--text-3); line-height: 1.5; }
+
+/* ============================================================
+   FLAGSHIP
+   ============================================================ */
+.kicker {
+  font-size: clamp(1.65rem, 3.4vw, 2.7rem); line-height: 1.16; letter-spacing: -0.032em;
+  font-weight: 620; max-width: 20ch; margin-bottom: clamp(26px, 4vw, 40px); text-wrap: balance;
+}
+.kicker .hl { color: var(--accent); }
+.proj-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 16px; margin-bottom: 14px; }
+.proj-head h3 { font-size: clamp(1.32rem, 2.2vw, 1.75rem); }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  font-family: var(--f-mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--text-3); background: var(--bg-1);
+}
+.chip.on { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: var(--accent-dim); }
+
+.block-title {
+  font-family: var(--f-mono); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--text-3); margin: clamp(42px, 6vw, 66px) 0 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.block-title::after { content: ""; height: 1px; flex: 1; background: var(--line-soft); }
+.block-title:first-of-type { margin-top: 0; }
+
+/* decisions */
+.dec { display: grid; gap: 10px; }
+.dec li {
+  display: grid; grid-template-columns: 30px 1fr; gap: 4px 16px;
+  padding: 18px 20px; border-radius: var(--r);
+  border: 1px solid var(--line); background: var(--bg-1);
+  transition: border-color .24s, background .24s;
+}
+.dec li:hover { border-color: color-mix(in srgb, var(--accent) 34%, var(--line)); }
+.dec .n { font-family: var(--f-mono); font-size: .78rem; color: var(--accent); padding-top: 3px; }
+.dec .hd { font-weight: 580; letter-spacing: -0.016em; color: var(--text); font-size: 1.02rem; }
+.dec .body { grid-column: 2; }
+.dec .not {
+  display: block; font-family: var(--f-mono); font-size: .72rem; letter-spacing: .03em;
+  color: var(--text-3); margin: 5px 0 9px;
+}
+.dec .not s { color: var(--text-3); text-decoration-color: color-mix(in srgb, var(--text-3) 60%, transparent); }
+.dec p { font-size: .95rem; margin: 0; max-width: 78ch; }
+.dec .cost { display: block; margin-top: 8px; font-size: .88rem; color: var(--text-3); max-width: 82ch; }
+.dec .cost b { color: var(--warn); font-weight: 600; font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; margin-right: 7px; }
+@media (max-width: 560px) {
+  .dec li { grid-template-columns: 1fr; gap: 4px; }
+  .dec .body { grid-column: 1; }
+}
+
+/* architecture diagram */
+.diagram {
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-1);
+  padding: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.diagram svg { display: block; width: 100%; min-width: 720px; height: auto; }
+.d-box { fill: var(--bg-2); stroke: var(--line); stroke-width: 1.4; }
+.d-box-hi { fill: var(--bg-2); stroke: color-mix(in srgb, var(--accent) 55%, var(--line)); stroke-width: 1.6; }
+.d-box-out { fill: var(--bg-2); stroke: var(--line); stroke-width: 1.4; stroke-dasharray: 0; }
+.d-col { fill: var(--accent); font-family: var(--f-mono); font-size: 11px; letter-spacing: 1.6px; font-weight: 600; }
+.d-t { fill: var(--text); font-family: var(--f-mono); font-size: 12.5px; letter-spacing: .6px; font-weight: 600; }
+.d-l { fill: var(--text-2); font-family: var(--f-sans); font-size: 12.5px; }
+.d-m { fill: var(--text-3); font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .5px; }
+.d-line { stroke: color-mix(in srgb, var(--text-3) 55%, transparent); stroke-width: 1.4; fill: none; }
+.d-flow { stroke: var(--text-3); stroke-width: 1.4; fill: none; }
+.d-gate { stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 5 5; fill: none; }
+.d-gate-t { fill: var(--accent); font-family: var(--f-mono); font-size: 11px; letter-spacing: 2px; font-weight: 600; }
+.d-node { fill: var(--bg); stroke: var(--accent); stroke-width: 1.8; }
+.d-arrow { fill: var(--text-3); }
+.cap { color: var(--text-3); font-size: .86rem; margin-top: 14px; }
+.cap b { color: var(--text-2); font-weight: 600; }
+
+/* terminal */
+.term {
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
+  background: var(--bg-1); box-shadow: var(--shadow);
+}
+.term-bar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 11px 14px; border-bottom: 1px solid var(--line-soft); background: var(--bg-2);
+}
+.dots { display: flex; gap: 6px; flex: none; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: block; }
+.dots i:first-child { background: color-mix(in srgb, var(--accent) 70%, var(--line)); }
+.term-title { font-family: var(--f-mono); font-size: .72rem; color: var(--text-3); letter-spacing: .04em; }
+.rec {
+  display: inline-flex; align-items: center; gap: 6px; margin-left: auto;
+  font-family: var(--f-mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--warn); border: 1px solid color-mix(in srgb, var(--warn) 40%, transparent);
+  background: color-mix(in srgb, var(--warn) 10%, transparent); padding: 3px 9px; border-radius: 999px;
+}
+.rec i { width: 6px; height: 6px; border-radius: 50%; background: var(--warn); display: block; }
+.term-ctl { display: flex; gap: 6px; }
+.tbtn {
+  font-family: var(--f-mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: 5px 11px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--bg-1); color: var(--text-2);
+  transition: color .18s, border-color .18s, background .18s;
+}
+.tbtn:hover { color: var(--accent); border-color: var(--accent); }
+.term-body {
+  font-family: var(--f-mono); font-size: .795rem; line-height: 1.72;
+  padding: 18px 18px 22px; min-height: 430px; max-height: 560px; overflow-y: auto; overflow-x: auto;
+  color: var(--text-2); scrollbar-width: thin;
+  background: color-mix(in srgb, var(--bg-2) 45%, var(--bg-1));
+}
+@media (max-width: 700px) { .term-body { font-size: .705rem; padding: 14px 13px 18px; min-height: 400px; } }
+.t-line { white-space: pre-wrap; word-break: break-word; }
+.t-line.hid { display: none; }
+.t-line.pad { margin-top: .95em; }
+.t-in { color: var(--text); }
+.t-in .pr { color: var(--accent); font-weight: 700; }
+.t-in .txt { border-bottom: 1px solid transparent; }
+.t-sys { color: var(--text-3); }
+.t-ok { color: var(--accent); }
+.t-warn { color: var(--warn); }
+.t-cite { color: var(--text-3); }
+.t-cite b { color: var(--text-2); font-weight: 500; }
+.t-key { color: var(--text); }
+.t-dim { color: var(--text-3); }
+.cursor {
+  display: inline-block; width: .55em; height: 1.02em; background: var(--accent);
+  vertical-align: -.16em; margin-left: 2px; animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.term-foot { color: var(--text-3); font-size: .84rem; margin-top: 12px; }
+
+/* metrics row */
+.mrow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--line-soft);
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.mrow div { background: var(--bg-1); padding: 18px 16px; }
+.mrow .k { display: block; font-family: var(--f-mono); font-size: 1.06rem; color: var(--accent); font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.mrow .v { display: block; font-size: .82rem; color: var(--text-3); line-height: 1.45; }
+@media (max-width: 900px) { .mrow { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { .mrow { grid-template-columns: 1fr; } }
+
+/* learnings */
+.learn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 860px) { .learn { grid-template-columns: 1fr; } }
+.learn li {
+  padding: 20px; border-radius: var(--r); border: 1px solid var(--line);
+  background: var(--bg-1); border-left: 2px solid color-mix(in srgb, var(--warn) 55%, transparent);
+}
+.learn h4 { font-size: 1rem; margin-bottom: 8px; letter-spacing: -0.018em; }
+.learn p { font-size: .92rem; margin: 0; }
+.learn .fix { display: block; margin-top: 10px; font-size: .86rem; color: var(--text-2); }
+.learn .fix b { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-right: 7px; }
+
+/* artifact links */
+.arts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 800px) { .arts { grid-template-columns: 1fr; } }
+.art {
+  display: flex; gap: 13px; align-items: flex-start; text-decoration: none;
+  padding: 17px 18px; border-radius: var(--r); border: 1px solid var(--line); background: var(--bg-1);
+  transition: transform .22s cubic-bezier(.22,.9,.3,1), border-color .22s, box-shadow .22s;
+}
+.art:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
+.art svg { width: 17px; height: 17px; flex: none; margin-top: 3px; color: var(--accent); }
+.art .t { display: block; font-weight: 560; font-size: .95rem; letter-spacing: -0.014em; }
+.art .d { display: block; font-size: .82rem; color: var(--text-3); margin-top: 3px; line-height: 1.5; }
+
+/* ============================================================
+   CASE STUDIES
+   ============================================================ */
+.cases { display: grid; gap: 12px; }
+.case {
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-1);
+  padding: clamp(22px, 3.4vw, 34px);
+}
+.case-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; margin-bottom: 16px; }
+.case-top h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+.case-top .role { font-family: var(--f-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+.case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 34px; }
+@media (max-width: 760px) { .case-grid { grid-template-columns: 1fr; gap: 18px; } }
+.case-grid h4 {
+  font-family: var(--f-mono); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 500; margin-bottom: 8px;
+}
+.case-grid p, .case-grid li { font-size: .94rem; }
+.case-grid ul li { position: relative; padding-left: 17px; margin-bottom: 7px; color: var(--text-2); }
+.case-grid ul li::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-family: var(--f-mono); font-size: .8rem; }
+.case-grid ul li:last-child { margin-bottom: 0; }
+.case-metric { font-family: var(--f-mono); color: var(--text); font-size: 1.02rem; letter-spacing: -0.01em; }
+.case-metric b { color: var(--accent); font-weight: 600; }
+.case-foot { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line-soft); display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; }
+.ilink {
+  display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+  font-size: .88rem; font-weight: 520; color: var(--text-2); position: relative; padding-bottom: 2px;
+  transition: color .2s;
+}
+.ilink svg { width: 14px; height: 14px; }
+.ilink::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px; background: var(--accent); transition: right .3s cubic-bezier(.22,.9,.3,1); }
+.ilink:hover { color: var(--accent); }
+.ilink:hover::after { right: 0; }
+
+/* ============================================================
+   MORE BUILDS
+   ============================================================ */
+.builds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 800px) { .builds { grid-template-columns: 1fr; } }
+.build {
+  display: block; text-decoration: none; padding: 20px;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-1);
+  transition: transform .22s cubic-bezier(.22,.9,.3,1), border-color .22s, box-shadow .22s;
+}
+.build:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
+.build .row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.build .row .t { font-weight: 580; font-size: 1rem; letter-spacing: -0.016em; }
+.build .row svg { width: 14px; height: 14px; margin-left: auto; color: var(--text-3); transition: color .2s, transform .2s; }
+.build:hover .row svg { color: var(--accent); transform: translate(2px, -2px); }
+.build p { font-size: .88rem; margin: 0; }
+.build .tag { display: block; margin-top: 11px; font-family: var(--f-mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(30px, 5vw, 64px); align-items: start; }
+@media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+.tenets { display: grid; gap: 14px; margin-top: 26px; }
+.tenet { display: grid; grid-template-columns: 26px 1fr; gap: 14px; }
+.tenet .n { font-family: var(--f-mono); font-size: .74rem; color: var(--accent); padding-top: 4px; }
+.tenet b { display: block; font-weight: 580; letter-spacing: -0.016em; }
+.tenet span { display: block; font-size: .92rem; color: var(--text-2); margin-top: 2px; }
+
+.tl { position: relative; padding-left: 24px; }
+.tl::before { content: ""; position: absolute; left: 4px; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
+.tl li { position: relative; padding-bottom: 26px; }
+.tl li:last-child { padding-bottom: 0; }
+.tl li::before {
+  content: ""; position: absolute; left: -24px; top: 7px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--bg); border: 1.5px solid var(--line);
+}
+.tl li.now::before { border-color: var(--accent); background: var(--accent); }
+.tl .when { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); display: block; }
+.tl .what { font-weight: 570; letter-spacing: -0.016em; display: block; margin-top: 3px; }
+.tl .who { color: var(--text-2); font-size: .92rem; display: block; }
+.tl .det { color: var(--text-3); font-size: .88rem; display: block; margin-top: 5px; line-height: 1.55; }
+
+.skills { display: grid; gap: 16px; margin-top: 34px; }
+.skill-g { display: grid; grid-template-columns: 116px 1fr; gap: 14px; align-items: baseline; }
+@media (max-width: 520px) { .skill-g { grid-template-columns: 1fr; gap: 5px; } }
+.skill-g dt { font-family: var(--f-mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.skill-g dd { margin: 0; color: var(--text-2); font-size: .94rem; line-height: 1.75; }
+
+/* ============================================================
+   CONTACT / FOOTER
+   ============================================================ */
+.contact { position: relative; }
+.contact::before {
+  content: ""; position: absolute; inset: 0 0 34% 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(58% 56% at 46% 28%, var(--accent-dim), transparent 70%);
+}
+.contact h2 { font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -0.038em; margin-bottom: 18px; text-wrap: balance; }
+.contact .lead { max-width: 54ch; font-size: clamp(1rem, .4vw + .92rem, 1.12rem); margin-bottom: 30px; }
+.contact-links { display: grid; grid-template-columns: 1.32fr 1fr 1fr 1fr; gap: 10px; max-width: 880px; }
+@media (max-width: 720px) { .contact-links { grid-template-columns: repeat(2, 1fr); } }
+.cl {
+  display: block; text-decoration: none; padding: 17px 18px;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-1);
+  transition: transform .22s cubic-bezier(.22,.9,.3,1), border-color .22s, box-shadow .22s;
+}
+.cl:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
+.cl svg { width: 17px; height: 17px; color: var(--accent); display: block; margin-bottom: 11px; }
+.cl .k { display: block; font-family: var(--f-mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+.cl .v { display: block; font-size: .9rem; font-weight: 520; letter-spacing: -0.014em; word-break: break-word; }
+
+footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
+.foot-in { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+.foot-in p { margin: 0; font-family: var(--f-mono); font-size: .72rem; letter-spacing: .04em; color: var(--text-3); }
+.foot-in .caret { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important; scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .cursor { display: none; }
+  .pulse { animation: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><span class="caret">&gt;_</span> Luvish Gulati <span class="dot">/ product-minded engineer</span></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#proof">Proof</a>
+      <a href="#henry">Henry</a>
+      <a href="#work">Case studies</a>
+      <a href="#about">How I think</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="tt" id="tt" type="button" aria-label="Switch to light theme" aria-pressed="false">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.9 5.9L4.4 4.4M19.6 19.6l-1.5-1.5M18.1 5.9l1.5-1.5M4.4 19.6l1.5-1.5"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+
+<!-- ================= HERO ================= -->
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap">
+    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span><span><b>Luvish Gulati</b> · Bengaluru, India · open to work</span></p>
+    <h1 class="big" id="h1">Product-minded engineer. I don't just spec products — <span class="ship">I ship them.</span></h1>
+    <p class="sub">
+      APM <span class="sep">→</span> SWE intern <span class="sep">→</span> builder of <b>Henry</b>, an open-source AI
+      chief-of-staff that runs my job hunt. Looking for AI-PM &amp; product-engineering roles · Bengaluru or remote.
+    </p>
+    <div class="cta-row">
+      <a class="btn primary" href="mailto:Gulatiluvish@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.4"/><path d="M3.4 6.6l8.6 6 8.6-6"/></svg>
+        Gulatiluvish@gmail.com
+      </a>
+      <a class="btn" href="https://www.linkedin.com/in/luvish-gulati-282a84184" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile of Luvish Gulati">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4z"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn" href="https://github.com/Luvishgulati03" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile of Luvish Gulati">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+        GitHub
+      </a>
+      <a class="btn" href="assets/Luvish_Gulati_Resume.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4v11.4M7.6 10.6l4.4 4.4 4.4-4.4M4 19.4h16"/></svg>
+        Résumé (PDF)
+      </a>
+    </div>
+    <a class="scroll-cue" href="#proof"><span class="ln" aria-hidden="true"></span> the receipts</a>
+  </div>
+</section>
+
+<!-- ================= PROOF ================= -->
+<section id="proof" aria-labelledby="proof-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="idx">01 /</span>
+      <h2 id="proof-h">Receipts</h2>
+      <span class="note">Numbers from shipped work — GrowthX, Pink Unicorn Algorithms, Henry</span>
+    </div>
+    <ul class="bento reveal">
+      <li class="tile">
+        <span class="num">516<i> / </i>447</span>
+        <span class="lab">opens / clicks in 30 days</span>
+        <span class="meta">Notification platform · GrowthX</span>
+      </li>
+      <li class="tile">
+        <span class="num">53<i>/</i>57</span>
+        <span class="lab">test scenarios automated</span>
+        <span class="meta">ADB framework · ~2 days of QA saved</span>
+      </li>
+      <li class="tile">
+        <span class="num">4+<i> hrs</i></span>
+        <span class="lab">of manual ops removed, daily</span>
+        <span class="meta">Rapidero shipment pricing · APM</span>
+      </li>
+      <li class="tile">
+        <span class="num">3</span>
+        <span class="lab">products owned as an APM</span>
+        <span class="meta">CarbonNex · Rapidero · Risk AI Council</span>
+      </li>
+      <li class="tile">
+        <span class="num"><i>$</i>0<i>/mo</i></span>
+        <span class="lab">marginal AI cost</span>
+        <span class="meta">Henry · local-first, no API keys</span>
+      </li>
+      <li class="tile">
+        <span class="num">6</span>
+        <span class="lab">AI-risk categories shipped</span>
+        <span class="meta">NIST AI RMF / EU AI Act aligned</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= FLAGSHIP: HENRY ================= -->
+<section id="henry" aria-labelledby="henry-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="idx">02 /</span>
+      <h2 id="henry-h">Flagship</h2>
+      <span class="note">Open source · TypeScript · runs on my laptop right now</span>
+    </div>
+
+    <p class="kicker reveal">Most PM candidates show decks. <span class="hl">I show a running agent.</span></p>
+
+    <div class="reveal">
+      <div class="proj-head">
+        <h3 id="henry-name">Henry — a personal AI chief-of-staff</h3>
+        <div class="chips">
+          <span class="chip on">Flagship</span>
+          <span class="chip">Open source</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">Local-first</span>
+        </div>
+      </div>
+      <div class="measure">
+        <p>
+          Henry started narrow: a force multiplier for my job hunt — track roles, keep the research in one place,
+          stop rewriting the same cover letter. It didn't stay narrow. It became the daily driver that
+          <strong>schedules, remembers, drafts, and watches the inbox</strong> — a terminal-first agent that
+          runs entirely on an 8 GB M1 Air for roughly <strong>zero marginal cost</strong>, because it orchestrates
+          CLIs I already pay a subscription for instead of burning metered API keys.
+        </p>
+        <p>
+          The interesting part isn't that an LLM answers questions. It's the systems around it: a memory engine
+          that decays and reinforces like a real one, a retrieval layer that has to pass an eval harness before
+          any ranking change ships, and an approval boundary that makes autonomy safe to hand out in slices.
+          This site is one of the things Henry tracks.
+        </p>
+      </div>
+    </div>
+
+    <!-- decisions -->
+    <h4 class="block-title reveal">Five decisions — and what I gave up for each</h4>
+    <ol class="dec reveal">
+      <li>
+        <span class="n">01</span>
+        <span class="hd">Local-first memory: files as truth, SQLite as index</span>
+        <span class="body">
+          <span class="not">not chosen → <s>a hosted cloud vector database</s></span>
+          <p>Every memory is a file I can read, diff and git-track; SQLite carries the vector + full-text index
+          beside it. A managed vector DB would have been faster to stand up, but memory about my own life
+          shouldn't live in someone else's tenant, and it shouldn't stop working on a plane.</p>
+          <span class="cost"><b>Cost</b>Retrieval quality became my problem to solve, not a vendor's — which is why the eval harness exists.</span>
+        </span>
+      </li>
+      <li>
+        <span class="n">02</span>
+        <span class="hd">Orchestrate subscription CLIs instead of calling metered APIs</span>
+        <span class="body">
+          <span class="not">not chosen → <s>per-token API keys per provider</s></span>
+          <p>Henry dispatches work to multiple provider CLIs with session reuse and intent tiering —
+          light, default and heavy models for different jobs. Marginal cost per run is ~$0, so I could
+          afford to let it run on a schedule and iterate for weeks.</p>
+          <span class="cost"><b>Cost</b>I inherit each CLI's quirks and rate limits, and orchestration code I'd otherwise get from an SDK.</span>
+        </span>
+      </li>
+      <li>
+        <span class="n">03</span>
+        <span class="hd">An approval gate on every outbound action</span>
+        <span class="body">
+          <span class="not">not chosen → <s>full autonomy with an undo button</s></span>
+          <p>Nothing leaves the machine — email, GitHub, job applications — without an explicit operator
+          sign-off. The Gmail integration is drafts-only by construction, not by prompt instruction.
+          An agent that can't send is an agent I can leave running.</p>
+          <span class="cost"><b>Cost</b>More friction, and a real queue to design; "just send it" is a feature I deliberately don't have.</span>
+        </span>
+      </li>
+      <li>
+        <span class="n">04</span>
+        <span class="hd">Score-threshold retrieval with per-source caps</span>
+        <span class="body">
+          <span class="not">not chosen → <s>pure top-K</s></span>
+          <p>Top-K always returns K results, even when only two are relevant — weak chunks dilute the answer
+          and one verbose source can eat the whole context. Henry uses a relevance threshold, per-source caps
+          and domain boosts, so a thin question gets a thin, honest context.</p>
+          <span class="cost"><b>Cost</b>Thresholds need calibration; a precision@5 / MRR harness now gates every ranking change.</span>
+        </span>
+      </li>
+      <li>
+        <span class="n">05</span>
+        <span class="hd">Two stores: decaying personal memory, versioned knowledge</span>
+        <span class="body">
+          <span class="not">not chosen → <s>one unified store for everything</s></span>
+          <p>Personal memory should fade, reinforce and be superseded — what I decided last week outranks
+          what I decided in March. Reference knowledge should do the opposite: stay stable, be versioned, be
+          citable. One store forces one policy; two stores let each obey its own physics.</p>
+          <span class="cost"><b>Cost</b>Two retrieval paths, two tuning surfaces, and a fusion step that has to decide which store wins.</span>
+        </span>
+      </li>
+    </ol>
+
+    <!-- architecture -->
+    <h4 class="block-title reveal">Architecture — where the approval boundary sits</h4>
+    <div class="reveal">
+      <div class="diagram">
+        <svg viewBox="0 0 960 600" role="img" aria-labelledby="arch-t arch-d">
+          <title id="arch-t">Henry architecture: perceive, decide, act — with an explicit approval gate</title>
+          <desc id="arch-d">Inputs (CLI, read-only Gmail, cron scheduler, dashboard) feed an orchestrator.
+            The orchestrator reads from a memory engine and a knowledge RAG layer, which return an explainable
+            recall trace. Local actions — Gmail drafts, reminders, memory writes, notifications — happen freely.
+            Outbound actions — sending email, GitHub writes, job applications — must cross a dashed approval
+            gate that requires operator sign-off.</desc>
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" class="d-arrow"/>
+            </marker>
+          </defs>
+
+          <!-- column labels -->
+          <text class="d-col" x="24"  y="26">01 · PERCEIVE</text>
+          <text class="d-col" x="326" y="26">02 · DECIDE</text>
+          <text class="d-col" x="706" y="26">03 · ACT</text>
+
+          <!-- perceive -->
+          <rect class="d-box" x="24" y="48"  width="210" height="48" rx="10"/>
+          <text class="d-l" x="42" y="78">CLI — terminal-first</text>
+          <rect class="d-box" x="24" y="110" width="210" height="48" rx="10"/>
+          <text class="d-l" x="42" y="140">Gmail — read only</text>
+          <rect class="d-box" x="24" y="172" width="210" height="48" rx="10"/>
+          <text class="d-l" x="42" y="202">Cron scheduler</text>
+          <rect class="d-box" x="24" y="234" width="210" height="48" rx="10"/>
+          <text class="d-l" x="42" y="264">Dashboard — live SSE</text>
+
+          <!-- bus into orchestrator -->
+          <path class="d-line" d="M234 72 H268 M234 134 H268 M234 196 H268 M234 258 H268 M268 72 V258"/>
+          <path class="d-flow" d="M268 165 H318" marker-end="url(#ah)"/>
+
+          <!-- orchestrator -->
+          <rect class="d-box-hi" x="326" y="48" width="250" height="234" rx="14"/>
+          <text class="d-t" x="348" y="82">ORCHESTRATOR</text>
+          <text class="d-m" x="348" y="112">INTENT TIERING</text>
+          <text class="d-l" x="348" y="132">light · default · heavy</text>
+          <text class="d-m" x="348" y="164">PROVIDER CLIs</text>
+          <text class="d-l" x="348" y="184">session reuse, $0 marginal</text>
+          <text class="d-m" x="348" y="216">ADMISSION CONTROL</text>
+          <text class="d-l" x="348" y="236">subprocess caps · 8 GB M1 Air</text>
+
+          <!-- memory + knowledge -->
+          <rect class="d-box-hi" x="326" y="342" width="250" height="112" rx="14"/>
+          <text class="d-t" x="348" y="372">MEMORY ENGINE</text>
+          <text class="d-l" x="348" y="396">files as truth + SQLite index</text>
+          <text class="d-l" x="348" y="416">vector + FTS, rank-fused</text>
+          <text class="d-l" x="348" y="436">spreading activation · decay</text>
+
+          <rect class="d-box" x="326" y="470" width="250" height="106" rx="14"/>
+          <text class="d-t" x="348" y="500">KNOWLEDGE RAG</text>
+          <text class="d-l" x="348" y="524">bge-small-en-v1.5 · 384d</text>
+          <text class="d-l" x="348" y="544">threshold + per-source caps</text>
+          <text class="d-l" x="348" y="564">eval-gated ranking (P@5 / MRR)</text>
+
+          <path class="d-flow" d="M414 282 V332" marker-end="url(#ah)"/>
+          <text class="d-m" x="404" y="316" text-anchor="end">recall</text>
+          <path class="d-flow" d="M498 332 V292" marker-end="url(#ah)"/>
+          <text class="d-m" x="510" y="316">explainable trace</text>
+          <path class="d-line" d="M451 454 V470"/>
+
+          <!-- approval gate -->
+          <path class="d-gate" d="M648 40 V206"/>
+          <text class="d-gate-t" x="634" y="90" text-anchor="middle" transform="rotate(-90 634 90)">APPROVAL GATE</text>
+          <text class="d-m" x="600" y="232">operator sign-off · approve / reject</text>
+          <circle class="d-node" cx="648" cy="143" r="6"/>
+
+          <!-- act -->
+          <rect class="d-box-out" x="706" y="88" width="230" height="110" rx="14"/>
+          <text class="d-t" x="726" y="118">OUTBOUND</text>
+          <text class="d-l" x="726" y="142">send email</text>
+          <text class="d-l" x="726" y="162">GitHub writes</text>
+          <text class="d-l" x="726" y="182">job applications</text>
+
+          <rect class="d-box" x="706" y="310" width="230" height="128" rx="14"/>
+          <text class="d-t" x="726" y="340">LOCAL — NO GATE</text>
+          <text class="d-l" x="726" y="364">Gmail draft (never sent)</text>
+          <text class="d-l" x="726" y="384">reminders + notifications</text>
+          <text class="d-l" x="726" y="404">memory writes</text>
+          <text class="d-l" x="726" y="424">job tracker updates</text>
+
+          <path class="d-flow" d="M576 143 H700" marker-end="url(#ah)"/>
+          <path class="d-flow" d="M576 252 H676 V370 H700" marker-end="url(#ah)"/>
+        </svg>
+      </div>
+      <p class="cap measure"><b>Read it left to right.</b> The dashed line is the only interesting part:
+      everything local — drafts, reminders, memory writes — flows freely, and everything that touches the
+      outside world stops for a human. Safety here is a boundary in the architecture, not a sentence in a prompt.</p>
+    </div>
+
+    <!-- terminal -->
+    <h4 class="block-title reveal">A session, replayed</h4>
+    <div class="reveal">
+      <div class="term" id="term">
+        <div class="term-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="term-title">henry — ~/dev/henry — zsh</span>
+          <span class="rec"><i aria-hidden="true"></i> recorded session</span>
+          <span class="term-ctl">
+            <button class="tbtn" id="t-replay" type="button">↻ Replay</button>
+            <button class="tbtn" id="t-skip" type="button">↦ Skip</button>
+          </span>
+        </div>
+        <div class="term-body" id="t-body" role="region" aria-label="Recorded Henry terminal session transcript" tabindex="0">
+          <div class="t-line t-sys"><span class="t-key">henry</span> · local-first · no API keys</div>
+          <div class="t-line t-sys">memory + knowledge indexed · scheduler ready · approval queue: empty</div>
+
+          <div class="t-line t-in pad" data-type="1"><span class="pr">›</span> <span class="txt">remind me to follow up on the design review thread friday morning</span></div>
+          <div class="t-line t-ok">  ⏱ scheduled — Fri 09:00 IST · "follow up: design review thread"</div>
+          <div class="t-line t-dim">    cron job registered · macOS + Telegram notification</div>
+
+          <div class="t-line t-in pad" data-type="1"><span class="pr">›</span> <span class="txt">what did we decide about the retrieval threshold, and why?</span></div>
+          <div class="t-line t-dim">  ⌕ recall — hybrid(vector + full-text) → rank fusion → spreading activation</div>
+          <div class="t-line">  We moved off pure top-K to a relevance threshold with per-source caps</div>
+          <div class="t-line">  and domain boosts. Top-K kept returning five chunks when only two were</div>
+          <div class="t-line">  relevant, and one verbose source could crowd out everything else. The</div>
+          <div class="t-line">  eval harness (precision@5 / MRR) gates the change before it ships.</div>
+          <div class="t-line t-cite">  cited ▸ <b>docs/lx-knowledge-architecture.md</b> — retrieval &amp; scoring</div>
+          <div class="t-line t-cite">  cited ▸ <b>memory/episodic</b> — the eval run that caught it</div>
+          <div class="t-line t-cite">  cited ▸ <b>src/knowledge/router.ts</b> — threshold + per-source caps</div>
+          <div class="t-line t-dim">    3 sources over threshold · sub-second recall · trace: recall --explain</div>
+
+          <div class="t-line t-in pad" data-type="1"><span class="pr">›</span> <span class="txt">great — email that summary to the hiring manager now</span></div>
+          <div class="t-line t-warn">  ⚠ approval required — outbound action blocked</div>
+          <div class="t-line">  I don't send. Nothing outbound leaves this machine without your</div>
+          <div class="t-line">  sign-off, so I wrote it into Gmail Drafts instead:</div>
+          <div class="t-line t-dim">    to      &lt;from your thread&gt; · unsent</div>
+          <div class="t-line t-dim">    subject Re: retrieval eval — what changed and why</div>
+          <div class="t-line t-ok">  ✓ draft saved · 0 emails sent</div>
+          <div class="t-line t-dim">    approve → <span class="t-key">henry approve out_5c30</span>   reject → <span class="t-key">henry reject out_5c30</span></div>
+
+          <div class="t-line t-in pad" data-type="1"><span class="pr">›</span> <span class="txt">reject — I'll write that one myself</span></div>
+          <div class="t-line t-dim">  ✓ out_5c30 rejected · draft kept · logged to episodic memory</div>
+          <div class="t-line t-sys pad">— end of recorded session —</div>
+        </div>
+      </div>
+      <p class="term-foot measure">A real capture of the three things I care about: plain-English intent becomes a
+      scheduled job, an answer arrives with its sources attached, and the send request gets refused on purpose.</p>
+    </div>
+
+    <!-- metrics -->
+    <h4 class="block-title reveal">By the numbers</h4>
+    <div class="mrow reveal">
+      <div><span class="k">Open source</span><span class="v">Public repo, README written as a case study</span></div>
+      <div><span class="k">TypeScript</span><span class="v">Typed end to end, tests around memory &amp; approvals</span></div>
+      <div><span class="k">8 GB M1 Air</span><span class="v">Local-first; admission control tuned for the machine</span></div>
+      <div><span class="k">~$0 / mo</span><span class="v">Marginal AI cost — subscription CLIs, no API keys</span></div>
+      <div><span class="k">Sub-second</span><span class="v">Memory recall; local embeddings at ~10 ms</span></div>
+    </div>
+
+    <!-- learnings -->
+    <h4 class="block-title reveal">Three things I got wrong</h4>
+    <ul class="learn reveal">
+      <li>
+        <h4>The scheduler that ate the laptop</h4>
+        <p>A 15-minute cron loop spawned agent subprocesses faster than they finished. On an 8 GB machine that
+        isn't a slow queue — it's a machine you can't type on.</p>
+        <span class="fix"><b>Fix</b>Admission control: hard caps on concurrent subprocesses, tuned to the RAM I actually have.</span>
+      </li>
+      <li>
+        <h4>Distilled cards buried fresh imports</h4>
+        <p>The strategy-card layer summarised knowledge so well that cards outranked everything, and newly
+        imported sources never surfaced. It looked fine in demos. The eval harness caught it.</p>
+        <span class="fix"><b>Fix</b>Score-interleave instead of cards-first — and no ranking change ships without a P@5 / MRR run.</span>
+      </li>
+      <li>
+        <h4>A provider auth failure that looked like success</h4>
+        <p>An expired provider session returned empty output, and the pipeline happily treated "nothing" as
+        "no results found". Silent wrongness is worse than a crash.</p>
+        <span class="fix"><b>Fix</b>Failure separation everywhere: an engine error can never be reported as an empty result.</span>
+      </li>
+    </ul>
+
+    <!-- artifacts -->
+    <h4 class="block-title reveal">Go look at it</h4>
+    <div class="arts reveal">
+      <a class="art" href="https://github.com/Luvishgulati03/ai-agent-" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+        <span><span class="t">Source — the whole agent</span><span class="d">github.com/Luvishgulati03/ai-agent- · the README reads like a case study, not a install guide</span></span>
+      </a>
+      <a class="art" href="https://github.com/Luvishgulati03/ai-agent-/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.6h9.6L19 8v12.4H5z"/><path d="M14.2 3.8V8.2H18.8M8.2 12.4h7.6M8.2 16.2h5.6"/></svg>
+        <span><span class="t">Architecture doc</span><span class="d">docs/architecture.md — modules, memory tiers, the approval model written down</span></span>
+      </a>
+      <a class="art" href="https://github.com/Luvishgulati03/luvish-ai-twin-recruiters" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.4h16v11H13l-4.4 3.4v-3.4H4z"/><path d="M8.4 10.9h.02M12 10.9h.02M15.6 10.9h.02"/></svg>
+        <span><span class="t">Interrogate my AI twin</span><span class="d">A context-aware chatbot recruiters can question about my work — instead of reading a static resume</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CASE STUDIES ================= -->
+<section id="work" aria-labelledby="work-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="idx">03 /</span>
+      <h2 id="work-h">Two more, end to end</h2>
+      <span class="note">One PM/GTM build · one 0→1 full-stack build</span>
+    </div>
+
+    <div class="cases">
+      <article class="case reveal">
+        <div class="case-top">
+          <h3>Risk AI Council</h3>
+          <span class="role">Pink Unicorn Algorithms · GTM &amp; content lead</span>
+        </div>
+        <div class="case-grid">
+          <div>
+            <h4>Situation</h4>
+            <p>An AI-risk assessment platform with a real engine and no shared language around it. Teams that
+            had to comply with the NIST AI RMF and the EU AI Act weren't ML researchers — they were risk,
+            legal and compliance owners who needed the problem framed in their vocabulary, not ours.</p>
+            <h4 style="margin-top:20px">Decisions</h4>
+            <ul>
+              <li>Wrote for risk &amp; compliance owners, <em>not</em> ML engineers — governance language, not model language.</li>
+              <li>Structured the learning programs as <strong>6 AI-risk categories</strong> mapped to NIST AI RMF and the EU AI Act, instead of one undifferentiated course.</li>
+              <li>Rebuilt the site structure to follow the buyer's journey — assess, then learn, then act.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Outcome</h4>
+            <p class="case-metric"><b>6</b> risk categories shipped as learning programs, framework-aligned end to end.</p>
+            <h4 style="margin-top:20px">Learning</h4>
+            <p>In a regulated category, positioning <em>is</em> the product surface. The fastest credibility win
+            wasn't a feature — it was mapping every claim to a named clause a compliance officer already trusts.
+            Vague "responsible AI" copy loses to a citation, every time.</p>
+          </div>
+        </div>
+        <div class="case-foot">
+          <a class="ilink" href="https://github.com/Luvishgulati03/risk-council-final-iterATION-" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+            Repository (final iteration)
+          </a>
+          <span class="chip">NIST AI RMF</span>
+          <span class="chip">EU AI Act</span>
+          <span class="chip">GTM</span>
+        </div>
+      </article>
+
+      <article class="case reveal">
+        <div class="case-top">
+          <h3>Coding Efficiency Measurement System</h3>
+          <span class="role">0 → 1 · product + full stack</span>
+        </div>
+        <div class="case-grid">
+          <div>
+            <h4>Situation</h4>
+            <p>Coding assessments grade the artefact. Two candidates can submit the same passing solution after
+            wildly different journeys — one reasoned it out, one thrashed and pasted. Institutions were making
+            hiring and grading calls on the half of the signal that's easiest to fake.</p>
+            <h4 style="margin-top:20px">Decisions</h4>
+            <ul>
+              <li>Built a <strong>Net Efficiency Score</strong> that grades the <em>process</em>: keystrokes, idle time, tab switches, copy/paste, debugging patterns, focus intervals and complexity.</li>
+              <li>Wrote separate PRDs for all <strong>three personas</strong> — admin, teacher, student — because the same score means three different things to them.</li>
+              <li>Shipped the whole stack myself (Python / Flask / SQLite / JS): role-based workflows, code execution, session recording.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Outcome</h4>
+            <p class="case-metric">Piloted at <b>2–3</b> accredited institutions · 3 personas, 3 PRDs, one running platform.</p>
+            <h4 style="margin-top:20px">Learning</h4>
+            <p>A process metric is only legitimate if the person being measured can see the same signals the
+            grader sees. The moment the score is a black box it stops being feedback and starts being
+            surveillance — so transparency wasn't a nice-to-have, it was the thing that made the product usable.</p>
+          </div>
+        </div>
+        <div class="case-foot">
+          <span class="chip">Python · Flask</span>
+          <span class="chip">SQLite</span>
+          <span class="chip">PRDs ×3</span>
+          <span class="chip">No public repo — case study on request</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MORE BUILDS ================= -->
+<section id="builds" aria-labelledby="builds-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="idx">04 /</span>
+      <h2 id="builds-h">More builds</h2>
+      <span class="note">Shipped, public, and worth a look</span>
+    </div>
+    <div class="builds reveal">
+      <a class="build" href="https://github.com/Luvishgulati03/luvish-ai-twin-recruiters" target="_blank" rel="noopener noreferrer">
+        <span class="row"><span class="t">AI Twin for Recruiters</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 16.5L16.5 7.5M8.6 7.5h7.9v7.9"/></svg>
+        </span>
+        <p>A context-aware chatbot recruiters can interrogate about my experience, projects and working style — instead of reading a static resume.</p>
+        <span class="tag">Conversational AI · RAG</span>
+      </a>
+      <a class="build" href="https://github.com/Luvishgulati03/carbonnex-website" target="_blank" rel="noopener noreferrer">
+        <span class="row"><span class="t">CarbonNex</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 16.5L16.5 7.5M8.6 7.5h7.9v7.9"/></svg>
+        </span>
+        <p>ESG reporting product where I designed the core workflows as APM — turning a compliance obligation into something a team can actually run.</p>
+        <span class="tag">Product · ESG</span>
+      </a>
+      <a class="build" href="https://github.com/Luvishgulati03/Compiler-Project" target="_blank" rel="noopener noreferrer">
+        <span class="row"><span class="t">A compiler, in C</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 16.5L16.5 7.5M8.6 7.5h7.9v7.9"/></svg>
+        </span>
+        <p>Lexer → parser → semantic analysis → code generation, written from scratch for Compiler Construction. The fundamentals under everything else here.</p>
+        <span class="tag">C · Systems</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" aria-labelledby="about-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="idx">05 /</span>
+      <h2 id="about-h">How I think</h2>
+      <span class="note">B.Tech CS, Amity University · 2021–2025</span>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p class="measure">I came into product from the engineering side, and I never left it. I write the PRD and
+        then I write the code — which means my specs have acceptance criteria a build can actually be
+        measured against, and my estimates are honest because I'm the one paying them.</p>
+        <p class="measure">What I want next is AI product: the problems there are product problems wearing a model
+        costume. Where does autonomy stop. What does the system do when retrieval is wrong. How do you prove a
+        ranking change helped instead of insisting it did.</p>
+        <div class="tenets">
+          <div class="tenet"><span class="n">01</span><span><b>Every module gets acceptance criteria.</b><span>If I can't say what "done" looks like before building it, the spec isn't finished.</span></span></div>
+          <div class="tenet"><span class="n">02</span><span><b>Evals before tuning.</b><span>Opinions about ranking are cheap. A precision@5 run is not.</span></span></div>
+          <div class="tenet"><span class="n">03</span><span><b>Safety is a boundary you draw.</b><span>Not a promise in a prompt. Put the gate in the architecture where it can't be talked around.</span></span></div>
+          <div class="tenet"><span class="n">04</span><span><b>Ship it, then measure it.</b><span>516 opens and 447 clicks beat any amount of pre-launch conviction.</span></span></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <ul class="tl">
+          <li class="now">
+            <span class="when">Jun 2026 — present · Bengaluru</span>
+            <span class="what">Software Engineering Intern</span>
+            <span class="who">GrowthX</span>
+            <span class="det">Built an end-to-end notification platform — native, in-app, web push and email digests
+            (React Native/Expo, Next.js, Convex, FCM) with unified preferences, per-channel controls and read
+            states. Shipped improvements generating 516 opens / 447 clicks in 30 days. Also: an AI operations
+            agent that drafts Slack replies, app-install GTM, and an ADB test framework covering 53 of 57
+            notification scenarios (~2 days of QA saved).</span>
+          </li>
+          <li>
+            <span class="when">Aug 2025 — May 2026</span>
+            <span class="what">Associate Product Manager</span>
+            <span class="who">Pink Unicorn Algorithms (Globerra)</span>
+            <span class="det">Owned three products: CarbonNex (ESG reporting), Rapidero (6 logistics modules;
+            automated shipment pricing removed 4+ hrs/day of manual work) and Risk AI Council (GTM + content
+            lead, NIST AI RMF / EU AI Act aligned). Built AI voice agents on GetVocal.ai.</span>
+          </li>
+          <li>
+            <span class="when">Jun — Aug 2025</span>
+            <span class="what">Associate Product Consultant Intern</span>
+            <span class="who">Cvent</span>
+            <span class="det">Worked across 10+ enterprise accounts, turning client journeys into product briefs;
+            proposed an AI support solution to leadership.</span>
+          </li>
+        </ul>
+        <dl class="skills">
+          <div class="skill-g"><dt>Product</dt><dd>Discovery · PRDs · Roadmapping · GTM · User journeys · Mixpanel · Agile</dd></div>
+          <div class="skill-g"><dt>Engineering</dt><dd>TypeScript/JavaScript · Python · React Native/Expo · Next.js · Flask · Convex · MongoDB / MySQL / SQLite · Firebase · REST · System design · ADB · Automated testing</dd></div>
+          <div class="skill-g"><dt>AI</dt><dd>LLMs · Agentic systems · RAG · Prompt engineering · Conversational AI · Workflow automation</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="contact" aria-labelledby="contact-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="idx">06 /</span>
+      <h2 id="contact-h" style="font-size:clamp(1.5rem,2.6vw,2rem);margin:0">Contact</h2>
+      <span class="note">Bengaluru or remote · replying same day</span>
+    </div>
+    <div class="reveal">
+      <h2 class="measure">Hiring for an AI-PM or product-engineering role? Let's talk.</h2>
+      <p class="lead">No form, no gate. Email is fastest — or go read the code first, that's what it's there for.</p>
+      <div class="contact-links">
+        <a class="cl" href="mailto:Gulatiluvish@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.4"/><path d="M3.4 6.6l8.6 6 8.6-6"/></svg>
+          <span class="k">Email</span><span class="v">Gulatiluvish@gmail.com</span>
+        </a>
+        <a class="cl" href="https://www.linkedin.com/in/luvish-gulati-282a84184" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4z"/></svg>
+          <span class="k">LinkedIn</span><span class="v">/in/luvish-gulati</span>
+        </a>
+        <a class="cl" href="https://github.com/Luvishgulati03" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+          <span class="k">GitHub</span><span class="v">@Luvishgulati03</span>
+        </a>
+        <a class="cl" href="assets/Luvish_Gulati_Resume.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4v11.4M7.6 10.6l4.4 4.4 4.4-4.4M4 19.4h16"/></svg>
+          <span class="k">Résumé</span><span class="v">Download PDF</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <p><span class="caret">&gt;_</span> Luvish Gulati · Bengaluru, India · 2026</p>
+    <p>One hand-written HTML file. No frameworks, no trackers, no external requests. View source.</p>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Luvish Gulati",
+  "url": "https://luvishgulati03.github.io/",
+  "jobTitle": "Product-Minded Software Engineer & AI Builder",
+  "email": "mailto:Gulatiluvish@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Bengaluru",
+    "addressRegion": "Karnataka",
+    "addressCountry": "IN"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Amity University"
+  },
+  "knowsAbout": ["AI product management", "Agentic systems", "Retrieval-augmented generation", "TypeScript", "Product discovery", "Go-to-market"],
+  "sameAs": [
+    "https://www.linkedin.com/in/luvish-gulati-282a84184",
+    "https://github.com/Luvishgulati03"
+  ]
+}
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ---------- theme ---------- */
+  var tt = document.getElementById('tt');
+  function paintToggle() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    tt.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    tt.setAttribute('aria-pressed', dark ? 'false' : 'true');
+  }
+  paintToggle();
+  tt.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('lg-theme', next); } catch (e) {}
+    paintToggle();
+  });
+  var sysQuery = window.matchMedia('(prefers-color-scheme: light)');
+  var onSys = function (e) {
+    var saved = null;
+    try { saved = localStorage.getItem('lg-theme'); } catch (err) {}
+    if (saved !== 'light' && saved !== 'dark') {
+      root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+      paintToggle();
+    }
+  };
+  if (sysQuery.addEventListener) { sysQuery.addEventListener('change', onSys); }
+  else if (sysQuery.addListener) { sysQuery.addListener(onSys); }
+
+  /* ---------- sticky nav hairline ---------- */
+  var nav = document.getElementById('nav');
+  var onScroll = function () { nav.classList.toggle('stuck', window.scrollY > 8); };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ---------- scroll reveal ---------- */
+  var reveals = [].slice.call(document.querySelectorAll('.reveal'));
+  if (reduce.matches || !('IntersectionObserver' in window)) {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- terminal replay ---------- */
+  var body = document.getElementById('t-body');
+  var lines = [].slice.call(body.querySelectorAll('.t-line'));
+  var full = lines.map(function (l) {
+    var t = l.querySelector('.txt');
+    return t ? t.textContent : null;
+  });
+  var run = 0;
+  var timers = [];
+  var cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  cursor.setAttribute('aria-hidden', 'true');
+
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+  function complete() {
+    run++;
+    clearTimers();
+    if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
+    lines.forEach(function (l, i) {
+      l.classList.remove('hid');
+      if (full[i] !== null) { l.querySelector('.txt').textContent = full[i]; }
+    });
+    body.scrollTop = 0;
+  }
+  function play() {
+    run++;
+    var me = run;
+    clearTimers();
+    if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
+    lines.forEach(function (l, i) {
+      l.classList.add('hid');
+      if (full[i] !== null) { l.querySelector('.txt').textContent = ''; }
+    });
+    var i = 0;
+    function step() {
+      if (me !== run) { return; }
+      if (i >= lines.length) {
+        if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
+        return;
+      }
+      var line = lines[i];
+      line.classList.remove('hid');
+      body.scrollTop = body.scrollHeight;
+      if (full[i] !== null) {
+        var target = full[i];
+        var slot = line.querySelector('.txt');
+        slot.appendChild(cursor);
+        var c = 0;
+        (function type() {
+          if (me !== run) { return; }
+          if (c <= target.length) {
+            slot.textContent = target.slice(0, c);
+            slot.appendChild(cursor);
+            c++;
+            body.scrollTop = body.scrollHeight;
+            timers.push(setTimeout(type, 21 + Math.random() * 24));
+          } else {
+            if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
+            i++;
+            timers.push(setTimeout(step, 420));
+          }
+        })();
+      } else {
+        i++;
+        timers.push(setTimeout(step, line.textContent.trim() === '' ? 40 : 105));
+      }
+    }
+    step();
+  }
+
+  var replayBtn = document.getElementById('t-replay');
+  var skipBtn = document.getElementById('t-skip');
+  replayBtn.addEventListener('click', function () { reduce.matches ? complete() : play(); });
+  skipBtn.addEventListener('click', complete);
+
+  if (reduce.matches || !('IntersectionObserver' in window)) {
+    complete();
+  } else {
+    var seen = false;
+    var tio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && !seen) { seen = true; play(); tio.disconnect(); }
+      });
+    }, { threshold: 0.3 });
+    tio.observe(document.getElementById('term'));
+  }
+})();
+</script>
+</body>
+</html>

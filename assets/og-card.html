@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OG card — Luvish Gulati</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0e1a; --bg-1: #0d1220; --line: #1e2942;
+    --text: #eae7e0; --text-2: #a8b0c4; --text-3: #767f96; --accent: #4ee6b8;
+    --f-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+    --f-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--f-sans);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 66px 72px; position: relative; overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: absolute; inset: -30% 30% 40% -20%;
+    background: radial-gradient(52% 48% at 24% 34%, rgba(78,230,184,.16), transparent 70%);
+  }
+  body::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+    background: linear-gradient(90deg, var(--accent), rgba(78,230,184,.05));
+  }
+  .top { display: flex; align-items: center; gap: 14px; position: relative; }
+  .caret { font-family: var(--f-mono); color: var(--accent); font-size: 26px; font-weight: 700; }
+  .name { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; }
+  .loc {
+    margin-left: auto; font-family: var(--f-mono); font-size: 15px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text-3);
+  }
+  h1 {
+    position: relative; font-size: 74px; line-height: 1.04; letter-spacing: -0.038em;
+    font-weight: 640; max-width: 17ch; margin-top: 40px;
+  }
+  h1 .hl { color: var(--accent); }
+  .sub {
+    position: relative; margin-top: 26px; font-size: 25px; line-height: 1.5;
+    color: var(--text-2); max-width: 46ch;
+  }
+  .sub b { color: var(--text); font-weight: 600; }
+  .strip { position: relative; display: flex; gap: 12px; margin-top: 8px; }
+  .pill {
+    border: 1px solid var(--line); background: var(--bg-1); border-radius: 12px;
+    padding: 14px 20px; flex: 1;
+  }
+  .pill .n { display: block; font-family: var(--f-mono); font-size: 27px; font-weight: 600; letter-spacing: -0.02em; }
+  .pill .n i { font-style: normal; color: var(--accent); }
+  .pill .l { display: block; font-size: 15px; color: var(--text-3); margin-top: 4px; letter-spacing: -0.005em; }
+  .foot {
+    position: relative; display: flex; align-items: center; gap: 18px;
+    font-family: var(--f-mono); font-size: 15px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--text-3); margin-top: 26px;
+  }
+  .foot .dot { color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="top">
+    <span class="caret">&gt;_</span>
+    <span class="name">Luvish Gulati</span>
+    <span class="loc">Bengaluru · open to work</span>
+  </div>
+
+  <div>
+    <h1>Product-minded engineer. I don't just spec products — <span class="hl">I ship them.</span></h1>
+    <p class="sub">APM → SWE intern → builder of <b>Henry</b>, an open-source AI chief-of-staff that runs my job hunt.</p>
+  </div>
+
+  <div>
+    <div class="strip">
+      <div class="pill"><span class="n">516<i> / </i>447</span><span class="l">opens / clicks in 30 days</span></div>
+      <div class="pill"><span class="n">53<i>/</i>57</span><span class="l">test scenarios automated</span></div>
+      <div class="pill"><span class="n">4+<i> hrs</i></span><span class="l">manual ops removed daily</span></div>
+      <div class="pill"><span class="n"><i>$</i>0<i>/mo</i></span><span class="l">marginal AI cost</span></div>
+    </div>
+    <div class="foot">
+      <span>AI-PM &amp; product engineering</span><span class="dot">·</span>
+      <span>luvishgulati03.github.io</span>
+    </div>
+  </div>
+</body>
+</html>
