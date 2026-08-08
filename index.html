@@ -244,6 +244,7 @@ section[id],footer[id],span[id]{ scroll-margin-top:88px; }
   font-family:var(--f-mono); font-size:29px; font-weight:700; letter-spacing:.02em;
   color:var(--text-2);
   filter:grayscale(1);
+  object-fit:cover;      /* no-op on the monogram <div>; makes a swapped-in <img> crop correctly */
 }
 .who{ flex:1 1 260px; min-width:0; }
 .who h1{
@@ -359,6 +360,10 @@ li:hover .spark{ color:var(--accent); }
 .p-btns{ display:flex; gap:8px; flex:none; }
 .p-btns .sq{ width:42px; height:42px; border-radius:11px; }
 .p-btns .sq svg{ width:17px; height:17px; }
+/* "Case study →" affordance — replaces the repo button on the two work products */
+.p-btns .pill{ height:42px; padding:0 15px; border-radius:11px; font-size:14px; white-space:nowrap; }
+.p-btns .pill .arw{ display:inline-block; font-family:var(--f-mono); transition:transform .18s; }
+.p-btns .pill:hover .arw{ transform:translateX(3px); }
 .p-note{
   font-family:var(--f-mono); font-size:11.5px; color:var(--text-3);
   border:1px dashed var(--rule); border-radius:8px; padding:8px 11px; white-space:nowrap;
@@ -427,6 +432,11 @@ li:hover .spark{ color:var(--accent); }
   color:var(--accent); letter-spacing:-.02em; font-variant-numeric:tabular-nums;
 }
 .stats .k{ font-size:13px; color:var(--text-2); margin-top:6px; line-height:1.45; }
+.stats .n .u{ font-size:.6em; }
+.stats-as{
+  font-family:var(--f-mono); font-size:11.5px; letter-spacing:.03em;
+  color:var(--text-3); margin-top:13px;
+}
 
 /* ============================================================
    12. FOOTER
@@ -525,7 +535,11 @@ li:hover .spark{ color:var(--accent); }
   <!-- ============ PROFILE ============ -->
   <section class="pad" style="padding-block:30px">
     <div class="profile">
-      <!-- Swap for <img src="assets/me.jpg" alt="Luvish Gulati" class="avatar"> when a photo is added. -->
+      <!-- AVATAR SLOT — one-line swap. Drop the photo at assets/me.jpg, then replace the
+           single line below with:
+           <img class="avatar" src="assets/me.jpg" alt="Luvish Gulati" width="88" height="88">
+           .avatar already carries object-fit:cover. Drop `filter:grayscale(1)` from the
+           .avatar rule if the photo should be in colour. See AGENT-GUIDE.md. -->
       <div class="avatar" role="img" aria-label="Luvish Gulati">LG</div>
       <div class="who">
         <h1>Luvish Gulati
@@ -692,7 +706,7 @@ li:hover .spark{ color:var(--accent); }
         <span class="cap">Coding Efficiency</span>
       </span>
 
-      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/risk-council-final-iterATION-" target="_blank" rel="noopener noreferrer" style="--c1:#5ad1c8; --c2:#3ddc84" aria-label="Risk AI Council">
+      <a class="thumb" role="listitem" href="projects/risk-ai-council.html" style="--c1:#5ad1c8; --c2:#3ddc84" aria-label="Risk AI Council — read the case study">
         <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
           <defs>
             <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".22"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient>
@@ -719,7 +733,7 @@ li:hover .spark{ color:var(--accent); }
         <span class="cap">Risk AI Council</span>
       </a>
 
-      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/carbonnex-website" target="_blank" rel="noopener noreferrer" style="--c1:#7ddb5c; --c2:#3ddc84" aria-label="CarbonNex">
+      <a class="thumb" role="listitem" href="projects/carbonnex.html" style="--c1:#7ddb5c; --c2:#3ddc84" aria-label="CarbonNex — read the case study">
         <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
           <defs><linearGradient id="gc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".24"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
           <rect width="400" height="190" fill="url(#gc)"/>
@@ -737,27 +751,6 @@ li:hover .spark{ color:var(--accent); }
           <text x="240" y="178" font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.4" fill="var(--c2)">ESG REPORTING</text>
         </svg>
         <span class="cap">CarbonNex</span>
-      </a>
-
-      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/Compiler-Project" target="_blank" rel="noopener noreferrer" style="--c1:#9aa4ff; --c2:#4aa3ff" aria-label="Compiler in C">
-        <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-          <defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".22"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
-          <rect width="400" height="190" fill="url(#gp)"/>
-          <g stroke="var(--c1)" stroke-opacity=".5" stroke-width="1.8" fill="none">
-            <path d="M200 44v22M200 66l-56 24M200 66l56 24M144 90v22M144 112l-32 24M144 112l32 24M256 90v22M256 112l-32 24M256 112l32 24"/>
-          </g>
-          <circle cx="200" cy="36" r="13" fill="var(--panel)" stroke="var(--c1)" stroke-width="2.4"/>
-          <circle cx="144" cy="80" r="11" fill="var(--panel)" stroke="var(--c1)" stroke-width="2.2"/>
-          <circle cx="256" cy="80" r="11" fill="var(--panel)" stroke="var(--c1)" stroke-width="2.2"/>
-          <circle class="pulse-r" cx="112" cy="144" r="9" fill="var(--c2)" fill-opacity=".7"/>
-          <circle cx="176" cy="144" r="9" fill="var(--panel)" stroke="var(--c2)" stroke-width="2.2"/>
-          <circle cx="224" cy="144" r="9" fill="var(--panel)" stroke="var(--c2)" stroke-width="2.2"/>
-          <circle cx="288" cy="144" r="9" fill="var(--c2)" fill-opacity=".45"/>
-          <text x="34" y="52" font-family="ui-monospace,monospace" font-size="42" fill="var(--c1)" fill-opacity=".28">{</text>
-          <text x="342" y="176" font-family="ui-monospace,monospace" font-size="42" fill="var(--c2)" fill-opacity=".28">}</text>
-          <text x="30" y="176" font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.2" fill="var(--c1)" fill-opacity=".75">LEX → PARSE → SEMA → CODEGEN</text>
-        </svg>
-        <span class="cap">Compiler in C</span>
       </a>
     </div>
 
@@ -807,9 +800,7 @@ li:hover .spark{ color:var(--accent); }
             <p class="d">AI-risk platform where I led GTM and content across 6 risk categories, aligned to NIST AI RMF and the EU AI Act.</p>
           </div>
           <div class="p-btns">
-            <a class="sq" href="https://github.com/Luvishgulati03/risk-council-final-iterATION-" target="_blank" rel="noopener noreferrer" aria-label="Risk AI Council on GitHub">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
-            </a>
+            <a class="pill" href="projects/risk-ai-council.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
           </div>
         </li>
         <li>
@@ -820,22 +811,7 @@ li:hover .spark{ color:var(--accent); }
             <p class="d">ESG reporting product — I designed the core workflows as its associate product manager.</p>
           </div>
           <div class="p-btns">
-            <a class="sq" href="https://github.com/Luvishgulati03/carbonnex-website" target="_blank" rel="noopener noreferrer" aria-label="CarbonNex on GitHub">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="p-main">
-            <h3>Compiler in C
-              <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
-            </h3>
-            <p class="d">Lexer → parser → semantic analysis → codegen, written in C. Proof of the fundamentals.</p>
-          </div>
-          <div class="p-btns">
-            <a class="sq" href="https://github.com/Luvishgulati03/Compiler-Project" target="_blank" rel="noopener noreferrer" aria-label="Compiler project on GitHub">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
-            </a>
+            <a class="pill" href="projects/carbonnex.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
           </div>
         </li>
       </ul>
@@ -971,7 +947,7 @@ li:hover .spark{ color:var(--accent); }
     </div>
 
     <div class="hm-foot">
-      <p><b id="ghcount" data-n="166">166</b> contributions in the last year</p>
+      <p><b id="ghcount" data-count data-n="166">166</b> contributions in the last year</p>
       <p class="legend"><span>Less</span><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>More</span></p>
     </div>
   </section>
@@ -980,13 +956,36 @@ li:hover .spark{ color:var(--accent); }
 
   <!-- ============ HENRY STATS ============ -->
   <section class="pad reveal" id="henry-stats">
-    <h2 class="h-sec">henry stats.</h2>
-    <div class="stats">
-      <div><p class="n">384<span style="font-size:.6em">d</span></p><p class="k">Local embedding dimensions — bge-small-en-v1.5</p></div>
-      <div><p class="n">~10<span style="font-size:.6em">ms</span></p><p class="k">Embedding latency, on-device</p></div>
-      <div><p class="n">$0</p><p class="k">Marginal cost per run — no API keys</p></div>
-      <div><p class="n">8<span style="font-size:.6em">GB</span></p><p class="k">The M1 Air it all runs on</p></div>
+    <div class="h-row">
+      <h2 class="h-sec">henry stats.</h2>
+      <a class="h-side" href="https://github.com/Luvishgulati03/ai-agent-" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+        ai-agent- ↗
+      </a>
     </div>
+
+    <!-- Values between the STAT markers are baked in from data/henry-stats.json.
+         Refresh: node scripts/build-stats.mjs → re-inject → keep the markers. See AGENT-GUIDE.md.
+         Never hand-edit a number here; the JSON is the source of truth. -->
+    <div class="stats">
+      <div>
+        <p class="n"><span data-count><!--STAT:queriesAnswered-->62<!--/STAT--></span></p>
+        <p class="k">Queries answered — one memory logged per turn</p>
+      </div>
+      <div>
+        <p class="n"><span data-count><!--STAT:totalMemories-->140<!--/STAT--></span></p>
+        <p class="k">Memories formed — episodic, semantic and procedural</p>
+      </div>
+      <div>
+        <p class="n"><!--STAT:activeFor-->&lt;1 month<!--/STAT--></p>
+        <p class="k">Active for — running as a daily driver</p>
+      </div>
+      <div>
+        <p class="n"><!--STAT:marginalCost-->$0<!--/STAT--></p>
+        <p class="k">Marginal cost per run — no API keys · runs on an <!--STAT:runsOn-->8GB M1 Air<!--/STAT--></p>
+      </div>
+    </div>
+    <p class="stats-as">as of <!--STAT:generatedAt-->8 Aug 2026<!--/STAT--> · read straight out of Henry's local databases, never hand-typed</p>
   </section>
 
   </main>
@@ -1073,24 +1072,36 @@ li:hover .spark{ color:var(--accent); }
     reveals.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- contribution count-up ---------- */
-  var gc = document.getElementById('ghcount');
-  if (gc && !reduce && 'IntersectionObserver' in window) {
-    var target = parseInt(gc.getAttribute('data-n'), 10) || 0;
-    var seen = false;
+  /* ---------- count-ups (contributions + henry stats) ----------
+     Writes the TEXT NODE, never element.textContent, so the surrounding
+     STAT comment markers survive the animation. Those markers are how
+     values from data/henry-stats.json get re-injected — see AGENT-GUIDE.md.
+     (Deliberately no literal marker syntax in this comment: the re-injector
+     scans the whole file, and a marker in here would look like a real stat.) */
+  function valueNode(el) {
+    for (var n = el.firstChild; n; n = n.nextSibling) {
+      if (n.nodeType === 3 && n.nodeValue.trim()) { return n; }
+    }
+    return el.appendChild(document.createTextNode(''));
+  }
+  var counters = [].slice.call(document.querySelectorAll('[data-count]'));
+  if (counters.length && !reduce && 'IntersectionObserver' in window) {
     var cio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (!en.isIntersecting || seen) { return; }
-        seen = true; cio.disconnect();
+        if (!en.isIntersecting) { return; }
+        var el = en.target;
+        cio.unobserve(el);
+        var node = valueNode(el);
+        var target = parseInt(String(node.nodeValue).replace(/[^0-9-]/g, ''), 10) || 0;
         var t0 = performance.now(), dur = 900;
         (function step(now) {
           var k = Math.min(1, (now - t0) / dur);
-          gc.textContent = String(Math.round(target * (1 - Math.pow(1 - k, 3))));
-          if (k < 1) { requestAnimationFrame(step); } else { gc.textContent = String(target); }
+          node.nodeValue = String(Math.round(target * (1 - Math.pow(1 - k, 3))));
+          if (k < 1) { requestAnimationFrame(step); } else { node.nodeValue = String(target); }
         })(t0);
       });
     }, { threshold: 0.4 });
-    cio.observe(gc);
+    counters.forEach(function (el) { cio.observe(el); });
   }
 
   /* ---------- keep the heatmap scrolled to "now" on first paint ---------- */

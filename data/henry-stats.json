@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-08-08T18:22:20.564Z",
+  "queriesAnswered": 62,
+  "totalMemories": 140,
+  "activeSinceIso": "2026-08-05T18:01:27.741Z",
+  "activeFor": "<1 month",
+  "embeddingDims": 384,
+  "runsOn": "8GB M1 Air",
+  "marginalCost": "$0"
+}
