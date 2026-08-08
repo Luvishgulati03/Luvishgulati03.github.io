@@ -96,3 +96,21 @@ AI: LLMs, agentic systems, RAG, prompt engineering, conversational AI, workflow 
 ## Voice
 Confident, concrete, zero fluff. Every claim tied to a shipped thing or a number.
 First person. No "passionate about leveraging synergies" language, ever.
+
+## Update 2026-08-09 — GrowthX breadth + Henry capabilities (canonical)
+
+GrowthX shipped work (public-safe phrasing — NO internal ticket numbers, repo
+names, or internal usage metrics on the site): community notifications to mobile
+end to end (unified in-app+push gating, per-channel/per-type preferences with
+timed mutes, native OS banners, membership + broadcast-pagination fixes);
+member-connect notification matrix + web push + email-digest controls; events —
+AI field reviewer + completeness gate on submissions, venue-help concierge,
+reviewer alerts; app-install GTM banner across transactional emails with
+UTM-tracked deep links; device-level notification E2E harness (drives a real
+device over adb, asserts push-vs-silence against the OS); Mixpanel
+instrumentation shipping with features.
+
+Henry one-liner capabilities (site intro): human-like memory engine (semantic +
+lexical recall over an associative graph, nightly consolidation), cited RAG over
+GTM/PM playbooks, Telegram standup bot, morning job scout, approval-gated
+outbound, maintains + deploys this website. ~$0 marginal cost, 8GB M1 Air.
