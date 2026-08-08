@@ -26,12 +26,12 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e1a'/%3E%3Cpath d='M14 22l10 10-10 10' fill='none' stroke='%234ee6b8' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='31' y='38' width='19' height='6' rx='3' fill='%234ee6b8'/%3E%3C/svg%3E">
 
 <script>
-  /* Theme resolution before first paint — no flash. */
+  /* Theme resolution before first paint — no flash.
+     Dark is the design default; light only when the visitor explicitly picks it. */
   (function () {
     try {
       var saved = localStorage.getItem('lg-theme');
-      var sys = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', saved === 'light' || saved === 'dark' ? saved : sys);
+      document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
     } catch (e) {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
@@ -40,1271 +40,1029 @@
 
 <style>
 /* ============================================================
-   TOKENS — dark-first, one accent, real light theme
+   1. TOKENS
    ============================================================ */
-:root {
-  --bg:        #0a0e1a;
-  --bg-1:      #0d1220;
-  --bg-2:      #121829;
-  --bg-3:      #172038;
-  --line:      #1e2942;
-  --line-soft: #18213a;
-  --text:      #eae7e0;
-  --text-2:    #a8b0c4;
-  --text-3:    #767f96;
-  --accent:    #4ee6b8;
-  --accent-2:  #2fc79b;
-  --accent-dim:rgba(78,230,184,.13);
-  --accent-ink:#0a0e1a;
-  --warn:      #ffbf6b;
-  --shadow:    0 18px 44px -22px rgba(0,0,0,.9);
-  --glow:      0 0 0 1px rgba(78,230,184,.22), 0 12px 40px -18px rgba(78,230,184,.28);
+:root{
+  --page:#050506;
+  --col-bg:#0a0a0c;
+  --panel:#101013;
+  --panel-2:#15151a;
 
-  --f-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --f-mono: "SF Mono", ui-monospace, SFMono-Regular, "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+  --rule:rgba(255,255,255,.16);
+  --rule-soft:rgba(255,255,255,.09);
+  --tick:rgba(255,255,255,.34);
+  --hatch:rgba(255,255,255,.10);
+  --edge:rgba(255,255,255,.10);
 
-  --wrap: 1080px;
-  --measure: 760px;
-  --pad: clamp(20px, 5vw, 44px);
-  --sec-y: clamp(72px, 11vh, 132px);
-  --r: 14px;
+  --text:#f2f2f0;
+  --text-2:#a7a7ad;
+  --text-3:#6f6f78;
+
+  --accent:#3ddc84;
+  --accent-2:#28b96b;
+  --accent-dim:rgba(61,220,132,.14);
+  --accent-ink:#04120a;
+
+  /* contribution levels */
+  --h0:#151519; --h1:#0d4023; --h2:#1a7a3f; --h3:#28b96b; --h4:#4ff08f;
+
+  --f-sans:-apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"SF Mono", ui-monospace, SFMono-Regular, "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+
+  --col-w:1060px;
+  --halfcol:min(530px, 50vw);
+  --pad:clamp(16px,4.4vw,42px);
+  --sec-y:clamp(34px,5vw,52px);
 }
+:root[data-theme="light"]{
+  --page:#efeee9;
+  --col-bg:#faf9f6;
+  --panel:#ffffff;
+  --panel-2:#f3f2ed;
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg:        #fbfaf7;
-    --bg-1:      #ffffff;
-    --bg-2:      #f4f3ee;
-    --bg-3:      #ecebe4;
-    --line:      #ddd9cf;
-    --line-soft: #e7e3d9;
-    --text:      #14181f;
-    --text-2:    #4c5566;
-    --text-3:    #6d7788;
-    --accent:    #0b7d63;
-    --accent-2:  #086350;
-    --accent-dim:rgba(11,125,99,.10);
-    --accent-ink:#ffffff;
-    --warn:      #9a5b00;
-    --shadow:    0 16px 40px -26px rgba(20,24,31,.35);
-    --glow:      0 0 0 1px rgba(11,125,99,.22), 0 12px 34px -20px rgba(11,125,99,.25);
-  }
-}
+  --rule:rgba(20,22,26,.22);
+  --rule-soft:rgba(20,22,26,.12);
+  --tick:rgba(20,22,26,.42);
+  --hatch:rgba(20,22,26,.13);
+  --edge:rgba(20,22,26,.12);
 
-:root[data-theme="light"] {
-  --bg:        #fbfaf7;
-  --bg-1:      #ffffff;
-  --bg-2:      #f4f3ee;
-  --bg-3:      #ecebe4;
-  --line:      #ddd9cf;
-  --line-soft: #e7e3d9;
-  --text:      #14181f;
-  --text-2:    #4c5566;
-  --text-3:    #6d7788;
-  --accent:    #0b7d63;
-  --accent-2:  #086350;
-  --accent-dim:rgba(11,125,99,.10);
+  --text:#14161a;
+  --text-2:#4d525c;
+  --text-3:#767c88;
+
+  --accent:#0b7d52;
+  --accent-2:#096341;
+  --accent-dim:rgba(11,125,82,.12);
   --accent-ink:#ffffff;
-  --warn:      #9a5b00;
-  --shadow:    0 16px 40px -26px rgba(20,24,31,.35);
-  --glow:      0 0 0 1px rgba(11,125,99,.22), 0 12px 34px -20px rgba(11,125,99,.25);
-}
 
-:root[data-theme="dark"] {
-  --bg:        #0a0e1a;
-  --bg-1:      #0d1220;
-  --bg-2:      #121829;
-  --bg-3:      #172038;
-  --line:      #1e2942;
-  --line-soft: #18213a;
-  --text:      #eae7e0;
-  --text-2:    #a8b0c4;
-  --text-3:    #767f96;
-  --accent:    #4ee6b8;
-  --accent-2:  #2fc79b;
-  --accent-dim:rgba(78,230,184,.13);
-  --accent-ink:#0a0e1a;
-  --warn:      #ffbf6b;
-  --shadow:    0 18px 44px -22px rgba(0,0,0,.9);
-  --glow:      0 0 0 1px rgba(78,230,184,.22), 0 12px 40px -18px rgba(78,230,184,.28);
+  --h0:#e4e3dc; --h1:#b8e6c6; --h2:#5cc389; --h3:#249d5d; --h4:#0f6d3c;
 }
 
 /* ============================================================
-   RESET / BASE
+   2. RESET / BASE
    ============================================================ */
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--f-sans);
-  font-size: 17px;
-  line-height: 1.65;
-  letter-spacing: -0.006em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+body{
+  margin:0; background:var(--page); color:var(--text);
+  font-family:var(--f-sans); font-size:16px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
-h1, h2, h3, h4 { margin: 0; font-weight: 620; letter-spacing: -0.028em; line-height: 1.12; }
-p { margin: 0 0 1.05em; color: var(--text-2); }
-p:last-child { margin-bottom: 0; }
-a { color: inherit; }
-ul { margin: 0; padding: 0; list-style: none; }
-img, svg { max-width: 100%; }
-strong { color: var(--text); font-weight: 600; }
-em { font-style: normal; color: var(--text); }
+img,svg{ max-width:100%; }
+h1,h2,h3,h4{ margin:0; line-height:1.18; letter-spacing:-.02em; font-weight:700; }
+p{ margin:0; }
+ul,ol{ margin:0; padding:0; list-style:none; }
+a{ color:var(--accent); text-decoration:none; }
+a:hover{ text-decoration:underline; text-underline-offset:3px; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+::selection{ background:var(--accent); color:var(--accent-ink); }
+.sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
 
-::selection { background: var(--accent); color: var(--accent-ink); }
-
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-.skip {
-  position: absolute; left: -9999px; top: 0; z-index: 100;
-  background: var(--accent); color: var(--accent-ink);
-  padding: 10px 16px; border-radius: 0 0 8px 0; font: 600 14px/1 var(--f-sans);
-}
-.skip:focus { left: 0; }
-
-.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--pad); }
-.measure { max-width: var(--measure); }
-.mono {
-  font-family: var(--f-mono);
-  font-size: .74rem;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  font-weight: 500;
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important; }
 }
 
 /* ============================================================
-   NAV
+   3. BLUEPRINT FRAME — the signature
    ============================================================ */
-.nav {
-  position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  backdrop-filter: saturate(160%) blur(14px);
-  -webkit-backdrop-filter: saturate(160%) blur(14px);
-  border-bottom: 1px solid transparent;
-  transition: border-color .25s ease, background .25s ease;
+.sheet{
+  position:relative;
+  overflow-x:clip;           /* contains full-bleed rules, no scroll container */
+  min-height:100vh;
 }
-.nav.stuck { border-bottom-color: var(--line-soft); }
-.nav-in {
-  display: flex; align-items: center; gap: 20px;
-  height: 62px;
+.col{
+  width:100%;
+  max-width:var(--col-w);
+  margin:0 auto;
+  background:var(--col-bg);
+  border-left:1px dashed var(--rule);
+  border-right:1px dashed var(--rule);
 }
-.brand {
-  display: inline-flex; align-items: baseline; gap: 9px; white-space: nowrap;
-  text-decoration: none; font-weight: 600; letter-spacing: -0.02em;
-  margin-right: auto; font-size: .98rem;
+/* full-bleed dashed rule + corner ticks at the column edges */
+.rule{
+  position:relative; height:0;
+  margin-inline:calc(50% - 50vw);
+  border-top:1px dashed var(--rule);
 }
-@media (max-width: 700px) { .brand .dot { display: none; } }
-.brand .caret { color: var(--accent); font-family: var(--f-mono); font-weight: 700; }
-.brand .dot { color: var(--text-3); font-weight: 400; font-size: .82rem; letter-spacing: .02em; }
-.nav-links { display: flex; gap: 26px; align-items: center; }
-.nav-links a {
-  position: relative; text-decoration: none; color: var(--text-2);
-  font-size: .875rem; font-weight: 500; padding: 4px 0;
-  transition: color .2s ease;
+.rule::before,.rule::after{
+  content:""; position:absolute; top:-4px;
+  width:7px; height:7px; background:var(--col-bg);
+  border:1px solid var(--tick);
 }
-.nav-links a::after {
-  content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px;
-  background: var(--accent); transition: right .28s cubic-bezier(.22,.9,.3,1);
-}
-.nav-links a:hover { color: var(--text); }
-.nav-links a:hover::after { right: 0; }
-@media (max-width: 800px) { .nav-links { display: none; } }
+.rule::before{ left:calc(50% - var(--halfcol) - 3px); }
+.rule::after { right:calc(50% - var(--halfcol) - 3px); }
 
-.tt {
-  display: inline-grid; place-items: center;
-  width: 36px; height: 36px; border-radius: 10px;
-  border: 1px solid var(--line); background: var(--bg-1); color: var(--text-2);
-  cursor: pointer; transition: color .2s, border-color .2s, transform .2s, background .2s;
+/* diagonal-hatch divider strip between major sections */
+.hatch{
+  height:20px;
+  border-top:1px dashed var(--rule);
+  border-bottom:1px dashed var(--rule);
+  background:repeating-linear-gradient(45deg, var(--hatch) 0 1px, transparent 1px 7px);
 }
-.tt:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
-.tt svg { width: 17px; height: 17px; display: none; }
-:root[data-theme="dark"] .tt .i-sun { display: block; }
-:root[data-theme="light"] .tt .i-moon { display: block; }
+.pad{ padding-inline:var(--pad); }
+section{ padding-block:var(--sec-y); }
+/* keep anchored headings clear of the sticky nav */
+section[id],footer[id],span[id]{ scroll-margin-top:88px; }
+
+/* lowercase section title with a period */
+.h-sec{
+  font-size:clamp(25px,4.6vw,34px);
+  letter-spacing:-.035em;
+  margin-bottom:26px;
+}
+.h-row{ display:flex; align-items:baseline; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:26px; }
+.h-row .h-sec{ margin:0; }
+.h-side{
+  display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--f-mono); font-size:13px; color:var(--text-2);
+}
+.h-side svg{ width:15px; height:15px; flex:none; }
+.h-side:hover{ color:var(--accent); }
 
 /* ============================================================
-   SECTION FURNITURE
+   4. NAV
    ============================================================ */
-section { padding-block: var(--sec-y); }
-section[id], #top { scroll-margin-top: 84px; }
-.sec-head {
-  display: flex; align-items: baseline; gap: 16px;
-  padding-bottom: 18px; margin-bottom: clamp(28px, 4vw, 46px);
-  border-bottom: 1px solid var(--line-soft);
+.nav{
+  position:sticky; top:0; z-index:40;
+  background:color-mix(in srgb, var(--col-bg) 88%, transparent);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px dashed var(--rule);
 }
-.sec-head .idx { color: var(--accent); font-family: var(--f-mono); font-size: .8rem; letter-spacing: .1em; flex: none; }
-.sec-head h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
-.sec-head .note { margin-left: auto; color: var(--text-3); font-size: .8rem; text-align: right; }
-@media (max-width: 640px) { .sec-head .note { display: none; } }
-
-.reveal { opacity: 0; transform: translateY(12px); transition: opacity .62s cubic-bezier(.22,.9,.3,1), transform .62s cubic-bezier(.22,.9,.3,1); }
-.reveal.in { opacity: 1; transform: none; }
+.nav-in{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding-block:16px;
+}
+.mark{ font-size:23px; font-weight:800; letter-spacing:-.045em; color:var(--text); }
+.mark:hover{ text-decoration:none; color:var(--accent); }
+.nav-links{ display:flex; align-items:center; gap:clamp(12px,2.6vw,30px); }
+.nav-links a{
+  color:var(--text-2); font-size:15px; font-weight:500;
+}
+.nav-links a:hover{ color:var(--text); text-decoration:none; }
+.tt{
+  display:inline-grid; place-items:center; width:40px; height:40px; flex:none;
+  border:1px solid var(--edge); border-radius:11px;
+  background:var(--panel); color:var(--text-2); cursor:pointer;
+  transition:color .18s, border-color .18s, transform .18s;
+}
+.tt:hover{ color:var(--accent); border-color:var(--accent); transform:translateY(-1px); }
+.tt svg{ width:19px; height:19px; }
+:root[data-theme="dark"] .tt .i-sun{ display:none; }
+:root[data-theme="light"] .tt .i-moon{ display:none; }
 
 /* ============================================================
-   HERO
+   5. HERO — activity band + profile
    ============================================================ */
-.hero {
-  min-height: calc(100svh - 62px);
-  display: flex; flex-direction: column; justify-content: center;
-  padding-block: clamp(36px, 7vh, 96px) clamp(28px, 5vh, 64px);
-  position: relative;
+.band{
+  padding:14px var(--pad);
+  overflow:hidden;
 }
-.hero::before {
-  content: ""; position: absolute; inset: -18% 0 26% 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(64% 52% at 22% 26%, var(--accent-dim), transparent 72%);
+.band-grid{
+  display:grid;
+  grid-auto-flow:column;
+  grid-template-rows:repeat(7, 1fr);
+  gap:3px;
+  justify-content:start;
 }
-.eyebrow {
-  display: flex; align-items: flex-start; gap: 11px;
-  color: var(--text-2); font-family: var(--f-mono);
-  font-size: clamp(.65rem, 1.9vw, .72rem); line-height: 1.7;
-  letter-spacing: .14em; text-transform: uppercase; margin-bottom: clamp(16px, 3vh, 30px);
-}
-.eyebrow .pulse { margin-top: .55em; }
-.eyebrow b { color: var(--text); font-weight: 600; }
-.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none;
-  box-shadow: 0 0 0 0 var(--accent); animation: pulse 2.6s ease-out infinite; }
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
-  70%, 100% { box-shadow: 0 0 0 9px transparent; }
-}
-h1.big {
-  font-size: clamp(2.15rem, 5.4vw + .55rem, 4.4rem);
-  line-height: 1.03;
-  letter-spacing: -0.038em;
-  font-weight: 640;
-  max-width: 17ch;
-  margin-bottom: clamp(18px, 3vh, 30px);
-  text-wrap: balance;
-}
-h1.big .ship { color: var(--accent); }
-.sub {
-  max-width: 60ch; font-size: clamp(1rem, .42vw + .92rem, 1.16rem);
-  color: var(--text-2); margin-bottom: clamp(24px, 4vh, 38px); line-height: 1.62;
-}
-.sub b { color: var(--text); font-weight: 600; }
-.sub .sep { color: var(--accent); padding-inline: 4px; }
+.band-grid i{ width:11px; height:11px; border-radius:2px; background:var(--h0); display:block; }
+.band-grid i.a{ background:var(--h1); }
+.band-grid i.b{ background:var(--h2); }
+.band-grid i.c{ background:var(--h3); }
+.band-grid i.d{ background:var(--h4); }
+.band-grid i.m{ background:color-mix(in srgb, var(--text) 12%, transparent); }
+.band-grid i.n{ background:color-mix(in srgb, var(--text) 22%, transparent); }
 
-.cta-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.btn {
-  display: inline-flex; align-items: center; gap: 9px;
-  padding: 11px 17px; border-radius: 11px; text-decoration: none;
-  font-size: .9rem; font-weight: 560; letter-spacing: -0.01em;
-  border: 1px solid var(--line); background: var(--bg-1); color: var(--text);
-  transition: transform .2s cubic-bezier(.22,.9,.3,1), border-color .2s, background .2s, color .2s, box-shadow .2s;
+.profile{
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
 }
-.btn svg { width: 16px; height: 16px; flex: none; }
-.btn:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow); }
-.btn.primary {
-  background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 620;
+.avatar{
+  width:88px; height:88px; flex:none; border-radius:50%;
+  display:grid; place-items:center;
+  background:linear-gradient(150deg, var(--panel-2), var(--panel));
+  border:1px solid var(--edge);
+  font-family:var(--f-mono); font-size:29px; font-weight:700; letter-spacing:.02em;
+  color:var(--text-2);
+  filter:grayscale(1);
 }
-.btn.primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--accent-ink); box-shadow: var(--glow); }
-
-.scroll-cue {
-  margin-top: clamp(26px, 5vh, 56px); color: var(--text-3);
-  font-family: var(--f-mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
-  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+.who{ flex:1 1 260px; min-width:0; }
+.who h1{
+  font-size:clamp(27px,5.2vw,37px); letter-spacing:-.035em;
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap;
 }
-.scroll-cue:hover { color: var(--accent); }
-.scroll-cue .ln { width: 46px; height: 1px; background: currentColor; opacity: .5; }
-@media (max-height: 720px) { .scroll-cue { display: none; } }
+.verified{ width:22px; height:22px; flex:none; color:var(--accent); }
+.who .role{ color:var(--text-2); font-size:clamp(15px,2.4vw,17px); margin-top:4px; }
+.geo{
+  margin-left:auto; text-align:right; font-family:var(--f-mono); font-size:15px;
+  color:var(--text-2); line-height:1.7; white-space:nowrap;
+}
+.geo .loc{ display:flex; align-items:center; gap:6px; justify-content:flex-end; }
+.geo svg{ width:14px; height:14px; flex:none; color:var(--text-3); }
+.geo .clk{ font-variant-numeric:tabular-nums; color:var(--text); letter-spacing:.02em; }
 
 /* ============================================================
-   PROOF STRIP (bento)
+   6. INTRO + SOCIAL
    ============================================================ */
-.bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-@media (max-width: 900px) { .bento { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .bento { grid-template-columns: 1fr; } }
-.tile {
-  position: relative; overflow: hidden;
-  padding: 22px 22px 20px; border-radius: var(--r);
-  border: 1px solid var(--line); background: var(--bg-1);
-  transition: transform .24s cubic-bezier(.22,.9,.3,1), border-color .24s, box-shadow .24s;
+.intro p{ font-size:clamp(15.5px,2.1vw,17.5px); color:var(--text-2); }
+.intro p + p{ margin-top:18px; }
+.intro b{ color:var(--text); font-weight:600; }
+.intro a{ font-weight:500; }
+
+.social{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding-block:22px;
 }
-.tile::after {
-  content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 2px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-  transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.22,.9,.3,1);
+.sq,.pill{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  height:46px; border:1px solid var(--edge); border-radius:12px;
+  background:var(--panel); color:var(--text);
+  font-size:15px; font-weight:500;
+  transition:border-color .18s, transform .18s, background .18s, color .18s;
 }
-.tile:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 42%, var(--line)); box-shadow: var(--shadow); }
-.tile:hover::after { transform: scaleX(1); }
-.tile .num {
-  font-family: var(--f-mono); font-weight: 600; letter-spacing: -0.03em;
-  font-size: clamp(1.85rem, 3.1vw, 2.5rem); line-height: 1.05; color: var(--text);
-  display: block; margin-bottom: 8px;
+.sq{ width:46px; flex:none; }
+.pill{ padding:0 17px; }
+.sq:hover,.pill:hover{
+  text-decoration:none; transform:translateY(-2px);
+  border-color:var(--accent); color:var(--accent); background:var(--accent-dim);
 }
-.tile .num i { font-style: normal; color: var(--accent); }
-.tile .lab { display: block; font-size: .94rem; color: var(--text); font-weight: 520; margin-bottom: 5px; letter-spacing: -0.012em; }
-.tile .meta { display: block; font-family: var(--f-mono); font-size: .7rem; letter-spacing: .05em; color: var(--text-3); line-height: 1.5; }
+.sq svg,.pill svg{ width:19px; height:19px; flex:none; }
 
 /* ============================================================
-   FLAGSHIP
+   7. WORK EXPERIENCE
    ============================================================ */
-.kicker {
-  font-size: clamp(1.65rem, 3.4vw, 2.7rem); line-height: 1.16; letter-spacing: -0.032em;
-  font-weight: 620; max-width: 20ch; margin-bottom: clamp(26px, 4vw, 40px); text-wrap: balance;
+.xp{ border-top:1px dashed var(--rule-soft); }
+.xp li{
+  display:flex; align-items:center; gap:16px;
+  padding:20px 4px;
+  border-bottom:1px dashed var(--rule-soft);
+  position:relative;
+  transition:background .2s;
 }
-.kicker .hl { color: var(--accent); }
-.proj-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 16px; margin-bottom: 14px; }
-.proj-head h3 { font-size: clamp(1.32rem, 2.2vw, 1.75rem); }
-.chips { display: flex; flex-wrap: wrap; gap: 7px; }
-.chip {
-  font-family: var(--f-mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
-  padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--text-3); background: var(--bg-1);
+.xp li:hover{ background:color-mix(in srgb, var(--text) 3%, transparent); }
+.logo{ width:56px; height:56px; flex:none; border-radius:13px; overflow:hidden; border:1px solid var(--edge); }
+.logo svg{ display:block; width:100%; height:100%; }
+.xp-main{ flex:1 1 240px; min-width:0; }
+.xp-main h3{ font-size:clamp(16px,2.2vw,18.5px); font-weight:600; letter-spacing:-.015em; }
+.xp-at{ color:var(--text-2); font-size:14.5px; margin-top:3px; }
+.xp-at a{ color:var(--text-2); }
+.xp-at a:hover{ color:var(--accent); }
+.xp-meta{
+  text-align:right; font-size:14px; color:var(--text-2); white-space:nowrap; line-height:1.55;
 }
-.chip.on { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: var(--accent-dim); }
-
-.block-title {
-  font-family: var(--f-mono); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--text-3); margin: clamp(42px, 6vw, 66px) 0 18px;
-  display: flex; align-items: center; gap: 12px;
-}
-.block-title::after { content: ""; height: 1px; flex: 1; background: var(--line-soft); }
-.block-title:first-of-type { margin-top: 0; }
-
-/* decisions */
-.dec { display: grid; gap: 10px; }
-.dec li {
-  display: grid; grid-template-columns: 30px 1fr; gap: 4px 16px;
-  padding: 18px 20px; border-radius: var(--r);
-  border: 1px solid var(--line); background: var(--bg-1);
-  transition: border-color .24s, background .24s;
-}
-.dec li:hover { border-color: color-mix(in srgb, var(--accent) 34%, var(--line)); }
-.dec .n { font-family: var(--f-mono); font-size: .78rem; color: var(--accent); padding-top: 3px; }
-.dec .hd { font-weight: 580; letter-spacing: -0.016em; color: var(--text); font-size: 1.02rem; }
-.dec .body { grid-column: 2; }
-.dec .not {
-  display: block; font-family: var(--f-mono); font-size: .72rem; letter-spacing: .03em;
-  color: var(--text-3); margin: 5px 0 9px;
-}
-.dec .not s { color: var(--text-3); text-decoration-color: color-mix(in srgb, var(--text-3) 60%, transparent); }
-.dec p { font-size: .95rem; margin: 0; max-width: 78ch; }
-.dec .cost { display: block; margin-top: 8px; font-size: .88rem; color: var(--text-3); max-width: 82ch; }
-.dec .cost b { color: var(--warn); font-weight: 600; font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; margin-right: 7px; }
-@media (max-width: 560px) {
-  .dec li { grid-template-columns: 1fr; gap: 4px; }
-  .dec .body { grid-column: 1; }
-}
-
-/* architecture diagram */
-.diagram {
-  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-1);
-  padding: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
-}
-.diagram svg { display: block; width: 100%; min-width: 720px; height: auto; }
-.d-box { fill: var(--bg-2); stroke: var(--line); stroke-width: 1.4; }
-.d-box-hi { fill: var(--bg-2); stroke: color-mix(in srgb, var(--accent) 55%, var(--line)); stroke-width: 1.6; }
-.d-box-out { fill: var(--bg-2); stroke: var(--line); stroke-width: 1.4; stroke-dasharray: 0; }
-.d-col { fill: var(--accent); font-family: var(--f-mono); font-size: 11px; letter-spacing: 1.6px; font-weight: 600; }
-.d-t { fill: var(--text); font-family: var(--f-mono); font-size: 12.5px; letter-spacing: .6px; font-weight: 600; }
-.d-l { fill: var(--text-2); font-family: var(--f-sans); font-size: 12.5px; }
-.d-m { fill: var(--text-3); font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .5px; }
-.d-line { stroke: color-mix(in srgb, var(--text-3) 55%, transparent); stroke-width: 1.4; fill: none; }
-.d-flow { stroke: var(--text-3); stroke-width: 1.4; fill: none; }
-.d-gate { stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 5 5; fill: none; }
-.d-gate-t { fill: var(--accent); font-family: var(--f-mono); font-size: 11px; letter-spacing: 2px; font-weight: 600; }
-.d-node { fill: var(--bg); stroke: var(--accent); stroke-width: 1.8; }
-.d-arrow { fill: var(--text-3); }
-.cap { color: var(--text-3); font-size: .86rem; margin-top: 14px; }
-.cap b { color: var(--text-2); font-weight: 600; }
-
-/* terminal */
-.term {
-  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
-  background: var(--bg-1); box-shadow: var(--shadow);
-}
-.term-bar {
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  padding: 11px 14px; border-bottom: 1px solid var(--line-soft); background: var(--bg-2);
-}
-.dots { display: flex; gap: 6px; flex: none; }
-.dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: block; }
-.dots i:first-child { background: color-mix(in srgb, var(--accent) 70%, var(--line)); }
-.term-title { font-family: var(--f-mono); font-size: .72rem; color: var(--text-3); letter-spacing: .04em; }
-.rec {
-  display: inline-flex; align-items: center; gap: 6px; margin-left: auto;
-  font-family: var(--f-mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--warn); border: 1px solid color-mix(in srgb, var(--warn) 40%, transparent);
-  background: color-mix(in srgb, var(--warn) 10%, transparent); padding: 3px 9px; border-radius: 999px;
-}
-.rec i { width: 6px; height: 6px; border-radius: 50%; background: var(--warn); display: block; }
-.term-ctl { display: flex; gap: 6px; }
-.tbtn {
-  font-family: var(--f-mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
-  padding: 5px 11px; border-radius: 8px; cursor: pointer;
-  border: 1px solid var(--line); background: var(--bg-1); color: var(--text-2);
-  transition: color .18s, border-color .18s, background .18s;
-}
-.tbtn:hover { color: var(--accent); border-color: var(--accent); }
-.term-body {
-  font-family: var(--f-mono); font-size: .795rem; line-height: 1.72;
-  padding: 18px 18px 22px; min-height: 430px; max-height: 560px; overflow-y: auto; overflow-x: auto;
-  color: var(--text-2); scrollbar-width: thin;
-  background: color-mix(in srgb, var(--bg-2) 45%, var(--bg-1));
-}
-@media (max-width: 700px) { .term-body { font-size: .705rem; padding: 14px 13px 18px; min-height: 400px; } }
-.t-line { white-space: pre-wrap; word-break: break-word; }
-.t-line.hid { display: none; }
-.t-line.pad { margin-top: .95em; }
-.t-in { color: var(--text); }
-.t-in .pr { color: var(--accent); font-weight: 700; }
-.t-in .txt { border-bottom: 1px solid transparent; }
-.t-sys { color: var(--text-3); }
-.t-ok { color: var(--accent); }
-.t-warn { color: var(--warn); }
-.t-cite { color: var(--text-3); }
-.t-cite b { color: var(--text-2); font-weight: 500; }
-.t-key { color: var(--text); }
-.t-dim { color: var(--text-3); }
-.cursor {
-  display: inline-block; width: .55em; height: 1.02em; background: var(--accent);
-  vertical-align: -.16em; margin-left: 2px; animation: blink 1.05s steps(1) infinite;
-}
-@keyframes blink { 50% { opacity: 0; } }
-.term-foot { color: var(--text-3); font-size: .84rem; margin-top: 12px; }
-
-/* metrics row */
-.mrow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--line-soft);
-  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
-.mrow div { background: var(--bg-1); padding: 18px 16px; }
-.mrow .k { display: block; font-family: var(--f-mono); font-size: 1.06rem; color: var(--accent); font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
-.mrow .v { display: block; font-size: .82rem; color: var(--text-3); line-height: 1.45; }
-@media (max-width: 900px) { .mrow { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 460px) { .mrow { grid-template-columns: 1fr; } }
-
-/* learnings */
-.learn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-@media (max-width: 860px) { .learn { grid-template-columns: 1fr; } }
-.learn li {
-  padding: 20px; border-radius: var(--r); border: 1px solid var(--line);
-  background: var(--bg-1); border-left: 2px solid color-mix(in srgb, var(--warn) 55%, transparent);
-}
-.learn h4 { font-size: 1rem; margin-bottom: 8px; letter-spacing: -0.018em; }
-.learn p { font-size: .92rem; margin: 0; }
-.learn .fix { display: block; margin-top: 10px; font-size: .86rem; color: var(--text-2); }
-.learn .fix b { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-right: 7px; }
-
-/* artifact links */
-.arts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-@media (max-width: 800px) { .arts { grid-template-columns: 1fr; } }
-.art {
-  display: flex; gap: 13px; align-items: flex-start; text-decoration: none;
-  padding: 17px 18px; border-radius: var(--r); border: 1px solid var(--line); background: var(--bg-1);
-  transition: transform .22s cubic-bezier(.22,.9,.3,1), border-color .22s, box-shadow .22s;
-}
-.art:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
-.art svg { width: 17px; height: 17px; flex: none; margin-top: 3px; color: var(--accent); }
-.art .t { display: block; font-weight: 560; font-size: .95rem; letter-spacing: -0.014em; }
-.art .d { display: block; font-size: .82rem; color: var(--text-3); margin-top: 3px; line-height: 1.5; }
+.xp-meta span{ display:block; }
+.xp-meta .place{ color:var(--text-3); }
 
 /* ============================================================
-   CASE STUDIES
+   8. PROJECTS
    ============================================================ */
-.cases { display: grid; gap: 12px; }
-.case {
-  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-1);
-  padding: clamp(22px, 3.4vw, 34px);
+.thumbs{
+  display:grid; grid-auto-flow:column; gap:14px;
+  grid-auto-columns:minmax(258px,1fr);
+  overflow-x:auto; overscroll-behavior-x:contain;
+  padding:2px var(--pad) 18px;
+  scrollbar-width:thin;
 }
-.case-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; margin-bottom: 16px; }
-.case-top h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
-.case-top .role { font-family: var(--f-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
-.case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 34px; }
-@media (max-width: 760px) { .case-grid { grid-template-columns: 1fr; gap: 18px; } }
-.case-grid h4 {
-  font-family: var(--f-mono); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--text-3); font-weight: 500; margin-bottom: 8px;
+.thumb{
+  border:1px solid var(--edge); border-radius:13px; overflow:hidden;
+  background:var(--panel); display:block; position:relative;
+  aspect-ratio:400/190;
+  transition:transform .22s, border-color .22s;
 }
-.case-grid p, .case-grid li { font-size: .94rem; }
-.case-grid ul li { position: relative; padding-left: 17px; margin-bottom: 7px; color: var(--text-2); }
-.case-grid ul li::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-family: var(--f-mono); font-size: .8rem; }
-.case-grid ul li:last-child { margin-bottom: 0; }
-.case-metric { font-family: var(--f-mono); color: var(--text); font-size: 1.02rem; letter-spacing: -0.01em; }
-.case-metric b { color: var(--accent); font-weight: 600; }
-.case-foot { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line-soft); display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; }
-.ilink {
-  display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
-  font-size: .88rem; font-weight: 520; color: var(--text-2); position: relative; padding-bottom: 2px;
-  transition: color .2s;
+.thumb:hover{ transform:translateY(-3px); border-color:var(--accent); }
+.thumb svg{ display:block; width:100%; height:100%; }
+.thumb .cap{
+  position:absolute; left:0; right:0; bottom:0;
+  padding:16px 12px 9px; font-size:12.5px; font-weight:600; color:var(--text);
+  background:linear-gradient(to top, color-mix(in srgb, var(--col-bg) 92%, transparent), transparent);
 }
-.ilink svg { width: 14px; height: 14px; }
-.ilink::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px; background: var(--accent); transition: right .3s cubic-bezier(.22,.9,.3,1); }
-.ilink:hover { color: var(--accent); }
-.ilink:hover::after { right: 0; }
+
+.plist{ border-top:1px dashed var(--rule-soft); }
+.plist li{
+  display:flex; align-items:center; gap:16px;
+  padding:19px 4px;
+  border-bottom:1px dashed var(--rule-soft);
+  transition:background .2s;
+}
+.plist li:hover{ background:color-mix(in srgb, var(--text) 3%, transparent); }
+.p-main{ flex:1 1 auto; min-width:0; }
+.p-main h3{
+  font-size:clamp(16px,2.3vw,19px); font-weight:600; letter-spacing:-.015em;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.spark{ width:15px; height:15px; flex:none; color:var(--text-3); }
+li:hover .spark{ color:var(--accent); }
+.flag{
+  font-family:var(--f-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--accent); border:1px solid var(--accent); border-radius:5px; padding:2px 6px;
+}
+.p-main .d{ color:var(--text-2); font-size:14.5px; margin-top:4px; }
+.p-btns{ display:flex; gap:8px; flex:none; }
+.p-btns .sq{ width:42px; height:42px; border-radius:11px; }
+.p-btns .sq svg{ width:17px; height:17px; }
+.p-note{
+  font-family:var(--f-mono); font-size:11.5px; color:var(--text-3);
+  border:1px dashed var(--rule); border-radius:8px; padding:8px 11px; white-space:nowrap;
+}
 
 /* ============================================================
-   MORE BUILDS
+   9. SKILLS
    ============================================================ */
-.builds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-@media (max-width: 800px) { .builds { grid-template-columns: 1fr; } }
-.build {
-  display: block; text-decoration: none; padding: 20px;
-  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-1);
-  transition: transform .22s cubic-bezier(.22,.9,.3,1), border-color .22s, box-shadow .22s;
+.sk-group + .sk-group{ margin-top:24px; }
+.sk-label{
+  font-family:var(--f-mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--text-3); margin-bottom:12px;
 }
-.build:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
-.build .row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
-.build .row .t { font-weight: 580; font-size: 1rem; letter-spacing: -0.016em; }
-.build .row svg { width: 14px; height: 14px; margin-left: auto; color: var(--text-3); transition: color .2s, transform .2s; }
-.build:hover .row svg { color: var(--accent); transform: translate(2px, -2px); }
-.build p { font-size: .88rem; margin: 0; }
-.build .tag { display: block; margin-top: 11px; font-family: var(--f-mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+.sk-grid{ display:flex; flex-wrap:wrap; gap:10px; }
+.tile{
+  width:52px; height:52px; flex:none; border-radius:13px;
+  display:grid; place-items:center;
+  background:var(--panel); border:1px solid var(--edge);
+  color:var(--text-2);
+  font-family:var(--f-mono); font-size:14px; font-weight:700; letter-spacing:-.02em;
+  transition:transform .18s, border-color .18s, color .18s, background .18s;
+  cursor:default;
+}
+.tile:hover{ transform:translateY(-3px); border-color:var(--accent); color:var(--accent); background:var(--accent-dim); }
+.tile svg{ width:24px; height:24px; }
+.tile.sm{ font-size:11.5px; }
 
 /* ============================================================
-   ABOUT
+   10. GITHUB HEATMAP
    ============================================================ */
-.about-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(30px, 5vw, 64px); align-items: start; }
-@media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
-.tenets { display: grid; gap: 14px; margin-top: 26px; }
-.tenet { display: grid; grid-template-columns: 26px 1fr; gap: 14px; }
-.tenet .n { font-family: var(--f-mono); font-size: .74rem; color: var(--accent); padding-top: 4px; }
-.tenet b { display: block; font-weight: 580; letter-spacing: -0.016em; }
-.tenet span { display: block; font-size: .92rem; color: var(--text-2); margin-top: 2px; }
-
-.tl { position: relative; padding-left: 24px; }
-.tl::before { content: ""; position: absolute; left: 4px; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
-.tl li { position: relative; padding-bottom: 26px; }
-.tl li:last-child { padding-bottom: 0; }
-.tl li::before {
-  content: ""; position: absolute; left: -24px; top: 7px; width: 9px; height: 9px; border-radius: 50%;
-  background: var(--bg); border: 1.5px solid var(--line);
+.hm-wrap{ overflow-x:auto; overscroll-behavior-x:contain; padding-bottom:8px; scrollbar-width:thin; }
+.hm-inner{ width:951px; }              /* 53 weeks × 15px + 52 × 3px gap */
+.hm-months{
+  display:grid; grid-auto-flow:column; grid-auto-columns:18px;
+  font-family:var(--f-mono); font-size:11.5px; color:var(--text-3);
+  margin-bottom:6px; height:16px;
 }
-.tl li.now::before { border-color: var(--accent); background: var(--accent); }
-.tl .when { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); display: block; }
-.tl .what { font-weight: 570; letter-spacing: -0.016em; display: block; margin-top: 3px; }
-.tl .who { color: var(--text-2); font-size: .92rem; display: block; }
-.tl .det { color: var(--text-3); font-size: .88rem; display: block; margin-top: 5px; line-height: 1.55; }
-
-.skills { display: grid; gap: 16px; margin-top: 34px; }
-.skill-g { display: grid; grid-template-columns: 116px 1fr; gap: 14px; align-items: baseline; }
-@media (max-width: 520px) { .skill-g { grid-template-columns: 1fr; gap: 5px; } }
-.skill-g dt { font-family: var(--f-mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
-.skill-g dd { margin: 0; color: var(--text-2); font-size: .94rem; line-height: 1.75; }
+.hm-months span{ grid-row:1; white-space:nowrap; }
+.hm{
+  display:grid; grid-auto-flow:column; grid-template-rows:repeat(7,15px);
+  grid-auto-columns:15px; gap:3px;
+}
+.hm i{ display:block; width:15px; height:15px; border-radius:3px; background:var(--h0); }
+.hm i.l1{ background:var(--h1); }
+.hm i.l2{ background:var(--h2); }
+.hm i.l3{ background:var(--h3); }
+.hm i.l4{ background:var(--h4); }
+.hm-foot{
+  display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  margin-top:16px; font-size:14px; color:var(--text-2);
+}
+.hm-foot b{ color:var(--text); font-weight:600; font-variant-numeric:tabular-nums; }
+.legend{ display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--text-3); font-family:var(--f-mono); }
+.legend i{ width:12px; height:12px; border-radius:2px; display:block; background:var(--h0); }
+.legend i.l1{ background:var(--h1); } .legend i.l2{ background:var(--h2); }
+.legend i.l3{ background:var(--h3); } .legend i.l4{ background:var(--h4); }
 
 /* ============================================================
-   CONTACT / FOOTER
+   11. HENRY STATS
    ============================================================ */
-.contact { position: relative; }
-.contact::before {
-  content: ""; position: absolute; inset: 0 0 34% 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(58% 56% at 46% 28%, var(--accent-dim), transparent 70%);
+.stats{ display:grid; grid-template-columns:repeat(4,1fr); border:1px dashed var(--rule); border-radius:14px; overflow:hidden; }
+.stats div{ padding:22px 18px; border-right:1px dashed var(--rule); }
+.stats div:last-child{ border-right:0; }
+.stats .n{
+  font-family:var(--f-mono); font-size:clamp(22px,3.4vw,30px); font-weight:700;
+  color:var(--accent); letter-spacing:-.02em; font-variant-numeric:tabular-nums;
 }
-.contact h2 { font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -0.038em; margin-bottom: 18px; text-wrap: balance; }
-.contact .lead { max-width: 54ch; font-size: clamp(1rem, .4vw + .92rem, 1.12rem); margin-bottom: 30px; }
-.contact-links { display: grid; grid-template-columns: 1.32fr 1fr 1fr 1fr; gap: 10px; max-width: 880px; }
-@media (max-width: 720px) { .contact-links { grid-template-columns: repeat(2, 1fr); } }
-.cl {
-  display: block; text-decoration: none; padding: 17px 18px;
-  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-1);
-  transition: transform .22s cubic-bezier(.22,.9,.3,1), border-color .22s, box-shadow .22s;
+.stats .k{ font-size:13px; color:var(--text-2); margin-top:6px; line-height:1.45; }
+
+/* ============================================================
+   12. FOOTER
+   ============================================================ */
+.foot{
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  padding:26px var(--pad);
+  font-size:13.5px; color:var(--text-3); font-family:var(--f-mono);
 }
-.cl:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
-.cl svg { width: 17px; height: 17px; color: var(--accent); display: block; margin-bottom: 11px; }
-.cl .k { display: block; font-family: var(--f-mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
-.cl .v { display: block; font-size: .9rem; font-weight: 520; letter-spacing: -0.014em; word-break: break-word; }
+.foot a{ color:var(--text-2); }
+.foot a:hover{ color:var(--accent); }
 
-footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
-.foot-in { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
-.foot-in p { margin: 0; font-family: var(--f-mono); font-size: .72rem; letter-spacing: .04em; color: var(--text-3); }
-.foot-in .caret { color: var(--accent); }
+/* ============================================================
+   13. MOTION
+   ============================================================ */
+.reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.in{ opacity:1; transform:none; }
+@keyframes blip{ 0%,100%{opacity:1} 50%{opacity:.15} }
+@keyframes dashmove{ to{ stroke-dashoffset:-40; } }
+@keyframes pulser{ 0%,100%{ transform:scale(1); opacity:1 } 50%{ transform:scale(1.14); opacity:.72 } }
+@keyframes swing{ 0%,100%{ transform:rotate(-19deg) } 50%{ transform:rotate(21deg) } }
+@keyframes dotp{ 0%,100%{ opacity:.35 } 50%{ opacity:1 } }
+.thumb .blip{ animation:blip 1.5s steps(1,end) infinite; }
+.thumb .dash{ stroke-dasharray:5 7; animation:dashmove 2.4s linear infinite; }
+.thumb .pulse-r{ transform-origin:center; animation:pulser 2.8s ease-in-out infinite; }
+.thumb .needle{ transform-origin:200px 128px; animation:swing 4.2s ease-in-out infinite; }
+.thumb .dot1{ animation:dotp 1.5s ease-in-out infinite; }
+.thumb .dot2{ animation:dotp 1.5s ease-in-out .22s infinite; }
+.thumb .dot3{ animation:dotp 1.5s ease-in-out .44s infinite; }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: .001ms !important; animation-iteration-count: 1 !important;
-    transition-duration: .001ms !important; scroll-behavior: auto !important;
-  }
-  .reveal { opacity: 1; transform: none; }
-  .cursor { display: none; }
-  .pulse { animation: none; }
+/* ============================================================
+   14. RESPONSIVE
+   ============================================================ */
+@media (max-width:880px){
+  .stats{ grid-template-columns:repeat(2,1fr); }
+  .stats div:nth-child(2){ border-right:0; }
+  .stats div:nth-child(-n+2){ border-bottom:1px dashed var(--rule); }
+}
+@media (max-width:760px){
+  .geo{ margin-left:0; text-align:left; width:100%; }
+  .geo .loc{ justify-content:flex-start; }
+  .xp li,.plist li{ flex-wrap:wrap; }
+  .xp-meta{ text-align:left; width:100%; padding-left:72px; }
+  .p-btns{ margin-left:auto; }
+}
+@media (max-width:560px){
+  .nav-links{ gap:13px; }
+  .nav-links a{ font-size:13.5px; }
+  .nav-links a.hide-s{ display:none; }
+  .mark{ font-size:20px; }
+  .avatar{ width:66px; height:66px; font-size:22px; }
+  .xp-meta{ padding-left:0; }
+  .logo{ width:46px; height:46px; border-radius:11px; }
+  .band-grid i{ width:9px; height:9px; }
+  .stats{ grid-template-columns:1fr; }
+  .stats div{ border-right:0; border-bottom:1px dashed var(--rule); }
+  .stats div:last-child{ border-bottom:0; }
+  .p-note{ white-space:normal; }
 }
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
+<a class="sr" href="#main">Skip to content</a>
 
-<header class="nav" id="nav">
-  <div class="wrap nav-in">
-    <a class="brand" href="#top"><span class="caret">&gt;_</span> Luvish Gulati <span class="dot">/ product-minded engineer</span></a>
-    <nav class="nav-links" aria-label="Sections">
-      <a href="#proof">Proof</a>
-      <a href="#henry">Henry</a>
-      <a href="#work">Case studies</a>
-      <a href="#about">How I think</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="tt" id="tt" type="button" aria-label="Switch to light theme" aria-pressed="false">
-      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.9 5.9L4.4 4.4M19.6 19.6l-1.5-1.5M18.1 5.9l1.5-1.5M4.4 19.6l1.5-1.5"/></svg>
-      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
-    </button>
+<div class="sheet">
+<div class="col">
+
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="nav-in pad">
+      <a class="mark" href="#top">luvish.</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#skills" class="hide-s">skills</a>
+        <a href="#projects">projects</a>
+        <a href="#contact">contact</a>
+        <a href="assets/Luvish_Gulati_Resume.pdf" download>resume</a>
+        <button class="tt" id="tt" type="button" aria-label="Switch colour theme">
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.9 5.9L4.4 4.4M19.6 19.6l-1.5-1.5M18.1 5.9l1.5-1.5M4.4 19.6l1.5-1.5"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+  <span id="top"></span>
+
+  <!-- ============ ACTIVITY BAND (decorative) ============ -->
+  <div class="band" aria-hidden="true">
+    <div class="band-grid"><!--HERO_BAND-->
+<i></i><i class="n"></i><i></i><i></i><i></i><i class="a"></i><i class="n"></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i class="n"></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="m"></i><i></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i class="m"></i><i></i><i class="n"></i><i></i><i></i><i></i><i></i><i class="b"></i><i class="c"></i><i class="n"></i><i class="d"></i><i></i><i class="m"></i><i></i><i class="m"></i><i></i><i class="m"></i><i></i><i></i><i></i><i class="n"></i><i></i><i></i><i class="m"></i><i class="c"></i><i class="n"></i><i class="b"></i><i></i><i class="n"></i><i class="n"></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i class="n"></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="n"></i><i></i><i></i><i></i><i class="n"></i><i></i><i></i><i class="c"></i><i></i><i></i><i></i><i class="m"></i><i></i><i></i><i></i><i class="n"></i><i></i><i class="b"></i><i></i><i></i><i class="n"></i><i class="n"></i><i class="n"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="n"></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="n"></i><i></i><i class="a"></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="n"></i><i></i><i></i><i></i><i></i><i class="n"></i><i class="b"></i><i></i><i class="n"></i><i></i><i></i><i></i><i></i><i class="d"></i><i class="m"></i><i class="n"></i><i></i><i></i><i></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i class="c"></i><i class="n"></i><i class="n"></i><i class="c"></i><i></i><i></i><i></i><i class="n"></i><i class="m"></i><i></i><i></i><i class="a"></i><i></i><i></i><i></i><i class="m"></i><i></i><i></i><i class="n"></i><i></i><i></i><i class="m"></i><i></i><i></i><i class="m"></i><i class="m"></i><i></i><i class="m"></i><i></i><i class="a"></i><i class="m"></i><i></i><i class="a"></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i class="c"></i><i class="a"></i><i></i><i></i><i></i><i></i><i class="n"></i><i></i><i></i><i></i><i class="m"></i><i></i><i></i><i class="m"></i><i></i><i class="n"></i><i></i><i></i><i></i><i class="c"></i><i class="a"></i><i class="c"></i><i></i><i></i><i></i><i></i><i class="b"></i><i></i><i></i><i></i><i></i><i class="n"></i><i class="n"></i><i></i><i class="b"></i><i class="b"></i><i class="n"></i><i></i><i></i><i></i><i class="m"></i><i></i><i class="n"></i><i class="n"></i><i></i><i></i><i></i><i></i><i class="a"></i><i></i><i class="m"></i><i class="c"></i><i></i><i></i><i class="m"></i><i class="m"></i><i></i><i class="c"></i><i></i><i></i><i class="c"></i><i></i><i></i><i class="m"></i><i class="m"></i><i></i><i class="m"></i><i></i><i></i><i></i><i></i><i class="n"></i><i></i><i class="d"></i><i></i><i class="n"></i><i class="m"></i><i></i><i class="n"></i><i></i><i></i><i class="m"></i><i></i><i></i><i class="n"></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="n"></i><i class="m"></i><i></i><i class="m"></i><i class="n"></i><i class="c"></i><i class="n"></i><i class="n"></i><i></i><i></i><i></i><i></i><i></i><i class="a"></i><i></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i><i class="m"></i><i></i><i></i><i class="m"></i><i></i><i></i><i class="c"></i><i class="b"></i><i class="m"></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="n"></i><i class="m"></i><i class="m"></i><i></i><i></i><i class="n"></i><i class="m"></i><i class="n"></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="d"></i><i class="c"></i><i class="m"></i><i class="a"></i><i class="m"></i><i></i><i></i><i></i><i class="m"></i><i></i><i></i><i class="m"></i><i class="n"></i><i class="m"></i><i></i><i class="n"></i><i></i><i class="m"></i><i class="b"></i><i></i><i></i><i></i><i class="a"></i><i></i><i></i><i></i><i></i><i></i><i class="n"></i><i></i><i></i><i></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i><i class="n"></i><i></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i></i><i></i><i></i><i></i><i class="c"></i><i class="b"></i><i class="n"></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="b"></i><i class="n"></i><i></i><i></i><i></i><i></i><i></i><i class="d"></i><i class="b"></i><i></i><i></i><i></i><i></i><i class="c"></i><i class="m"></i><i></i><i></i><i></i><i class="m"></i><i></i><i class="m"></i><i></i><i class="m"></i><i></i><i></i><i></i><i class="n"></i><i></i><i></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="n"></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i class="n"></i><i class="m"></i><i></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i class="c"></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i class="c"></i><i></i><i></i><i class="n"></i><i></i><i class="c"></i><i></i><i></i><i class="n"></i><i class="n"></i><i class="m"></i><i></i><i></i><i class="d"></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="n"></i><i class="n"></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<!--/HERO_BAND--></div>
   </div>
-</header>
+  <div class="rule"></div>
 
-<main id="main">
-<div id="top"></div>
+  <!-- ============ PROFILE ============ -->
+  <section class="pad" style="padding-block:30px">
+    <div class="profile">
+      <!-- Swap for <img src="assets/me.jpg" alt="Luvish Gulati" class="avatar"> when a photo is added. -->
+      <div class="avatar" role="img" aria-label="Luvish Gulati">LG</div>
+      <div class="who">
+        <h1>Luvish Gulati
+          <svg class="verified" viewBox="0 0 24 24" fill="currentColor" aria-label="Verified" role="img"><path d="M12 1.6l2.5 1.9 3.1-.3 1 3 2.7 1.6-1 3 1 3-2.7 1.6-1 3-3.1-.3L12 22.4l-2.5-1.9-3.1.3-1-3-2.7-1.6 1-3-1-3 2.7-1.6 1-3 3.1.3z"/><path d="M8.2 12.2l2.6 2.6 5-5.2" fill="none" stroke="var(--col-bg)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </h1>
+        <p class="role">Product-minded software engineer &amp; AI builder</p>
+      </div>
+      <div class="geo">
+        <span class="loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="8.4"/><path d="M12 1.6v3M12 19.4v3M22.4 12h-3M4.6 12h-3" stroke-linecap="round"/></svg>
+          Bengaluru, IN
+        </span>
+        <span><span class="clk" id="clock">--:--:--</span> IST</span>
+      </div>
+    </div>
+  </section>
+  <div class="rule"></div>
 
-<!-- ================= HERO ================= -->
-<section class="hero" aria-labelledby="h1">
-  <div class="wrap">
-    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span><span><b>Luvish Gulati</b> · Bengaluru, India · open to work</span></p>
-    <h1 class="big" id="h1">Product-minded engineer. I don't just spec products — <span class="ship">I ship them.</span></h1>
-    <p class="sub">
-      APM <span class="sep">→</span> SWE intern <span class="sep">→</span> builder of <b>Henry</b>, an open-source AI
-      chief-of-staff that runs my job hunt. Looking for AI-PM &amp; product-engineering roles · Bengaluru or remote.
-    </p>
-    <div class="cta-row">
-      <a class="btn primary" href="mailto:Gulatiluvish@gmail.com">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.4"/><path d="M3.4 6.6l8.6 6 8.6-6"/></svg>
-        Gulatiluvish@gmail.com
+  <!-- ============ INTRO ============ -->
+  <section class="pad intro" style="padding-block:30px">
+    <p>Hey — I'm <b>Luvish</b>. I own products end to end: discovery and PRDs through code, launch, GTM and analytics. Right now I'm a Software Engineering Intern at <b>GrowthX</b>, where I built an end-to-end notification platform — native, in-app, web push and email digests behind unified preferences.</p>
+    <p>Before that I was an Associate Product Manager at <b>Pink Unicorn Algorithms</b>, running three products — <b>CarbonNex</b>, <b>Rapidero</b> and <b>Risk AI Council</b> — and an Associate Product Consultant Intern at <b>Cvent</b> across 10+ enterprise accounts.</p>
+    <p>My main build is <a href="https://github.com/Luvishgulati03/ai-agent-" target="_blank" rel="noopener noreferrer">Henry</a> — an open-source, local-first AI chief-of-staff that remembers, schedules and drafts, running on an 8 GB M1 Air at roughly $0 marginal cost. It refuses to send anything without my sign-off, and it tracks this website.</p>
+  </section>
+
+  <!-- ============ SOCIAL ============ -->
+  <div class="pad" style="border-top:1px dashed var(--rule-soft)">
+    <div class="social">
+      <a class="sq" href="https://github.com/Luvishgulati03" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
       </a>
-      <a class="btn" href="https://www.linkedin.com/in/luvish-gulati-282a84184" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile of Luvish Gulati">
+      <a class="sq" href="https://www.linkedin.com/in/luvish-gulati-282a84184" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4z"/></svg>
-        LinkedIn
       </a>
-      <a class="btn" href="https://github.com/Luvishgulati03" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile of Luvish Gulati">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
-        GitHub
+      <a class="sq" href="mailto:Gulatiluvish@gmail.com" aria-label="Email Luvish">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.4"/><path d="M3.4 6.6l8.6 6 8.6-6"/></svg>
       </a>
-      <a class="btn" href="assets/Luvish_Gulati_Resume.pdf" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4v11.4M7.6 10.6l4.4 4.4 4.4-4.4M4 19.4h16"/></svg>
-        Résumé (PDF)
-      </a>
-    </div>
-    <a class="scroll-cue" href="#proof"><span class="ln" aria-hidden="true"></span> the receipts</a>
-  </div>
-</section>
-
-<!-- ================= PROOF ================= -->
-<section id="proof" aria-labelledby="proof-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="idx">01 /</span>
-      <h2 id="proof-h">Receipts</h2>
-      <span class="note">Numbers from shipped work — GrowthX, Pink Unicorn Algorithms, Henry</span>
-    </div>
-    <ul class="bento reveal">
-      <li class="tile">
-        <span class="num">516<i> / </i>447</span>
-        <span class="lab">opens / clicks in 30 days</span>
-        <span class="meta">Notification platform · GrowthX</span>
-      </li>
-      <li class="tile">
-        <span class="num">53<i>/</i>57</span>
-        <span class="lab">test scenarios automated</span>
-        <span class="meta">ADB framework · ~2 days of QA saved</span>
-      </li>
-      <li class="tile">
-        <span class="num">4+<i> hrs</i></span>
-        <span class="lab">of manual ops removed, daily</span>
-        <span class="meta">Rapidero shipment pricing · APM</span>
-      </li>
-      <li class="tile">
-        <span class="num">3</span>
-        <span class="lab">products owned as an APM</span>
-        <span class="meta">CarbonNex · Rapidero · Risk AI Council</span>
-      </li>
-      <li class="tile">
-        <span class="num"><i>$</i>0<i>/mo</i></span>
-        <span class="lab">marginal AI cost</span>
-        <span class="meta">Henry · local-first, no API keys</span>
-      </li>
-      <li class="tile">
-        <span class="num">6</span>
-        <span class="lab">AI-risk categories shipped</span>
-        <span class="meta">NIST AI RMF / EU AI Act aligned</span>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<!-- ================= FLAGSHIP: HENRY ================= -->
-<section id="henry" aria-labelledby="henry-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="idx">02 /</span>
-      <h2 id="henry-h">Flagship</h2>
-      <span class="note">Open source · TypeScript · runs on my laptop right now</span>
-    </div>
-
-    <p class="kicker reveal">Most PM candidates show decks. <span class="hl">I show a running agent.</span></p>
-
-    <div class="reveal">
-      <div class="proj-head">
-        <h3 id="henry-name">Henry — a personal AI chief-of-staff</h3>
-        <div class="chips">
-          <span class="chip on">Flagship</span>
-          <span class="chip">Open source</span>
-          <span class="chip">TypeScript</span>
-          <span class="chip">Local-first</span>
-        </div>
-      </div>
-      <div class="measure">
-        <p>
-          Henry started narrow: a force multiplier for my job hunt — track roles, keep the research in one place,
-          stop rewriting the same cover letter. It didn't stay narrow. It became the daily driver that
-          <strong>schedules, remembers, drafts, and watches the inbox</strong> — a terminal-first agent that
-          runs entirely on an 8 GB M1 Air for roughly <strong>zero marginal cost</strong>, because it orchestrates
-          CLIs I already pay a subscription for instead of burning metered API keys.
-        </p>
-        <p>
-          The interesting part isn't that an LLM answers questions. It's the systems around it: a memory engine
-          that decays and reinforces like a real one, a retrieval layer that has to pass an eval harness before
-          any ranking change ships, and an approval boundary that makes autonomy safe to hand out in slices.
-          This site is one of the things Henry tracks.
-        </p>
-      </div>
-    </div>
-
-    <!-- decisions -->
-    <h4 class="block-title reveal">Five decisions — and what I gave up for each</h4>
-    <ol class="dec reveal">
-      <li>
-        <span class="n">01</span>
-        <span class="hd">Local-first memory: files as truth, SQLite as index</span>
-        <span class="body">
-          <span class="not">not chosen → <s>a hosted cloud vector database</s></span>
-          <p>Every memory is a file I can read, diff and git-track; SQLite carries the vector + full-text index
-          beside it. A managed vector DB would have been faster to stand up, but memory about my own life
-          shouldn't live in someone else's tenant, and it shouldn't stop working on a plane.</p>
-          <span class="cost"><b>Cost</b>Retrieval quality became my problem to solve, not a vendor's — which is why the eval harness exists.</span>
-        </span>
-      </li>
-      <li>
-        <span class="n">02</span>
-        <span class="hd">Orchestrate subscription CLIs instead of calling metered APIs</span>
-        <span class="body">
-          <span class="not">not chosen → <s>per-token API keys per provider</s></span>
-          <p>Henry dispatches work to multiple provider CLIs with session reuse and intent tiering —
-          light, default and heavy models for different jobs. Marginal cost per run is ~$0, so I could
-          afford to let it run on a schedule and iterate for weeks.</p>
-          <span class="cost"><b>Cost</b>I inherit each CLI's quirks and rate limits, and orchestration code I'd otherwise get from an SDK.</span>
-        </span>
-      </li>
-      <li>
-        <span class="n">03</span>
-        <span class="hd">An approval gate on every outbound action</span>
-        <span class="body">
-          <span class="not">not chosen → <s>full autonomy with an undo button</s></span>
-          <p>Nothing leaves the machine — email, GitHub, job applications — without an explicit operator
-          sign-off. The Gmail integration is drafts-only by construction, not by prompt instruction.
-          An agent that can't send is an agent I can leave running.</p>
-          <span class="cost"><b>Cost</b>More friction, and a real queue to design; "just send it" is a feature I deliberately don't have.</span>
-        </span>
-      </li>
-      <li>
-        <span class="n">04</span>
-        <span class="hd">Score-threshold retrieval with per-source caps</span>
-        <span class="body">
-          <span class="not">not chosen → <s>pure top-K</s></span>
-          <p>Top-K always returns K results, even when only two are relevant — weak chunks dilute the answer
-          and one verbose source can eat the whole context. Henry uses a relevance threshold, per-source caps
-          and domain boosts, so a thin question gets a thin, honest context.</p>
-          <span class="cost"><b>Cost</b>Thresholds need calibration; a precision@5 / MRR harness now gates every ranking change.</span>
-        </span>
-      </li>
-      <li>
-        <span class="n">05</span>
-        <span class="hd">Two stores: decaying personal memory, versioned knowledge</span>
-        <span class="body">
-          <span class="not">not chosen → <s>one unified store for everything</s></span>
-          <p>Personal memory should fade, reinforce and be superseded — what I decided last week outranks
-          what I decided in March. Reference knowledge should do the opposite: stay stable, be versioned, be
-          citable. One store forces one policy; two stores let each obey its own physics.</p>
-          <span class="cost"><b>Cost</b>Two retrieval paths, two tuning surfaces, and a fusion step that has to decide which store wins.</span>
-        </span>
-      </li>
-    </ol>
-
-    <!-- architecture -->
-    <h4 class="block-title reveal">Architecture — where the approval boundary sits</h4>
-    <div class="reveal">
-      <div class="diagram">
-        <svg viewBox="0 0 960 600" role="img" aria-labelledby="arch-t arch-d">
-          <title id="arch-t">Henry architecture: perceive, decide, act — with an explicit approval gate</title>
-          <desc id="arch-d">Inputs (CLI, read-only Gmail, cron scheduler, dashboard) feed an orchestrator.
-            The orchestrator reads from a memory engine and a knowledge RAG layer, which return an explainable
-            recall trace. Local actions — Gmail drafts, reminders, memory writes, notifications — happen freely.
-            Outbound actions — sending email, GitHub writes, job applications — must cross a dashed approval
-            gate that requires operator sign-off.</desc>
-          <defs>
-            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0 0 L10 5 L0 10 z" class="d-arrow"/>
-            </marker>
-          </defs>
-
-          <!-- column labels -->
-          <text class="d-col" x="24"  y="26">01 · PERCEIVE</text>
-          <text class="d-col" x="326" y="26">02 · DECIDE</text>
-          <text class="d-col" x="706" y="26">03 · ACT</text>
-
-          <!-- perceive -->
-          <rect class="d-box" x="24" y="48"  width="210" height="48" rx="10"/>
-          <text class="d-l" x="42" y="78">CLI — terminal-first</text>
-          <rect class="d-box" x="24" y="110" width="210" height="48" rx="10"/>
-          <text class="d-l" x="42" y="140">Gmail — read only</text>
-          <rect class="d-box" x="24" y="172" width="210" height="48" rx="10"/>
-          <text class="d-l" x="42" y="202">Cron scheduler</text>
-          <rect class="d-box" x="24" y="234" width="210" height="48" rx="10"/>
-          <text class="d-l" x="42" y="264">Dashboard — live SSE</text>
-
-          <!-- bus into orchestrator -->
-          <path class="d-line" d="M234 72 H268 M234 134 H268 M234 196 H268 M234 258 H268 M268 72 V258"/>
-          <path class="d-flow" d="M268 165 H318" marker-end="url(#ah)"/>
-
-          <!-- orchestrator -->
-          <rect class="d-box-hi" x="326" y="48" width="250" height="234" rx="14"/>
-          <text class="d-t" x="348" y="82">ORCHESTRATOR</text>
-          <text class="d-m" x="348" y="112">INTENT TIERING</text>
-          <text class="d-l" x="348" y="132">light · default · heavy</text>
-          <text class="d-m" x="348" y="164">PROVIDER CLIs</text>
-          <text class="d-l" x="348" y="184">session reuse, $0 marginal</text>
-          <text class="d-m" x="348" y="216">ADMISSION CONTROL</text>
-          <text class="d-l" x="348" y="236">subprocess caps · 8 GB M1 Air</text>
-
-          <!-- memory + knowledge -->
-          <rect class="d-box-hi" x="326" y="342" width="250" height="112" rx="14"/>
-          <text class="d-t" x="348" y="372">MEMORY ENGINE</text>
-          <text class="d-l" x="348" y="396">files as truth + SQLite index</text>
-          <text class="d-l" x="348" y="416">vector + FTS, rank-fused</text>
-          <text class="d-l" x="348" y="436">spreading activation · decay</text>
-
-          <rect class="d-box" x="326" y="470" width="250" height="106" rx="14"/>
-          <text class="d-t" x="348" y="500">KNOWLEDGE RAG</text>
-          <text class="d-l" x="348" y="524">bge-small-en-v1.5 · 384d</text>
-          <text class="d-l" x="348" y="544">threshold + per-source caps</text>
-          <text class="d-l" x="348" y="564">eval-gated ranking (P@5 / MRR)</text>
-
-          <path class="d-flow" d="M414 282 V332" marker-end="url(#ah)"/>
-          <text class="d-m" x="404" y="316" text-anchor="end">recall</text>
-          <path class="d-flow" d="M498 332 V292" marker-end="url(#ah)"/>
-          <text class="d-m" x="510" y="316">explainable trace</text>
-          <path class="d-line" d="M451 454 V470"/>
-
-          <!-- approval gate -->
-          <path class="d-gate" d="M648 40 V206"/>
-          <text class="d-gate-t" x="634" y="90" text-anchor="middle" transform="rotate(-90 634 90)">APPROVAL GATE</text>
-          <text class="d-m" x="600" y="232">operator sign-off · approve / reject</text>
-          <circle class="d-node" cx="648" cy="143" r="6"/>
-
-          <!-- act -->
-          <rect class="d-box-out" x="706" y="88" width="230" height="110" rx="14"/>
-          <text class="d-t" x="726" y="118">OUTBOUND</text>
-          <text class="d-l" x="726" y="142">send email</text>
-          <text class="d-l" x="726" y="162">GitHub writes</text>
-          <text class="d-l" x="726" y="182">job applications</text>
-
-          <rect class="d-box" x="706" y="310" width="230" height="128" rx="14"/>
-          <text class="d-t" x="726" y="340">LOCAL — NO GATE</text>
-          <text class="d-l" x="726" y="364">Gmail draft (never sent)</text>
-          <text class="d-l" x="726" y="384">reminders + notifications</text>
-          <text class="d-l" x="726" y="404">memory writes</text>
-          <text class="d-l" x="726" y="424">job tracker updates</text>
-
-          <path class="d-flow" d="M576 143 H700" marker-end="url(#ah)"/>
-          <path class="d-flow" d="M576 252 H676 V370 H700" marker-end="url(#ah)"/>
-        </svg>
-      </div>
-      <p class="cap measure"><b>Read it left to right.</b> The dashed line is the only interesting part:
-      everything local — drafts, reminders, memory writes — flows freely, and everything that touches the
-      outside world stops for a human. Safety here is a boundary in the architecture, not a sentence in a prompt.</p>
-    </div>
-
-    <!-- terminal -->
-    <h4 class="block-title reveal">A session, replayed</h4>
-    <div class="reveal">
-      <div class="term" id="term">
-        <div class="term-bar">
-          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="term-title">henry — ~/dev/henry — zsh</span>
-          <span class="rec"><i aria-hidden="true"></i> recorded session</span>
-          <span class="term-ctl">
-            <button class="tbtn" id="t-replay" type="button">↻ Replay</button>
-            <button class="tbtn" id="t-skip" type="button">↦ Skip</button>
-          </span>
-        </div>
-        <div class="term-body" id="t-body" role="region" aria-label="Recorded Henry terminal session transcript" tabindex="0">
-          <div class="t-line t-sys"><span class="t-key">henry</span> · local-first · no API keys</div>
-          <div class="t-line t-sys">memory + knowledge indexed · scheduler ready · approval queue: empty</div>
-
-          <div class="t-line t-in pad" data-type="1"><span class="pr">›</span> <span class="txt">remind me to follow up on the design review thread friday morning</span></div>
-          <div class="t-line t-ok">  ⏱ scheduled — Fri 09:00 IST · "follow up: design review thread"</div>
-          <div class="t-line t-dim">    cron job registered · macOS + Telegram notification</div>
-
-          <div class="t-line t-in pad" data-type="1"><span class="pr">›</span> <span class="txt">what did we decide about the retrieval threshold, and why?</span></div>
-          <div class="t-line t-dim">  ⌕ recall — hybrid(vector + full-text) → rank fusion → spreading activation</div>
-          <div class="t-line">  We moved off pure top-K to a relevance threshold with per-source caps</div>
-          <div class="t-line">  and domain boosts. Top-K kept returning five chunks when only two were</div>
-          <div class="t-line">  relevant, and one verbose source could crowd out everything else. The</div>
-          <div class="t-line">  eval harness (precision@5 / MRR) gates the change before it ships.</div>
-          <div class="t-line t-cite">  cited ▸ <b>docs/lx-knowledge-architecture.md</b> — retrieval &amp; scoring</div>
-          <div class="t-line t-cite">  cited ▸ <b>memory/episodic</b> — the eval run that caught it</div>
-          <div class="t-line t-cite">  cited ▸ <b>src/knowledge/router.ts</b> — threshold + per-source caps</div>
-          <div class="t-line t-dim">    3 sources over threshold · sub-second recall · trace: recall --explain</div>
-
-          <div class="t-line t-in pad" data-type="1"><span class="pr">›</span> <span class="txt">great — email that summary to the hiring manager now</span></div>
-          <div class="t-line t-warn">  ⚠ approval required — outbound action blocked</div>
-          <div class="t-line">  I don't send. Nothing outbound leaves this machine without your</div>
-          <div class="t-line">  sign-off, so I wrote it into Gmail Drafts instead:</div>
-          <div class="t-line t-dim">    to      &lt;from your thread&gt; · unsent</div>
-          <div class="t-line t-dim">    subject Re: retrieval eval — what changed and why</div>
-          <div class="t-line t-ok">  ✓ draft saved · 0 emails sent</div>
-          <div class="t-line t-dim">    approve → <span class="t-key">henry approve out_5c30</span>   reject → <span class="t-key">henry reject out_5c30</span></div>
-
-          <div class="t-line t-in pad" data-type="1"><span class="pr">›</span> <span class="txt">reject — I'll write that one myself</span></div>
-          <div class="t-line t-dim">  ✓ out_5c30 rejected · draft kept · logged to episodic memory</div>
-          <div class="t-line t-sys pad">— end of recorded session —</div>
-        </div>
-      </div>
-      <p class="term-foot measure">A real capture of the three things I care about: plain-English intent becomes a
-      scheduled job, an answer arrives with its sources attached, and the send request gets refused on purpose.</p>
-    </div>
-
-    <!-- metrics -->
-    <h4 class="block-title reveal">By the numbers</h4>
-    <div class="mrow reveal">
-      <div><span class="k">Open source</span><span class="v">Public repo, README written as a case study</span></div>
-      <div><span class="k">TypeScript</span><span class="v">Typed end to end, tests around memory &amp; approvals</span></div>
-      <div><span class="k">8 GB M1 Air</span><span class="v">Local-first; admission control tuned for the machine</span></div>
-      <div><span class="k">~$0 / mo</span><span class="v">Marginal AI cost — subscription CLIs, no API keys</span></div>
-      <div><span class="k">Sub-second</span><span class="v">Memory recall; local embeddings at ~10 ms</span></div>
-    </div>
-
-    <!-- learnings -->
-    <h4 class="block-title reveal">Three things I got wrong</h4>
-    <ul class="learn reveal">
-      <li>
-        <h4>The scheduler that ate the laptop</h4>
-        <p>A 15-minute cron loop spawned agent subprocesses faster than they finished. On an 8 GB machine that
-        isn't a slow queue — it's a machine you can't type on.</p>
-        <span class="fix"><b>Fix</b>Admission control: hard caps on concurrent subprocesses, tuned to the RAM I actually have.</span>
-      </li>
-      <li>
-        <h4>Distilled cards buried fresh imports</h4>
-        <p>The strategy-card layer summarised knowledge so well that cards outranked everything, and newly
-        imported sources never surfaced. It looked fine in demos. The eval harness caught it.</p>
-        <span class="fix"><b>Fix</b>Score-interleave instead of cards-first — and no ranking change ships without a P@5 / MRR run.</span>
-      </li>
-      <li>
-        <h4>A provider auth failure that looked like success</h4>
-        <p>An expired provider session returned empty output, and the pipeline happily treated "nothing" as
-        "no results found". Silent wrongness is worse than a crash.</p>
-        <span class="fix"><b>Fix</b>Failure separation everywhere: an engine error can never be reported as an empty result.</span>
-      </li>
-    </ul>
-
-    <!-- artifacts -->
-    <h4 class="block-title reveal">Go look at it</h4>
-    <div class="arts reveal">
-      <a class="art" href="https://github.com/Luvishgulati03/ai-agent-" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
-        <span><span class="t">Source — the whole agent</span><span class="d">github.com/Luvishgulati03/ai-agent- · the README reads like a case study, not a install guide</span></span>
-      </a>
-      <a class="art" href="https://github.com/Luvishgulati03/ai-agent-/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer">
+      <a class="pill" href="assets/Luvish_Gulati_Resume.pdf" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.6h9.6L19 8v12.4H5z"/><path d="M14.2 3.8V8.2H18.8M8.2 12.4h7.6M8.2 16.2h5.6"/></svg>
-        <span><span class="t">Architecture doc</span><span class="d">docs/architecture.md — modules, memory tiers, the approval model written down</span></span>
+        Resume
       </a>
-      <a class="art" href="https://github.com/Luvishgulati03/luvish-ai-twin-recruiters" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.4h16v11H13l-4.4 3.4v-3.4H4z"/><path d="M8.4 10.9h.02M12 10.9h.02M15.6 10.9h.02"/></svg>
-        <span><span class="t">Interrogate my AI twin</span><span class="d">A context-aware chatbot recruiters can question about my work — instead of reading a static resume</span></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CASE STUDIES ================= -->
-<section id="work" aria-labelledby="work-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="idx">03 /</span>
-      <h2 id="work-h">Two more, end to end</h2>
-      <span class="note">One PM/GTM build · one 0→1 full-stack build</span>
-    </div>
-
-    <div class="cases">
-      <article class="case reveal">
-        <div class="case-top">
-          <h3>Risk AI Council</h3>
-          <span class="role">Pink Unicorn Algorithms · GTM &amp; content lead</span>
-        </div>
-        <div class="case-grid">
-          <div>
-            <h4>Situation</h4>
-            <p>An AI-risk assessment platform with a real engine and no shared language around it. Teams that
-            had to comply with the NIST AI RMF and the EU AI Act weren't ML researchers — they were risk,
-            legal and compliance owners who needed the problem framed in their vocabulary, not ours.</p>
-            <h4 style="margin-top:20px">Decisions</h4>
-            <ul>
-              <li>Wrote for risk &amp; compliance owners, <em>not</em> ML engineers — governance language, not model language.</li>
-              <li>Structured the learning programs as <strong>6 AI-risk categories</strong> mapped to NIST AI RMF and the EU AI Act, instead of one undifferentiated course.</li>
-              <li>Rebuilt the site structure to follow the buyer's journey — assess, then learn, then act.</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Outcome</h4>
-            <p class="case-metric"><b>6</b> risk categories shipped as learning programs, framework-aligned end to end.</p>
-            <h4 style="margin-top:20px">Learning</h4>
-            <p>In a regulated category, positioning <em>is</em> the product surface. The fastest credibility win
-            wasn't a feature — it was mapping every claim to a named clause a compliance officer already trusts.
-            Vague "responsible AI" copy loses to a citation, every time.</p>
-          </div>
-        </div>
-        <div class="case-foot">
-          <a class="ilink" href="https://github.com/Luvishgulati03/risk-council-final-iterATION-" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
-            Repository (final iteration)
-          </a>
-          <span class="chip">NIST AI RMF</span>
-          <span class="chip">EU AI Act</span>
-          <span class="chip">GTM</span>
-        </div>
-      </article>
-
-      <article class="case reveal">
-        <div class="case-top">
-          <h3>Coding Efficiency Measurement System</h3>
-          <span class="role">0 → 1 · product + full stack</span>
-        </div>
-        <div class="case-grid">
-          <div>
-            <h4>Situation</h4>
-            <p>Coding assessments grade the artefact. Two candidates can submit the same passing solution after
-            wildly different journeys — one reasoned it out, one thrashed and pasted. Institutions were making
-            hiring and grading calls on the half of the signal that's easiest to fake.</p>
-            <h4 style="margin-top:20px">Decisions</h4>
-            <ul>
-              <li>Built a <strong>Net Efficiency Score</strong> that grades the <em>process</em>: keystrokes, idle time, tab switches, copy/paste, debugging patterns, focus intervals and complexity.</li>
-              <li>Wrote separate PRDs for all <strong>three personas</strong> — admin, teacher, student — because the same score means three different things to them.</li>
-              <li>Shipped the whole stack myself (Python / Flask / SQLite / JS): role-based workflows, code execution, session recording.</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Outcome</h4>
-            <p class="case-metric">Piloted at <b>2–3</b> accredited institutions · 3 personas, 3 PRDs, one running platform.</p>
-            <h4 style="margin-top:20px">Learning</h4>
-            <p>A process metric is only legitimate if the person being measured can see the same signals the
-            grader sees. The moment the score is a black box it stops being feedback and starts being
-            surveillance — so transparency wasn't a nice-to-have, it was the thing that made the product usable.</p>
-          </div>
-        </div>
-        <div class="case-foot">
-          <span class="chip">Python · Flask</span>
-          <span class="chip">SQLite</span>
-          <span class="chip">PRDs ×3</span>
-          <span class="chip">No public repo — case study on request</span>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ================= MORE BUILDS ================= -->
-<section id="builds" aria-labelledby="builds-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="idx">04 /</span>
-      <h2 id="builds-h">More builds</h2>
-      <span class="note">Shipped, public, and worth a look</span>
-    </div>
-    <div class="builds reveal">
-      <a class="build" href="https://github.com/Luvishgulati03/luvish-ai-twin-recruiters" target="_blank" rel="noopener noreferrer">
-        <span class="row"><span class="t">AI Twin for Recruiters</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 16.5L16.5 7.5M8.6 7.5h7.9v7.9"/></svg>
-        </span>
-        <p>A context-aware chatbot recruiters can interrogate about my experience, projects and working style — instead of reading a static resume.</p>
-        <span class="tag">Conversational AI · RAG</span>
-      </a>
-      <a class="build" href="https://github.com/Luvishgulati03/carbonnex-website" target="_blank" rel="noopener noreferrer">
-        <span class="row"><span class="t">CarbonNex</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 16.5L16.5 7.5M8.6 7.5h7.9v7.9"/></svg>
-        </span>
-        <p>ESG reporting product where I designed the core workflows as APM — turning a compliance obligation into something a team can actually run.</p>
-        <span class="tag">Product · ESG</span>
-      </a>
-      <a class="build" href="https://github.com/Luvishgulati03/Compiler-Project" target="_blank" rel="noopener noreferrer">
-        <span class="row"><span class="t">A compiler, in C</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 16.5L16.5 7.5M8.6 7.5h7.9v7.9"/></svg>
-        </span>
-        <p>Lexer → parser → semantic analysis → code generation, written from scratch for Compiler Construction. The fundamentals under everything else here.</p>
-        <span class="tag">C · Systems</span>
+      <a class="pill" href="mailto:Gulatiluvish@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.4"/><path d="M3.4 6.6l8.6 6 8.6-6"/></svg>
+        Email
       </a>
     </div>
   </div>
-</section>
 
-<!-- ================= ABOUT ================= -->
-<section id="about" aria-labelledby="about-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="idx">05 /</span>
-      <h2 id="about-h">How I think</h2>
-      <span class="note">B.Tech CS, Amity University · 2021–2025</span>
-    </div>
-    <div class="about-grid">
-      <div class="reveal">
-        <p class="measure">I came into product from the engineering side, and I never left it. I write the PRD and
-        then I write the code — which means my specs have acceptance criteria a build can actually be
-        measured against, and my estimates are honest because I'm the one paying them.</p>
-        <p class="measure">What I want next is AI product: the problems there are product problems wearing a model
-        costume. Where does autonomy stop. What does the system do when retrieval is wrong. How do you prove a
-        ranking change helped instead of insisting it did.</p>
-        <div class="tenets">
-          <div class="tenet"><span class="n">01</span><span><b>Every module gets acceptance criteria.</b><span>If I can't say what "done" looks like before building it, the spec isn't finished.</span></span></div>
-          <div class="tenet"><span class="n">02</span><span><b>Evals before tuning.</b><span>Opinions about ranking are cheap. A precision@5 run is not.</span></span></div>
-          <div class="tenet"><span class="n">03</span><span><b>Safety is a boundary you draw.</b><span>Not a promise in a prompt. Put the gate in the architecture where it can't be talked around.</span></span></div>
-          <div class="tenet"><span class="n">04</span><span><b>Ship it, then measure it.</b><span>516 opens and 447 clicks beat any amount of pre-launch conviction.</span></span></div>
+  <div class="hatch"></div>
+
+  <!-- ============ WORK EXPERIENCE ============ -->
+  <section class="pad reveal" id="experience">
+    <h2 class="h-sec">work experience.</h2>
+    <ul class="xp">
+      <li>
+        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="GrowthX"><rect width="56" height="56" fill="#101014"/><path d="M8 44L28 12l20 32" fill="none" stroke="#3ddc84" stroke-width="4" stroke-linejoin="round"/><path d="M18 44h20" stroke="#3ddc84" stroke-width="4" stroke-linecap="round"/></svg></div>
+        <div class="xp-main">
+          <h3>Software Engineering Intern</h3>
+          <p class="xp-at">@ <a href="https://growthx.club" target="_blank" rel="noopener noreferrer">GrowthX ↗</a></p>
         </div>
+        <div class="xp-meta"><span>Jun 2026 — Present</span><span class="place">Bengaluru, India</span></div>
+      </li>
+      <li>
+        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="Pink Unicorn Algorithms"><rect width="56" height="56" fill="#141017"/><circle cx="28" cy="28" r="14" fill="none" stroke="#e46bb8" stroke-width="3.4"/><path d="M28 14v28M14 28h28" stroke="#e46bb8" stroke-width="3.4" stroke-linecap="round"/></svg></div>
+        <div class="xp-main">
+          <h3>Associate Product Manager</h3>
+          <p class="xp-at">@ Pink Unicorn Algorithms (Globerra)</p>
+        </div>
+        <div class="xp-meta"><span>Aug 2025 — May 2026</span><span class="place">India</span></div>
+      </li>
+      <li>
+        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="Cvent"><rect width="56" height="56" fill="#0e1116"/><path d="M38 20a13 13 0 1 0 0 16" fill="none" stroke="#4aa3ff" stroke-width="4.4" stroke-linecap="round"/></svg></div>
+        <div class="xp-main">
+          <h3>Associate Product Consultant Intern</h3>
+          <p class="xp-at">@ <a href="https://www.cvent.com" target="_blank" rel="noopener noreferrer">Cvent ↗</a></p>
+        </div>
+        <div class="xp-meta"><span>Jun 2025 — Aug 2025</span><span class="place">India</span></div>
+      </li>
+    </ul>
+  </section>
+
+  <div class="hatch"></div>
+
+  <!-- ============ FEATURED PROJECTS ============ -->
+  <section id="projects" class="reveal" style="padding-bottom:0">
+    <h2 class="h-sec pad">featured projects.</h2>
+
+    <div class="thumbs" role="list" aria-label="Project covers">
+      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/ai-agent-" target="_blank" rel="noopener noreferrer" style="--c1:#3ddc84; --c2:#4aa3ff" aria-label="Henry — AI chief-of-staff">
+        <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <defs><linearGradient id="gh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".22"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
+          <rect width="400" height="190" fill="url(#gh)"/>
+          <g stroke="var(--c1)" stroke-opacity=".14" stroke-width="1"><path d="M0 38h400M0 76h400M0 114h400M0 152h400M50 0v190M100 0v190M150 0v190M200 0v190M250 0v190M300 0v190M350 0v190"/></g>
+          <rect x="30" y="26" width="220" height="138" rx="10" fill="var(--panel)" stroke="var(--c1)" stroke-opacity=".45"/>
+          <rect x="30" y="26" width="220" height="22" rx="10" fill="var(--c1)" fill-opacity=".12"/>
+          <circle cx="44" cy="37" r="3.4" fill="var(--c1)"/><circle cx="55" cy="37" r="3.4" fill="var(--c1)" fill-opacity=".4"/><circle cx="66" cy="37" r="3.4" fill="var(--c1)" fill-opacity=".22"/>
+          <g fill="var(--c1)"><text x="44" y="72" font-family="ui-monospace,monospace" font-size="10">&gt;</text></g>
+          <rect x="56" y="64" width="92" height="6" rx="3" fill="var(--text-2)" fill-opacity=".55"/>
+          <rect x="44" y="82" width="140" height="5" rx="2.5" fill="var(--text-3)" fill-opacity=".45"/>
+          <rect x="44" y="95" width="112" height="5" rx="2.5" fill="var(--text-3)" fill-opacity=".45"/>
+          <g fill="var(--c1)"><text x="44" y="122" font-family="ui-monospace,monospace" font-size="10">&gt;</text></g>
+          <rect x="56" y="114" width="68" height="6" rx="3" fill="var(--text-2)" fill-opacity=".55"/>
+          <rect class="blip" x="128" y="113" width="7" height="8" rx="1.5" fill="var(--c1)"/>
+          <rect x="44" y="134" width="120" height="5" rx="2.5" fill="var(--c1)" fill-opacity=".55"/>
+          <path class="dash" d="M292 22V168" stroke="var(--c2)" stroke-width="2" fill="none"/>
+          <circle class="pulse-r" cx="292" cy="95" r="7" fill="var(--panel)" stroke="var(--c2)" stroke-width="2"/>
+          <g fill="var(--c2)" font-family="ui-monospace,monospace" font-size="8" letter-spacing="1.4"><text x="316" y="72">APPROVAL</text><text x="316" y="86">GATE</text></g>
+          <rect x="316" y="100" width="56" height="8" rx="4" fill="var(--c2)" fill-opacity=".3"/>
+          <rect x="316" y="114" width="40" height="8" rx="4" fill="var(--c2)" fill-opacity=".18"/>
+          <rect x="316" y="128" width="48" height="8" rx="4" fill="var(--c2)" fill-opacity=".18"/>
+        </svg>
+        <span class="cap">Henry</span>
+      </a>
+
+      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/luvish-ai-twin-recruiters" target="_blank" rel="noopener noreferrer" style="--c1:#7c6cff; --c2:#b95cff" aria-label="AI Digital Twin for Recruiters">
+        <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <defs><linearGradient id="gt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".24"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
+          <rect width="400" height="190" fill="url(#gt)"/>
+          <circle cx="330" cy="42" r="70" fill="var(--c2)" fill-opacity=".08"/>
+          <g>
+            <rect x="34" y="30" width="176" height="42" rx="14" fill="var(--panel)" stroke="var(--c1)" stroke-opacity=".42"/>
+            <rect x="52" y="44" width="120" height="6" rx="3" fill="var(--text-3)" fill-opacity=".55"/>
+            <rect x="52" y="56" width="82" height="6" rx="3" fill="var(--text-3)" fill-opacity=".35"/>
+          </g>
+          <g>
+            <rect x="150" y="84" width="216" height="46" rx="14" fill="var(--c1)" fill-opacity=".18" stroke="var(--c1)" stroke-opacity=".55"/>
+            <rect x="168" y="98" width="150" height="6" rx="3" fill="var(--c1)" fill-opacity=".8"/>
+            <rect x="168" y="112" width="112" height="6" rx="3" fill="var(--c1)" fill-opacity=".5"/>
+          </g>
+          <g>
+            <rect x="34" y="140" width="92" height="34" rx="13" fill="var(--panel)" stroke="var(--c2)" stroke-opacity=".4"/>
+            <circle class="dot1" cx="58" cy="157" r="4" fill="var(--c2)"/>
+            <circle class="dot2" cx="74" cy="157" r="4" fill="var(--c2)" fill-opacity=".75"/>
+            <circle class="dot3" cx="90" cy="157" r="4" fill="var(--c2)" fill-opacity=".5"/>
+          </g>
+          <path class="pulse-r" d="M356 34l4 11 11 4-11 4-4 11-4-11-11-4 11-4z" fill="var(--c2)"/>
+        </svg>
+        <span class="cap">AI Digital Twin</span>
+      </a>
+
+      <span class="thumb" role="listitem" style="--c1:#ffb454; --c2:#ff7a59" aria-label="Coding Efficiency Measurement System">
+        <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <defs><linearGradient id="ge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".22"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
+          <rect width="400" height="190" fill="url(#ge)"/>
+          <path d="M120 128a80 80 0 0 1 160 0" fill="none" stroke="var(--edge)" stroke-width="12" stroke-linecap="round" opacity=".5"/>
+          <path d="M120 128a80 80 0 0 1 160 0" fill="none" stroke="var(--c1)" stroke-width="12" stroke-linecap="round" stroke-dasharray="176 252" opacity=".9"/>
+          <g stroke="var(--c1)" stroke-opacity=".5" stroke-width="2" stroke-linecap="round">
+            <path d="M130 100l8 5M158 71l6 7M200 60v9M242 71l-6 7M270 100l-8 5"/>
+          </g>
+          <g class="needle"><path d="M200 128L200 74" stroke="var(--c2)" stroke-width="3.4" stroke-linecap="round"/></g>
+          <circle cx="200" cy="128" r="8" fill="var(--panel)" stroke="var(--c2)" stroke-width="3"/>
+          <g fill="var(--c1)" fill-opacity=".65">
+            <rect x="44" y="150" width="7" height="18" rx="2"/><rect x="56" y="142" width="7" height="26" rx="2"/>
+            <rect x="68" y="156" width="7" height="12" rx="2"/><rect x="80" y="136" width="7" height="32" rx="2"/>
+            <rect x="92" y="148" width="7" height="20" rx="2"/>
+          </g>
+          <g fill="var(--c2)" fill-opacity=".65">
+            <rect x="304" y="146" width="7" height="22" rx="2"/><rect x="316" y="152" width="7" height="16" rx="2"/>
+            <rect x="328" y="138" width="7" height="30" rx="2"/><rect x="340" y="156" width="7" height="12" rx="2"/>
+            <rect x="352" y="144" width="7" height="24" rx="2"/>
+          </g>
+          <text x="200" y="158" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.6" fill="var(--c1)">NET EFFICIENCY</text>
+        </svg>
+        <span class="cap">Coding Efficiency</span>
+      </span>
+
+      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/risk-council-final-iterATION-" target="_blank" rel="noopener noreferrer" style="--c1:#5ad1c8; --c2:#3ddc84" aria-label="Risk AI Council">
+        <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".22"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient>
+            <clipPath id="shc"><path d="M200 20l72 26v52c0 42-30 66-72 82-42-16-72-40-72-82V46z"/></clipPath>
+          </defs>
+          <rect width="400" height="190" fill="url(#gr)"/>
+          <g stroke="var(--c1)" stroke-opacity=".12" stroke-width="1"><path d="M0 48h400M0 96h400M0 144h400"/></g>
+          <g clip-path="url(#shc)">
+            <rect x="120" y="16" width="160" height="170" fill="var(--panel)"/>
+            <g fill="var(--c1)">
+              <rect x="130" y="30" width="44" height="34" rx="4" fill-opacity=".55"/>
+              <rect x="178" y="30" width="44" height="34" rx="4" fill-opacity=".28"/>
+              <rect x="226" y="30" width="44" height="34" rx="4" fill-opacity=".42"/>
+              <rect x="130" y="68" width="44" height="34" rx="4" fill-opacity=".3"/>
+              <rect x="178" y="68" width="44" height="34" rx="4" fill-opacity=".6"/>
+              <rect x="226" y="68" width="44" height="34" rx="4" fill-opacity=".22"/>
+            </g>
+            <rect class="pulse-r" x="178" y="68" width="44" height="34" rx="4" fill="var(--c2)" fill-opacity=".5"/>
+          </g>
+          <path d="M200 20l72 26v52c0 42-30 66-72 82-42-16-72-40-72-82V46z" fill="none" stroke="var(--c1)" stroke-width="2.4"/>
+          <path d="M178 128l16 16 30-32" fill="none" stroke="var(--c2)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <g font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.2" fill="var(--c1)" fill-opacity=".8"><text x="24" y="100">NIST</text><text x="24" y="116">AI RMF</text><text x="330" y="100">EU AI</text><text x="330" y="116">ACT</text></g>
+        </svg>
+        <span class="cap">Risk AI Council</span>
+      </a>
+
+      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/carbonnex-website" target="_blank" rel="noopener noreferrer" style="--c1:#7ddb5c; --c2:#3ddc84" aria-label="CarbonNex">
+        <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <defs><linearGradient id="gc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".24"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
+          <rect width="400" height="190" fill="url(#gc)"/>
+          <path d="M96 148c-26-30-18-78 26-100 30-15 66-14 86-4-2 34-14 66-40 84-24 17-52 21-72 20z" fill="var(--c1)" fill-opacity=".2" stroke="var(--c1)" stroke-width="2.2"/>
+          <path d="M198 46c-38 16-72 50-96 100" fill="none" stroke="var(--c1)" stroke-width="2.2" stroke-linecap="round"/>
+          <g stroke="var(--c1)" stroke-width="1.6" stroke-opacity=".55" stroke-linecap="round"><path d="M160 66l-14 22M180 88l-22 26M140 96l-16 22M168 116l-20 22"/></g>
+          <g fill="var(--c2)">
+            <rect x="240" y="118" width="16" height="42" rx="3" fill-opacity=".35"/>
+            <rect x="264" y="102" width="16" height="58" rx="3" fill-opacity=".5"/>
+            <rect x="288" y="86" width="16" height="74" rx="3" fill-opacity=".65"/>
+            <rect x="312" y="66" width="16" height="94" rx="3" fill-opacity=".8"/>
+            <rect x="336" y="48" width="16" height="112" rx="3"/>
+          </g>
+          <path class="pulse-r" d="M244 60l24 14 24-20 24-14 24-8" fill="none" stroke="var(--c1)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="240" y="178" font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.4" fill="var(--c2)">ESG REPORTING</text>
+        </svg>
+        <span class="cap">CarbonNex</span>
+      </a>
+
+      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/Compiler-Project" target="_blank" rel="noopener noreferrer" style="--c1:#9aa4ff; --c2:#4aa3ff" aria-label="Compiler in C">
+        <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".22"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
+          <rect width="400" height="190" fill="url(#gp)"/>
+          <g stroke="var(--c1)" stroke-opacity=".5" stroke-width="1.8" fill="none">
+            <path d="M200 44v22M200 66l-56 24M200 66l56 24M144 90v22M144 112l-32 24M144 112l32 24M256 90v22M256 112l-32 24M256 112l32 24"/>
+          </g>
+          <circle cx="200" cy="36" r="13" fill="var(--panel)" stroke="var(--c1)" stroke-width="2.4"/>
+          <circle cx="144" cy="80" r="11" fill="var(--panel)" stroke="var(--c1)" stroke-width="2.2"/>
+          <circle cx="256" cy="80" r="11" fill="var(--panel)" stroke="var(--c1)" stroke-width="2.2"/>
+          <circle class="pulse-r" cx="112" cy="144" r="9" fill="var(--c2)" fill-opacity=".7"/>
+          <circle cx="176" cy="144" r="9" fill="var(--panel)" stroke="var(--c2)" stroke-width="2.2"/>
+          <circle cx="224" cy="144" r="9" fill="var(--panel)" stroke="var(--c2)" stroke-width="2.2"/>
+          <circle cx="288" cy="144" r="9" fill="var(--c2)" fill-opacity=".45"/>
+          <text x="34" y="52" font-family="ui-monospace,monospace" font-size="42" fill="var(--c1)" fill-opacity=".28">{</text>
+          <text x="342" y="176" font-family="ui-monospace,monospace" font-size="42" fill="var(--c2)" fill-opacity=".28">}</text>
+          <text x="30" y="176" font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.2" fill="var(--c1)" fill-opacity=".75">LEX → PARSE → SEMA → CODEGEN</text>
+        </svg>
+        <span class="cap">Compiler in C</span>
+      </a>
+    </div>
+
+    <div class="pad" style="padding-bottom:var(--sec-y)">
+      <ul class="plist">
+        <li>
+          <div class="p-main">
+            <h3>Henry
+              <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
+              <span class="flag">Flagship</span>
+            </h3>
+            <p class="d">Local-first AI chief-of-staff that remembers, schedules and drafts — and never sends without sign-off.</p>
+          </div>
+          <div class="p-btns">
+            <a class="sq" href="https://github.com/Luvishgulati03/ai-agent-" target="_blank" rel="noopener noreferrer" aria-label="Henry on GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="p-main">
+            <h3>AI Digital Twin for Recruiters
+              <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
+            </h3>
+            <p class="d">Context-aware chatbot recruiters can interrogate about my work instead of reading a static resume.</p>
+          </div>
+          <div class="p-btns">
+            <a class="sq" href="https://github.com/Luvishgulati03/luvish-ai-twin-recruiters" target="_blank" rel="noopener noreferrer" aria-label="AI Digital Twin on GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="p-main">
+            <h3>Coding Efficiency Measurement System
+              <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
+            </h3>
+            <p class="d">Grades the coding process, not just the output — a Net Efficiency Score from keystrokes, idle time and focus intervals.</p>
+          </div>
+          <p class="p-note">case study · private repo</p>
+        </li>
+        <li>
+          <div class="p-main">
+            <h3>Risk AI Council
+              <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
+            </h3>
+            <p class="d">AI-risk platform where I led GTM and content across 6 risk categories, aligned to NIST AI RMF and the EU AI Act.</p>
+          </div>
+          <div class="p-btns">
+            <a class="sq" href="https://github.com/Luvishgulati03/risk-council-final-iterATION-" target="_blank" rel="noopener noreferrer" aria-label="Risk AI Council on GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="p-main">
+            <h3>CarbonNex
+              <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
+            </h3>
+            <p class="d">ESG reporting product — I designed the core workflows as its associate product manager.</p>
+          </div>
+          <div class="p-btns">
+            <a class="sq" href="https://github.com/Luvishgulati03/carbonnex-website" target="_blank" rel="noopener noreferrer" aria-label="CarbonNex on GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="p-main">
+            <h3>Compiler in C
+              <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
+            </h3>
+            <p class="d">Lexer → parser → semantic analysis → codegen, written in C. Proof of the fundamentals.</p>
+          </div>
+          <div class="p-btns">
+            <a class="sq" href="https://github.com/Luvishgulati03/Compiler-Project" target="_blank" rel="noopener noreferrer" aria-label="Compiler project on GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="hatch"></div>
+
+  <!-- ============ TECHNICAL SKILLS ============ -->
+  <section class="pad reveal" id="skills">
+    <h2 class="h-sec">technical skills.</h2>
+
+    <div class="sk-group">
+      <p class="sk-label">Engineering</p>
+      <div class="sk-grid">
+        <span class="tile" title="TypeScript" aria-label="TypeScript" role="img">TS</span>
+        <span class="tile" title="JavaScript" aria-label="JavaScript" role="img">JS</span>
+        <span class="tile" title="Python" aria-label="Python" role="img">PY</span>
+        <span class="tile" title="React Native / Expo" aria-label="React Native and Expo" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="2.1" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4.3"/><ellipse cx="12" cy="12" rx="10" ry="4.3" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.3" transform="rotate(120 12 12)"/></svg></span>
+        <span class="tile" title="Next.js" aria-label="Next.js" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9.4"/><path d="M8.6 16.4V7.6l7.2 9.6M15.4 7.6v6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="tile sm" title="Flask" aria-label="Flask" role="img">FLK</span>
+        <span class="tile sm" title="Convex" aria-label="Convex" role="img">CVX</span>
+        <span class="tile" title="MongoDB" aria-label="MongoDB" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2.4c3.6 4 5.4 6.9 5.4 9.9 0 3.7-2.4 6.5-5.4 9.3-3-2.8-5.4-5.6-5.4-9.3 0-3 1.8-5.9 5.4-9.9z" stroke-linejoin="round"/><path d="M12 5.8v14" stroke-linecap="round"/></svg></span>
+        <span class="tile sm" title="MySQL" aria-label="MySQL" role="img">SQL</span>
+        <span class="tile" title="SQLite" aria-label="SQLite" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="12" cy="5.6" rx="7.6" ry="3.2"/><path d="M4.4 5.6v12.8c0 1.8 3.4 3.2 7.6 3.2s7.6-1.4 7.6-3.2V5.6" stroke-linecap="round"/><path d="M4.4 12c0 1.8 3.4 3.2 7.6 3.2s7.6-1.4 7.6-3.2" stroke-linecap="round"/></svg></span>
+        <span class="tile sm" title="Firebase / FCM" aria-label="Firebase and FCM" role="img">FB</span>
+        <span class="tile sm" title="REST APIs" aria-label="REST APIs" role="img">REST</span>
+        <span class="tile sm" title="System design" aria-label="System design" role="img">SYS</span>
+        <span class="tile sm" title="ADB" aria-label="Android Debug Bridge" role="img">ADB</span>
+        <span class="tile" title="Automated testing" aria-label="Automated testing" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M9.6 2.8h4.8M10.6 2.8v6.4L5.2 18a2.2 2.2 0 0 0 1.9 3.3h9.8A2.2 2.2 0 0 0 18.8 18l-5.4-8.8V2.8"/><path d="M7.5 14.6h9" stroke-linecap="round"/></svg></span>
       </div>
-      <div class="reveal">
-        <ul class="tl">
-          <li class="now">
-            <span class="when">Jun 2026 — present · Bengaluru</span>
-            <span class="what">Software Engineering Intern</span>
-            <span class="who">GrowthX</span>
-            <span class="det">Built an end-to-end notification platform — native, in-app, web push and email digests
-            (React Native/Expo, Next.js, Convex, FCM) with unified preferences, per-channel controls and read
-            states. Shipped improvements generating 516 opens / 447 clicks in 30 days. Also: an AI operations
-            agent that drafts Slack replies, app-install GTM, and an ADB test framework covering 53 of 57
-            notification scenarios (~2 days of QA saved).</span>
-          </li>
-          <li>
-            <span class="when">Aug 2025 — May 2026</span>
-            <span class="what">Associate Product Manager</span>
-            <span class="who">Pink Unicorn Algorithms (Globerra)</span>
-            <span class="det">Owned three products: CarbonNex (ESG reporting), Rapidero (6 logistics modules;
-            automated shipment pricing removed 4+ hrs/day of manual work) and Risk AI Council (GTM + content
-            lead, NIST AI RMF / EU AI Act aligned). Built AI voice agents on GetVocal.ai.</span>
-          </li>
-          <li>
-            <span class="when">Jun — Aug 2025</span>
-            <span class="what">Associate Product Consultant Intern</span>
-            <span class="who">Cvent</span>
-            <span class="det">Worked across 10+ enterprise accounts, turning client journeys into product briefs;
-            proposed an AI support solution to leadership.</span>
-          </li>
-        </ul>
-        <dl class="skills">
-          <div class="skill-g"><dt>Product</dt><dd>Discovery · PRDs · Roadmapping · GTM · User journeys · Mixpanel · Agile</dd></div>
-          <div class="skill-g"><dt>Engineering</dt><dd>TypeScript/JavaScript · Python · React Native/Expo · Next.js · Flask · Convex · MongoDB / MySQL / SQLite · Firebase · REST · System design · ADB · Automated testing</dd></div>
-          <div class="skill-g"><dt>AI</dt><dd>LLMs · Agentic systems · RAG · Prompt engineering · Conversational AI · Workflow automation</dd></div>
-        </dl>
+    </div>
+
+    <div class="sk-group">
+      <p class="sk-label">AI</p>
+      <div class="sk-grid">
+        <span class="tile sm" title="LLMs" aria-label="Large language models" role="img">LLM</span>
+        <span class="tile" title="Agentic systems" aria-label="Agentic systems" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.4" y="7.4" width="17.2" height="12.2" rx="3.4"/><circle cx="9" cy="13.4" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="13.4" r="1.5" fill="currentColor" stroke="none"/><path d="M12 3.2v4.2M8.6 17h6.8" stroke-linecap="round"/></svg></span>
+        <span class="tile sm" title="Retrieval-augmented generation" aria-label="Retrieval-augmented generation" role="img">RAG</span>
+        <span class="tile" title="Prompt engineering" aria-label="Prompt engineering" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.4 8.4l3.6 3.6-3.6 3.6M12.4 16.4h6.2"/></svg></span>
+        <span class="tile" title="Conversational AI" aria-label="Conversational AI" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 12.6c0 3.9-3.8 7-8.4 7-1 0-2-.15-2.9-.42L3.6 21l1.5-4.1a6.6 6.6 0 0 1-1.5-4.3c0-3.9 3.8-7 8.4-7s8.4 3.1 8.4 7z"/></svg></span>
+        <span class="tile" title="Workflow automation" aria-label="Workflow automation" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M12 2.6v3.2M12 18.2v3.2M21.4 12h-3.2M5.8 12H2.6M18.6 5.4l-2.3 2.3M7.7 16.3l-2.3 2.3M18.6 18.6l-2.3-2.3M7.7 7.7L5.4 5.4" stroke-linecap="round"/></svg></span>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ================= CONTACT ================= -->
-<section id="contact" class="contact" aria-labelledby="contact-h">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="idx">06 /</span>
-      <h2 id="contact-h" style="font-size:clamp(1.5rem,2.6vw,2rem);margin:0">Contact</h2>
-      <span class="note">Bengaluru or remote · replying same day</span>
-    </div>
-    <div class="reveal">
-      <h2 class="measure">Hiring for an AI-PM or product-engineering role? Let's talk.</h2>
-      <p class="lead">No form, no gate. Email is fastest — or go read the code first, that's what it's there for.</p>
-      <div class="contact-links">
-        <a class="cl" href="mailto:Gulatiluvish@gmail.com">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.4"/><path d="M3.4 6.6l8.6 6 8.6-6"/></svg>
-          <span class="k">Email</span><span class="v">Gulatiluvish@gmail.com</span>
-        </a>
-        <a class="cl" href="https://www.linkedin.com/in/luvish-gulati-282a84184" target="_blank" rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4z"/></svg>
-          <span class="k">LinkedIn</span><span class="v">/in/luvish-gulati</span>
-        </a>
-        <a class="cl" href="https://github.com/Luvishgulati03" target="_blank" rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
-          <span class="k">GitHub</span><span class="v">@Luvishgulati03</span>
-        </a>
-        <a class="cl" href="assets/Luvish_Gulati_Resume.pdf" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4v11.4M7.6 10.6l4.4 4.4 4.4-4.4M4 19.4h16"/></svg>
-          <span class="k">Résumé</span><span class="v">Download PDF</span>
-        </a>
+    <div class="sk-group">
+      <p class="sk-label">Product</p>
+      <div class="sk-grid">
+        <span class="tile" title="Discovery" aria-label="Product discovery" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.6"/><path d="M15.6 15.6l4.6 4.6"/></svg></span>
+        <span class="tile sm" title="PRDs" aria-label="Product requirement documents" role="img">PRD</span>
+        <span class="tile" title="Roadmapping" aria-label="Roadmapping" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M3.4 6.6h11M3.4 12h17.2M3.4 17.4h7.6"/></svg></span>
+        <span class="tile sm" title="Go-to-market" aria-label="Go to market" role="img">GTM</span>
+        <span class="tile" title="User journeys" aria-label="User journeys" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.4" cy="6" r="2.4"/><circle cx="18.6" cy="18" r="2.4"/><path d="M7.8 6h5.4a3.6 3.6 0 0 1 0 7.2h-2.4a2.4 2.4 0 0 0 0 4.8h5.4"/></svg></span>
+        <span class="tile sm" title="Mixpanel analytics" aria-label="Mixpanel analytics" role="img">MIX</span>
+        <span class="tile" title="Agile" aria-label="Agile" role="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M20.4 12a8.4 8.4 0 1 1-2.6-6.1"/><path d="M20.6 4.6v4.8h-4.8"/></svg></span>
       </div>
     </div>
-  </div>
-</section>
-</main>
+  </section>
 
-<footer>
-  <div class="wrap foot-in">
-    <p><span class="caret">&gt;_</span> Luvish Gulati · Bengaluru, India · 2026</p>
-    <p>One hand-written HTML file. No frameworks, no trackers, no external requests. View source.</p>
-  </div>
-</footer>
+  <div class="hatch"></div>
+
+  <!-- ============ GITHUB ============ -->
+  <section class="pad reveal" id="github">
+    <div class="h-row">
+      <h2 class="h-sec">github.</h2>
+      <a class="h-side" href="https://github.com/Luvishgulati03" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+        Luvishgulati03 ↗
+      </a>
+    </div>
+
+    <div class="hm-wrap">
+      <div class="hm-inner">
+        <div class="hm-months" aria-hidden="true"><!--GH_MONTHS-->
+<span style="grid-column:1">Aug</span><span style="grid-column:6">Sep</span><span style="grid-column:10">Oct</span><span style="grid-column:14">Nov</span><span style="grid-column:19">Dec</span><span style="grid-column:23">Jan</span><span style="grid-column:27">Feb</span><span style="grid-column:31">Mar</span><span style="grid-column:36">Apr</span><span style="grid-column:40">May</span><span style="grid-column:45">Jun</span><span style="grid-column:49">Jul</span>
+<!--/GH_MONTHS--></div>
+        <div class="hm" id="hm" role="img" aria-label="GitHub contribution heatmap for Luvishgulati03: 166 contributions between 3 Aug 2025 and 8 Aug 2026."><!--GH_GRID-->
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i class="l1" title="1 contribution on 2 Dec 2025"></i><i class="l4" title="13 contributions on 3 Dec 2025"></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i class="l2" title="3 contributions on 22 Jan 2026"></i><i></i><i></i>
+<i></i><i></i><i class="l4" title="10 contributions on 27 Jan 2026"></i><i class="l1" title="2 contributions on 28 Jan 2026"></i><i class="l4" title="16 contributions on 29 Jan 2026"></i><i></i><i></i>
+<i></i><i class="l2" title="3 contributions on 2 Feb 2026"></i><i class="l1" title="1 contribution on 3 Feb 2026"></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i class="l1" title="2 contributions on 20 Feb 2026"></i><i></i>
+<i></i><i class="l1" title="2 contributions on 23 Feb 2026"></i><i></i><i></i><i class="l1" title="2 contributions on 26 Feb 2026"></i><i></i><i></i>
+<i></i><i class="l1" title="2 contributions on 2 Mar 2026"></i><i></i><i class="l1" title="1 contribution on 4 Mar 2026"></i><i class="l1" title="1 contribution on 5 Mar 2026"></i><i class="l1" title="1 contribution on 6 Mar 2026"></i><i></i>
+<i></i><i></i><i></i><i class="l2" title="4 contributions on 11 Mar 2026"></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i class="l2" title="4 contributions on 19 Mar 2026"></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i class="l2" title="3 contributions on 19 May 2026"></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i class="l2" title="5 contributions on 21 Jun 2026"></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i class="l1" title="1 contribution on 4 Aug 2026"></i><i class="l2" title="5 contributions on 5 Aug 2026"></i><i class="l4" title="35 contributions on 6 Aug 2026"></i><i class="l4" title="39 contributions on 7 Aug 2026"></i><i class="l4" title="10 contributions on 8 Aug 2026"></i>
+<!--/GH_GRID--></div>
+      </div>
+    </div>
+
+    <div class="hm-foot">
+      <p><b id="ghcount" data-n="166">166</b> contributions in the last year</p>
+      <p class="legend"><span>Less</span><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>More</span></p>
+    </div>
+  </section>
+
+  <div class="hatch"></div>
+
+  <!-- ============ HENRY STATS ============ -->
+  <section class="pad reveal" id="henry-stats">
+    <h2 class="h-sec">henry stats.</h2>
+    <div class="stats">
+      <div><p class="n">384<span style="font-size:.6em">d</span></p><p class="k">Local embedding dimensions — bge-small-en-v1.5</p></div>
+      <div><p class="n">~10<span style="font-size:.6em">ms</span></p><p class="k">Embedding latency, on-device</p></div>
+      <div><p class="n">$0</p><p class="k">Marginal cost per run — no API keys</p></div>
+      <div><p class="n">8<span style="font-size:.6em">GB</span></p><p class="k">The M1 Air it all runs on</p></div>
+    </div>
+  </section>
+
+  </main>
+
+  <div class="rule"></div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="foot" id="contact">
+    <p>© <span id="yr">2026</span> Luvish Gulati · Bengaluru, IN</p>
+    <p>
+      <a href="mailto:Gulatiluvish@gmail.com">Gulatiluvish@gmail.com</a>
+      ·
+      <a href="https://github.com/Luvishgulati03" target="_blank" rel="noopener noreferrer">GitHub</a>
+      ·
+      <a href="https://www.linkedin.com/in/luvish-gulati-282a84184" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </p>
+  </footer>
+
+</div>
+</div>
 
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Luvish Gulati",
-  "url": "https://luvishgulati03.github.io/",
-  "jobTitle": "Product-Minded Software Engineer & AI Builder",
-  "email": "mailto:Gulatiluvish@gmail.com",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Bengaluru",
-    "addressRegion": "Karnataka",
-    "addressCountry": "IN"
-  },
-  "alumniOf": {
-    "@type": "CollegeOrUniversity",
-    "name": "Amity University"
-  },
-  "knowsAbout": ["AI product management", "Agentic systems", "Retrieval-augmented generation", "TypeScript", "Product discovery", "Go-to-market"],
-  "sameAs": [
-    "https://www.linkedin.com/in/luvish-gulati-282a84184",
-    "https://github.com/Luvishgulati03"
-  ]
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Luvish Gulati",
+  "jobTitle":"Product-minded software engineer & AI builder",
+  "email":"mailto:Gulatiluvish@gmail.com",
+  "url":"https://luvishgulati03.github.io/",
+  "address":{"@type":"PostalAddress","addressLocality":"Bengaluru","addressCountry":"IN"},
+  "alumniOf":{"@type":"CollegeOrUniversity","name":"Amity University"},
+  "sameAs":["https://github.com/Luvishgulati03","https://www.linkedin.com/in/luvish-gulati-282a84184"],
+  "knowsAbout":["AI product management","Agentic systems","Retrieval-augmented generation","TypeScript","Product discovery","Go-to-market"]
 }
 </script>
 
 <script>
 (function () {
   'use strict';
-  var root = document.documentElement;
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- theme ---------- */
+  /* ---------- theme toggle ---------- */
   var tt = document.getElementById('tt');
-  function paintToggle() {
-    var dark = root.getAttribute('data-theme') === 'dark';
-    tt.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
-    tt.setAttribute('aria-pressed', dark ? 'false' : 'true');
+  if (tt) {
+    tt.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('lg-theme', next); } catch (e) {}
+    });
   }
-  paintToggle();
-  tt.addEventListener('click', function () {
-    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('lg-theme', next); } catch (e) {}
-    paintToggle();
-  });
-  var sysQuery = window.matchMedia('(prefers-color-scheme: light)');
-  var onSys = function (e) {
-    var saved = null;
-    try { saved = localStorage.getItem('lg-theme'); } catch (err) {}
-    if (saved !== 'light' && saved !== 'dark') {
-      root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
-      paintToggle();
+
+  /* ---------- year ---------- */
+  var yr = document.getElementById('yr');
+  if (yr) { yr.textContent = String(new Date().getFullYear()); }
+
+  /* ---------- IST clock ---------- */
+  var clock = document.getElementById('clock');
+  var fmt = null;
+  try {
+    fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  } catch (e) { fmt = null; }
+  function tick() {
+    if (!clock) { return; }
+    if (fmt) { clock.textContent = fmt.format(new Date()); }
+    else {
+      var d = new Date(Date.now() + (330 + new Date().getTimezoneOffset()) * 60000);
+      var p = function (n) { return (n < 10 ? '0' : '') + n; };
+      clock.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
     }
-  };
-  if (sysQuery.addEventListener) { sysQuery.addEventListener('change', onSys); }
-  else if (sysQuery.addListener) { sysQuery.addListener(onSys); }
+  }
+  tick();
+  setInterval(tick, 1000);
 
-  /* ---------- sticky nav hairline ---------- */
-  var nav = document.getElementById('nav');
-  var onScroll = function () { nav.classList.toggle('stuck', window.scrollY > 8); };
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  /* ---------- scroll reveal ---------- */
+  /* ---------- reveal on scroll ---------- */
   var reveals = [].slice.call(document.querySelectorAll('.reveal'));
-  if (reduce.matches || !('IntersectionObserver' in window)) {
+  if (reduce || !('IntersectionObserver' in window)) {
     reveals.forEach(function (el) { el.classList.add('in'); });
   } else {
     var io = new IntersectionObserver(function (entries) {
@@ -1315,92 +1073,29 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
     reveals.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- terminal replay ---------- */
-  var body = document.getElementById('t-body');
-  var lines = [].slice.call(body.querySelectorAll('.t-line'));
-  var full = lines.map(function (l) {
-    var t = l.querySelector('.txt');
-    return t ? t.textContent : null;
-  });
-  var run = 0;
-  var timers = [];
-  var cursor = document.createElement('span');
-  cursor.className = 'cursor';
-  cursor.setAttribute('aria-hidden', 'true');
-
-  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
-  function complete() {
-    run++;
-    clearTimers();
-    if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
-    lines.forEach(function (l, i) {
-      l.classList.remove('hid');
-      if (full[i] !== null) { l.querySelector('.txt').textContent = full[i]; }
-    });
-    body.scrollTop = 0;
-  }
-  function play() {
-    run++;
-    var me = run;
-    clearTimers();
-    if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
-    lines.forEach(function (l, i) {
-      l.classList.add('hid');
-      if (full[i] !== null) { l.querySelector('.txt').textContent = ''; }
-    });
-    var i = 0;
-    function step() {
-      if (me !== run) { return; }
-      if (i >= lines.length) {
-        if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
-        return;
-      }
-      var line = lines[i];
-      line.classList.remove('hid');
-      body.scrollTop = body.scrollHeight;
-      if (full[i] !== null) {
-        var target = full[i];
-        var slot = line.querySelector('.txt');
-        slot.appendChild(cursor);
-        var c = 0;
-        (function type() {
-          if (me !== run) { return; }
-          if (c <= target.length) {
-            slot.textContent = target.slice(0, c);
-            slot.appendChild(cursor);
-            c++;
-            body.scrollTop = body.scrollHeight;
-            timers.push(setTimeout(type, 21 + Math.random() * 24));
-          } else {
-            if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
-            i++;
-            timers.push(setTimeout(step, 420));
-          }
-        })();
-      } else {
-        i++;
-        timers.push(setTimeout(step, line.textContent.trim() === '' ? 40 : 105));
-      }
-    }
-    step();
-  }
-
-  var replayBtn = document.getElementById('t-replay');
-  var skipBtn = document.getElementById('t-skip');
-  replayBtn.addEventListener('click', function () { reduce.matches ? complete() : play(); });
-  skipBtn.addEventListener('click', complete);
-
-  if (reduce.matches || !('IntersectionObserver' in window)) {
-    complete();
-  } else {
+  /* ---------- contribution count-up ---------- */
+  var gc = document.getElementById('ghcount');
+  if (gc && !reduce && 'IntersectionObserver' in window) {
+    var target = parseInt(gc.getAttribute('data-n'), 10) || 0;
     var seen = false;
-    var tio = new IntersectionObserver(function (entries) {
+    var cio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (en.isIntersecting && !seen) { seen = true; play(); tio.disconnect(); }
+        if (!en.isIntersecting || seen) { return; }
+        seen = true; cio.disconnect();
+        var t0 = performance.now(), dur = 900;
+        (function step(now) {
+          var k = Math.min(1, (now - t0) / dur);
+          gc.textContent = String(Math.round(target * (1 - Math.pow(1 - k, 3))));
+          if (k < 1) { requestAnimationFrame(step); } else { gc.textContent = String(target); }
+        })(t0);
       });
-    }, { threshold: 0.3 });
-    tio.observe(document.getElementById('term'));
+    }, { threshold: 0.4 });
+    cio.observe(gc);
   }
+
+  /* ---------- keep the heatmap scrolled to "now" on first paint ---------- */
+  var wrap = document.querySelector('.hm-wrap');
+  if (wrap) { wrap.scrollLeft = wrap.scrollWidth; }
 })();
 </script>
 </body>

@@ -1,39 +1,70 @@
-# luvishgulati03.github.io — personal portfolio
+# luvishgulati03.github.io — personal portfolio (v3)
 
 One hand-written HTML file. No frameworks, no build step, no dependencies, no external
 requests. Open `index.html` in a browser and that's the whole site.
 
 **Live:** https://luvishgulati03.github.io/
 
-## Design rationale (why it looks like this)
+## Design language
 
-1. **Recruiters scan a homepage in 6–10 seconds**, so the hero states name, level, target role
-   and every contact route above the fold — at 1440×900 *and* at 390×844. No gates, no forms.
-2. **One flagship case study beats five even ones.** Henry (an open-source local-first AI agent)
-   gets the full treatment — trade-offs, architecture, a replayed session, honest misses — with
-   two supporting studies and a compact "more builds" row behind it. More than 3–4 uneven case
-   studies reads as padding.
-3. **AI-PM screens grade decisions, not features**, so every claim is a decision with the option
-   I *didn't* choose named next to it, plus the cost I accepted.
-4. **Honesty is a design element.** The terminal demo is labelled "recorded session", and the
-   flagship ends with three things I got wrong. All-upside narratives read as staged.
-5. **Dark-first with a real light theme** — tokenised, toggled, `prefers-color-scheme` aware and
-   persisted. Inverting a dark site with a CSS filter is an accessibility anti-pattern, so the
-   light theme is a genuine second palette, AA-contrast in both directions.
+A **blueprint grid**: a single centred ~1060 px column on a pitch-dark ground, framed by 1 px
+dashed rules with small corner tick marks at every section intersection, and diagonal-hatch
+strips separating the major sections. Section titles are lowercase with a period —
+`work experience.`, `featured projects.`, `technical skills.`, `github.`, `henry stats.`
+
+1. **Recruiters scan a homepage in 6–10 seconds**, so the profile row states name, role,
+   location and a live IST clock above the fold, with every contact route one row below.
+2. **One flagship beats five even ones.** Henry (an open-source local-first AI agent) leads the
+   project list and is the only row carrying a `FLAGSHIP` tag.
+3. **Honesty is a design element.** The `github.` heatmap shows the *real* contribution total
+   pulled from the GitHub GraphQL API — not a flattering invention. The decorative mosaic in the
+   hero band is `aria-hidden` and carries no count, precisely so it can't be misread as data.
+   The one project without a public repo says "case study · private repo" instead of a dead link.
+4. **Dark-first with a real light theme** — tokenised, toggled and persisted. Inverting a dark
+   site with a CSS filter is an accessibility anti-pattern, so light is a genuine second palette.
+
+## GitHub contribution data
+
+The shipped page makes **zero** network requests, so contribution data is fetched at build time
+and baked into the HTML as static markup.
+
+```sh
+# 1. refresh the source data (requires `gh auth login`)
+gh api graphql -f query='query { user(login: "Luvishgulati03") { contributionsCollection { contributionCalendar { totalContributions weeks { contributionDays { contributionCount date } } } } } }' \
+  > data/github-contributions.json
+
+# 2. re-bake into index.html (idempotent)
+node scripts/build-heatmap.mjs
+```
+
+`scripts/build-heatmap.mjs` rewrites the regions between the `<!--GH_GRID-->`, `<!--GH_MONTHS-->`
+and `<!--HERO_BAND-->` markers, and keeps the headline count and the heatmap's `aria-label` in
+sync with `data/github-contributions.json`. The count on the page is always whatever is in that
+file — never hand-edited.
+
+## Adding a real photo (avatar slot)
+
+There is no photo yet, so the profile row shows a monochrome **LG** monogram. To swap in a real
+headshot, drop the file at `assets/me.jpg` and replace the avatar block in `index.html`
+(search for `<!-- Swap for`):
+
+```html
+<img class="avatar" src="assets/me.jpg" alt="Luvish Gulati" width="88" height="88">
+```
+
+then add `object-fit: cover;` to the `.avatar` rule. Nothing else depends on the monogram.
 
 ## Constraint: zero dependencies
 
-Everything — CSS, JS, the architecture diagram, the favicon, the icons — is inline in
+Everything — CSS, JS, the project cover art, the skill icons, the favicon — is inline in
 `index.html`. Nothing is fetched at runtime: no CDN, no web fonts (system stack only), no
-analytics, no trackers. The page is ~75 KB and paints in one round trip. This is enforced, not
-aspirational: a Playwright route-interception audit fails the build if a single request leaves
-`file://`.
+analytics, no trackers, no hotlinked logos. This is enforced, not aspirational: the audit fails
+if a single request leaves `file://`.
 
 ## How to run
 
 ```
 open index.html          # macOS
-# or just drag the file into any browser
 ```
 
 No install, no server, no `npm`.
@@ -42,22 +73,28 @@ No install, no server, no `npm`.
 
 ```
 index.html                       the entire site
+index-v2-backup.html             previous version, kept for reference
+content-dossier.md               the only source of factual claims on the page
+data/github-contributions.json   GitHub GraphQL response, baked in at build time
+scripts/build-heatmap.mjs        bakes contribution data into index.html
+scripts/audit.mjs                pre-publish gate (also writes shots/v3.png)
 assets/Luvish_Gulati_Resume.pdf  résumé (linked with <a download>)
 assets/og-card.html              1200×630 source for the social card
 assets/og.png                    rendered card, referenced by og:image / twitter:image
-shots/                           review screenshots — desktop + mobile, both themes
+shots/                           review screenshots
 ```
-
-`assets/og.png` is generated by screenshotting `assets/og-card.html` at 1200×630 with headless
-Chromium; it is not fetched by the page itself.
 
 ## Verified before shipping
 
-Headless Chromium checks that run against the file: zero console errors, zero external requests,
-hero fits above the fold at both target viewports, theme toggle flips and survives a reload,
-terminal replay types and is skippable and renders static-complete under
-`prefers-reduced-motion`, every in-page anchor resolves, mailto and résumé download present,
-page under 400 KB, and no horizontal scroll at 390 px in either theme.
+```sh
+cd ~/dev/henry && node ~/dev/portfolio/scripts/audit.mjs
+```
+
+23 headless-Chromium checks: zero console errors, zero external requests, no horizontal scroll at
+360/375/768/1440, every nav anchor resolves, single `h1` with no heading-level skips, blueprint
+framing present, 371 real heatmap cells with the count matching the data file, the clock actually
+ticks, all six projects linked over https, icon-only buttons carry `aria-label`s, og/twitter tags
+intact, and no content from the reference site leaked in.
 
 ## Contact
 
