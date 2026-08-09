@@ -8,6 +8,12 @@ import path from "node:path";
 import { chromium } from "/Users/luvishgulati/dev/henry/node_modules/playwright/index.mjs";
 
 const REPO = "/Users/luvishgulati/dev/portfolio";
+// Contribution expectations come from the DATA FILE, never hardcoded — the nightly
+// refetch changes them (audit 2026-08-09 B-M24; hardcoded 166 would have red-lined
+// the audit the first day the count moved while the auditless nightly kept pushing).
+const GH_CAL = JSON.parse(fs.readFileSync(path.join(REPO, "data/github-contributions.json"), "utf8")).data.user.contributionsCollection.contributionCalendar;
+const GH_TOTAL = String(GH_CAL.totalContributions);
+const GH_DAYS = GH_CAL.weeks.reduce((n, w) => n + w.contributionDays.length, 0);
 const PAGE = `file://${REPO}/index.html`;
 
 const CASE_PAGES = [
@@ -283,8 +289,8 @@ const checks = {
   "single h1 + no heading level skips": dom.h1 === 1 && dom.headingOrderOk,
   "lowercase section titles with a period": dom.h2s.length >= 5 && dom.h2s.every((t) => /^[a-z].*\.$/.test(t)),
   "blueprint framing (dashed rules + hatch strips)": dom.rules >= 3 && dom.hatches >= 4,
-  "heatmap present (371 real day cells)": dom.hmCells === 371,
-  "heatmap labelled + count matches data": /166 contributions/.test(dom.hmLabelled) && dom.ghCount === "166",
+  "heatmap present (real day cells match data)": dom.hmCells === GH_DAYS,
+  "heatmap labelled + count matches data": dom.hmLabelled.includes(`${GH_TOTAL} contributions`) && dom.ghCount === GH_TOTAL,
   "clock ticks (hh:mm:ss, value advances)": clockFormat && t1 !== t2,
   "5 project covers + 5 project rows": dom.thumbs === 5 && dom.projRows === 5,
   "3 work-experience rows": dom.xpRows === 3,
@@ -313,7 +319,7 @@ const checks = {
     Object.keys(srcMarkers).length === 6 &&
     Object.keys(srcMarkers).every((k) => k in expectedStats),
   "STAT markers survive the count-up in the DOM": statDomMismatches.length === 0,
-  "count-up lands on the real contribution total": statDom.ghcount === "166",
+  "count-up lands on the real contribution total": statDom.ghcount === GH_TOTAL,
   "every scroll-reveal section actually reveals": idxUnrevealed === 0,
 
   /* ---- case pages ---- */

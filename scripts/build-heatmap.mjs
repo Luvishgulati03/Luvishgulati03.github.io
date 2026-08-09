@@ -109,12 +109,19 @@ put("GH_GRID", "\n" + cells + "\n");
 
 // Keep the count and the aria-label honest and in sync with the data file.
 html = html
-  .replace(/<b id="ghcount" data-n="\d+">\d+<\/b>/, `<b id="ghcount" data-n="${total}">${total}</b>`)
+  // Attribute-tolerant + FATAL on no-match (audit 2026-08-09 B-H9): the old exact
+  // pattern missed the live markup's extra `data-count` attribute and no-op'd
+  // silently — the nightly deploy would have pushed a frozen headline forever.
+  .replace(/<b id="ghcount"([^>]*?)data-n="\d+">\d+<\/b>/, `<b id="ghcount"$1data-n="${total}">${total}</b>`)
   .replace(
     /(aria-label="GitHub contribution heatmap for Luvishgulati03: )[^"]*(")/,
     `$1${total} contributions between ${pretty(days[0].date)} and ${pretty(days[days.length - 1].date)}.$2`
   );
 
+if (!html.includes(`data-n="${total}">${total}</b>`)) {
+  console.error("FATAL: ghcount marker did not update — page structure drifted (see AGENT-GUIDE.md)");
+  process.exit(2);
+}
 writeFileSync(HTML, html);
 console.log(
   `baked: ${total} contributions · ${days.length} days · ${weeks.length} weeks · ` +
