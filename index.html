@@ -232,6 +232,10 @@ section[id],footer[id],span[id]{ scroll-margin-top:88px; }
 .band-grid i.d{ background:var(--h4); }
 .band-grid i.m{ background:color-mix(in srgb, var(--text) 12%, transparent); }
 .band-grid i.n{ background:color-mix(in srgb, var(--text) 22%, transparent); }
+.band-grid i{ transition: background .55s ease, box-shadow .55s ease, transform .55s ease; }
+.band-grid i.lit{ background:var(--h3); box-shadow:0 0 6px 1px color-mix(in srgb, var(--h4) 50%, transparent); }
+.band-grid i.lit.hot{ background:var(--h4); box-shadow:0 0 10px 2px color-mix(in srgb, var(--h4) 65%, transparent); transform:scale(1.18); }
+@media (prefers-reduced-motion:reduce){ .band-grid i{ transition:none; } }
 
 .profile{
   display:flex; align-items:center; gap:20px; flex-wrap:wrap;
@@ -1118,6 +1122,46 @@ li:hover .spark{ color:var(--accent); }
   /* ---------- keep the heatmap scrolled to "now" on first paint ---------- */
   var wrap = document.querySelector('.hm-wrap');
   if (wrap) { wrap.scrollLeft = wrap.scrollWidth; }
+})();
+
+/* ---------- living activity band: random sparkle + a commit wave ---------- */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cells = document.querySelectorAll('.band-grid i');
+  if (!cells.length) return;
+  var COLS = Math.floor(cells.length / 7);
+  var timers = [];
+  function lightCell(cell, hot, holdMs) {
+    cell.classList.add('lit');
+    if (hot) cell.classList.add('hot');
+    setTimeout(function () { cell.classList.remove('lit', 'hot'); }, holdMs);
+  }
+  // Constant gentle sparkle: a few random cells breathe at any moment.
+  var sparkle = setInterval(function () {
+    if (document.hidden) return;
+    for (var k = 0; k < 3; k++) {
+      var cell = cells[Math.floor(Math.random() * cells.length)];
+      lightCell(cell, Math.random() < 0.25, 700 + Math.random() * 1100);
+    }
+  }, 220);
+  timers.push(sparkle);
+  // Every few seconds a wave sweeps left→right — a push landing.
+  var sweep = setInterval(function () {
+    if (document.hidden) return;
+    for (var c = 0; c < COLS; c++) {
+      (function (col) {
+        setTimeout(function () {
+          for (var r = 0; r < 7; r++) {
+            if (Math.random() < 0.5) continue;
+            var idx = col * 7 + r;
+            if (cells[idx]) lightCell(cells[idx], Math.random() < 0.35, 450 + Math.random() * 350);
+          }
+        }, col * 26);
+      })(c);
+    }
+  }, 6500);
+  timers.push(sweep);
+  window.addEventListener('pagehide', function () { timers.forEach(clearInterval); });
 })();
 </script>
 </body>
