@@ -382,3 +382,9 @@ cd ~/dev/henry && node ~/dev/portfolio/scripts/audit.mjs
 # deploy — ONLY with Luvish's explicit go
 git push origin main
 ```
+
+## Copy style rule (Luvish, 2026-08-09)
+
+No em dashes (—) anywhere in site copy. They read as AI-generated. Restructure
+into shorter sentences, commas, colons, or parentheses instead. Date ranges use
+an en dash (Jun 2026 – Present). Title/meta separators use "·".

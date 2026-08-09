@@ -256,7 +256,7 @@ const statDomMismatches = Object.entries(expectedStats)
 const httpLinks = dom.links.filter((l) => /^https?:/i.test(l));
 const insecure = httpLinks.filter((l) => !l.startsWith("https://"));
 const projectRepos = [
-  "https://github.com/Luvishgulati03/ai-agent-",
+  "https://github.com/Luvishgulati03/henry-digital-personality-of-luvish",
   "https://github.com/Luvishgulati03/luvish-ai-twin-recruiters",
 ];
 // Repos that must NOT be linked anywhere on the page any more.
@@ -292,7 +292,7 @@ const checks = {
   "icon-only buttons have aria-labels": dom.iconBtnsLabelled,
   "all external links https": insecure.length === 0,
   "remaining project repos linked": projectRepos.every((r) => dom.links.includes(r)),
-  "flagship repo linked": dom.links.includes("https://github.com/Luvishgulati03/ai-agent-"),
+  "flagship repo linked": dom.links.includes("https://github.com/Luvishgulati03/henry-digital-personality-of-luvish"),
   "mailto present": dom.links.some((l) => l.startsWith("mailto:")),
   "linkedin present": dom.links.some((l) => l.includes("linkedin.com/in/")),
   "resume download present": dom.resumePdf,
