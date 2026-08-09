@@ -32,7 +32,7 @@ must not invent metrics, employers, or capabilities beyond this file.
 ## Projects (curated — quality over quantity; dupes/forks excluded)
 
 ### 1. FLAGSHIP — Henry: a personal AI agent / digital twin (open source)
-- Repo: https://github.com/Luvishgulati03/ai-agent-
+- Repo: https://github.com/Luvishgulati03/henry-digital-personality-of-luvish
 - One-liner: a terminal-first AI chief-of-staff that remembers, learns, schedules, and acts —
   built local-first on an 8GB M1 Air for ~$0 marginal cost (no API keys; orchestrates
   subscription CLIs).

@@ -93,7 +93,7 @@ Five projects. **Two different affordances**, and they are not interchangeable:
 
 | Project | Affordance |
 |---|---|
-| Henry | GitHub button → `github.com/Luvishgulati03/ai-agent-` |
+| Henry | GitHub button → `github.com/Luvishgulati03/henry-digital-personality-of-luvish` |
 | AI Digital Twin for Recruiters | GitHub button → `github.com/Luvishgulati03/luvish-ai-twin-recruiters` |
 | Coding Efficiency Measurement System | `case study · private repo` note, no link |
 | Risk AI Council | **`Case study →` → `projects/risk-ai-council.html`** |
