@@ -62,7 +62,7 @@ assets/
   og-card.html                    the source used to render og.png
   me.jpg                          NOT PRESENT YET — the avatar photo slot (see §6)
 
-shots/                            review screenshots, written by the audit
+shots/                            review screenshots, written by the audit — GITIGNORED
 ```
 
 ### index.html — sections in order
@@ -310,6 +310,9 @@ checks** across three groups:
   https-only external links.
 
 It also writes `shots/v3.png`, `shots/case-risk-ai-council.png` and `shots/case-carbonnex.png`.
+`shots/` is gitignored on purpose: the audit rewrites those PNGs on every run, and tracking them
+left the tree dirty afterwards, which made the nightly stats workflow refuse to push. They are
+local review artifacts — look at them, never commit them.
 
 If you add a section or a page, **add a check for it**. The audit is the only thing standing
 between an edit and production.
