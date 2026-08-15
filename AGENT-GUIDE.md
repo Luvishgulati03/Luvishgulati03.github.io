@@ -264,9 +264,21 @@ node scripts/build-heatmap.mjs
 ```
 
 `build-heatmap.mjs` also keeps `#ghcount` and the heatmap's `aria-label` in sync with the data
-file. The audit currently pins 371 day cells and a total of 166 — **if you refresh the data, those
-two expected values in `scripts/audit.mjs` must be updated too**, or the audit will fail on numbers
-that are actually correct.
+file.
+
+**The audit needs no edit when you refresh this.** It derives both expectations — the total and
+the day-cell count — from `data/github-contributions.json` itself (`audit.mjs:12-16`), then
+checks the page against them. Refetch, rebuild, run the audit; the numbers move together.
+
+This was not always true: the audit used to hardcode 371 cells and a total of 166, which would
+have red-lined the first night the real count moved while the nightly refresh kept pushing
+(audit 2026-08-09 B-M24, fixed in `7ae74bf`). If you ever reintroduce a literal contribution
+number anywhere in `audit.mjs`, you are rebuilding that bug.
+
+Both commands need an authenticated `gh` with the **`read:user`** scope — `contributionsCollection`
+is not readable anonymously. `gh auth login` (browser flow, so a human runs it) then
+`gh auth setup-git`; verify with `gh api graphql -f query='query { viewer { login } }'` before
+assuming a nightly refresh can work.
 
 ---
 
