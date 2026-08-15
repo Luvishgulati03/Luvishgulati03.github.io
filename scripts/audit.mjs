@@ -16,10 +16,30 @@ const GH_TOTAL = String(GH_CAL.totalContributions);
 const GH_DAYS = GH_CAL.weeks.reduce((n, w) => n + w.contributionDays.length, 0);
 const PAGE = `file://${REPO}/index.html`;
 
+// Each entry names the h1 the page must carry and the role chip it must show, so
+// adding a case study means adding a row here, not editing a check body.
 const CASE_PAGES = [
-  { file: "projects/risk-ai-council.html", shot: "case-risk-ai-council.png", h1: "Risk AI Council" },
-  { file: "projects/carbonnex.html", shot: "case-carbonnex.png", h1: "CarbonNex" },
+  { file: "projects/bose.html", shot: "case-bose.png", h1: "Bose", chip: "AI teacher + proctor" },
+  { file: "projects/henry.html", shot: "case-henry.png", h1: "Henry", chip: "Personal agent + PM twin" },
+  { file: "projects/risk-ai-council.html", shot: "case-risk-ai-council.png", h1: "Risk AI Council", chip: "GTM + Content Lead @ Pink Unicorn Algorithms" },
+  { file: "projects/carbonnex.html", shot: "case-carbonnex.png", h1: "CarbonNex", chip: "Associate Product Manager" },
 ];
+
+// Bose ships out of a private repo and runs inside a school. Neither agent may ever be
+// attached to an employer, and Bose may never carry a repo link. Applied to the two agent
+// case pages in full, and to the #flagships block on the homepage. NOT to the rest of
+// index.html: GrowthX is a public resume fact and stays in work experience and the intro.
+// Note: there is deliberately no "student data" regex. The only phrasings a regex could catch
+// are the ones this site *should* say ("a student's name never reaches an external model"), and
+// it could never catch a real leak, since an actual name looks like any other word. The
+// invariants that ARE checkable are the employer attribution, the Bose repo link, and any
+// contact address that is not Luvish's own.
+const FORBIDDEN = [
+  { re: /growthx/i, why: "no employer may be attached to Henry or Bose" },
+  { re: /github\.com\/[^"'\s<]*bose/i, why: "Bose is a private repo, never link one" },
+  { re: /mailto:(?!Gulatiluvish@gmail\.com)/i, why: "no third-party contact details" },
+];
+const AGENT_PAGES = ["projects/bose.html", "projects/henry.html"];
 
 /** Scroll the whole page so every IntersectionObserver reveal fires, then return
  *  to the top. Without this a fullPage screenshot captures .reveal sections at
@@ -67,7 +87,22 @@ const dom = await page.evaluate(() => {
     links,
     navHrefs,
     navTargetsResolve: navHrefs.every((h) => !!document.querySelector(h)),
-    sections: ["experience", "projects", "skills", "github", "henry-stats", "contact"].filter((id) => !document.getElementById(id)),
+    sections: ["flagships", "experience", "projects", "skills", "github", "henry-stats", "contact"].filter((id) => !document.getElementById(id)),
+    // the two flagship agents must be presented as equals: same card component,
+    // same number of spec rows, and both named.
+    flagship: (() => {
+      const sec = document.getElementById("flagships");
+      if (!sec) return null;
+      const cards = [...sec.querySelectorAll(".fg-card")];
+      return {
+        cards: cards.length,
+        names: cards.map((c) => c.querySelector("h3")?.textContent.trim() || ""),
+        specRows: cards.map((c) => c.querySelectorAll(".fg-spec li").length),
+        chips: cards.map((c) => c.querySelectorAll(".fg-cap").length),
+        links: cards.map((c) => [...c.querySelectorAll("a[href]")].map((a) => a.getAttribute("href"))),
+        figs: sec.querySelectorAll("svg[role='img'][aria-label]").length,
+      };
+    })(),
     h1: document.querySelectorAll("h1").length,
     h2s: [...document.querySelectorAll("h2")].map((h) => h.textContent.trim()),
     headingOrderOk: (() => {
@@ -270,14 +305,36 @@ const bannedRepos = dom.links.filter((l) => /risk-council|carbonnex-website|Comp
 // Relative .html links from index must resolve to real files.
 const caseHrefs = [...new Set(dom.links.filter((l) => /^projects\/.+\.html$/.test(l)))];
 const missingCaseFiles = caseHrefs.filter((h) => !fs.existsSync(path.join(REPO, h)));
-// Two rows must offer "Case study →"; the rest keep their GitHub repo buttons.
+// Four rows must offer "Case study →" (bose, henry, risk council, carbonnex); Henry and
+// the AI twin also keep their GitHub repo buttons. Bose never gets one: private repo.
 const caseStudyBtns = dom.caseBtns.filter((b) => /^projects\/.+\.html$/.test(b.href));
 const repoBtns = dom.caseBtns.filter((b) => /^https:\/\/github\.com\//.test(b.href));
 const caseBtnsOk =
-  caseStudyBtns.length === 2 &&
+  caseStudyBtns.length === 4 &&
   caseStudyBtns.every((b) => /case\s*study/i.test(b.text)) &&
   repoBtns.length === 2 &&
   caseStudyBtns.length + repoBtns.length === dom.caseBtns.length;
+
+/* ---------- leak gate: agent pages + the flagship block carry nothing private ---------- */
+const flagshipSrc = (idxSrc.match(/<section[^>]*id="flagships"[\s\S]*?<\/section>/) || [""])[0];
+const leakTargets = [
+  ...AGENT_PAGES.map((f) => [f, fs.existsSync(path.join(REPO, f)) ? fs.readFileSync(path.join(REPO, f), "utf8") : ""]),
+  ["index.html #flagships", flagshipSrc],
+];
+const leaks = [];
+for (const [where, src] of leakTargets) {
+  for (const { re, why } of FORBIDDEN) {
+    const hit = src.match(re);
+    if (hit) leaks.push(`${where}: "${hit[0]}" (${why})`);
+  }
+}
+// Bose's page must contain no repo link of any kind.
+const boseSrc = leakTargets[0][1];
+const boseRepoLinks = [...boseSrc.matchAll(/https?:\/\/(?:www\.)?(?:github|gitlab|bitbucket)\.com\/[^"'\s<]*/gi)].map((m) => m[0]);
+// Copy-style rule (Luvish, 2026-08-09): no em dashes in site copy, on any page.
+const emDashPages = ["index.html", ...CASE_PAGES.map((c) => c.file)].filter((f) =>
+  fs.existsSync(path.join(REPO, f)) && fs.readFileSync(path.join(REPO, f), "utf8").includes("—")
+);
 
 const checks = {
   /* ---- index: existing gates ---- */
@@ -292,7 +349,7 @@ const checks = {
   "heatmap present (real day cells match data)": dom.hmCells === GH_DAYS,
   "heatmap labelled + count matches data": dom.hmLabelled.includes(`${GH_TOTAL} contributions`) && dom.ghCount === GH_TOTAL,
   "clock ticks (hh:mm:ss, value advances)": clockFormat && t1 !== t2,
-  "5 project covers + 5 project rows": dom.thumbs === 5 && dom.projRows === 5,
+  "6 project covers + 6 project rows": dom.thumbs === 6 && dom.projRows === 6,
   "3 work-experience rows": dom.xpRows === 3,
   "skill tiles rendered": dom.tiles >= 20,
   "icon-only buttons have aria-labels": dom.iconBtnsLabelled,
@@ -313,7 +370,32 @@ const checks = {
   "index has zero Compiler references": !/compiler/i.test(idxSrc),
   "no repo links for riskaicouncil / carbonnex / compiler": bannedRepos.length === 0,
   "both work products use a Case study → affordance": caseBtnsOk,
-  "case-study links resolve to existing files": caseHrefs.length === 2 && missingCaseFiles.length === 0,
+  "case-study links resolve to existing files": caseHrefs.length === 4 && missingCaseFiles.length === 0,
+
+  /* ---- the two flagship agents ---- */
+  "flagship section presents exactly two agent cards": dom.flagship?.cards === 2,
+  "flagship cards name Bose and Henry, Bose first": (() => {
+    const n = dom.flagship?.names || [];
+    return n.length === 2 && n[0] === "Bose" && n[1] === "Henry";
+  })(),
+  "flagship cards are equals (same spec rows, same chip count)": (() => {
+    const f = dom.flagship;
+    if (!f) return false;
+    return f.specRows.length === 2 && f.specRows[0] === f.specRows[1] && f.specRows[0] >= 4 &&
+      f.chips.length === 2 && Math.abs(f.chips[0] - f.chips[1]) <= 1 && f.chips[0] >= 6;
+  })(),
+  "flagship section carries a labelled shared-architecture figure": (dom.flagship?.figs || 0) >= 1,
+  "both agent case pages linked from the flagship section": (() => {
+    const l = (dom.flagship?.links || []).flat();
+    return l.includes("projects/bose.html") && l.includes("projects/henry.html");
+  })(),
+  "Bose card carries no repo link (private repo)": (() => {
+    const l = (dom.flagship?.links || [])[0] || [];
+    return l.every((h) => !/github\.com|gitlab\.com|bitbucket\.org/i.test(h));
+  })(),
+  "no employer / student / Bose-repo leak on the agent surfaces": leaks.length === 0,
+  "Bose case page links no repo anywhere": boseRepoLinks.length === 0,
+  "no em dashes in site copy": emDashPages.length === 0,
   "STAT markers baked with the JSON's exact values": statMismatches.length === 0,
   "no stray STAT markers (exactly the 6 real keys)":
     Object.keys(srcMarkers).length === 6 &&
@@ -348,9 +430,7 @@ const checks = {
   "case pages: labelled inline-SVG diagram, no raster images": caseResults.every(
     (r) => r.figs >= 1 && r.figLabelled && r.imgTags === 0
   ),
-  "case pages: role chip present": caseResults.every((r) => r.chips.length >= 2) &&
-    caseResults[0].chips.includes("GTM + Content Lead @ Pink Unicorn Algorithms") &&
-    caseResults[1].chips.includes("Associate Product Manager"),
+  "case pages: role chip present": caseResults.every((r) => r.chips.length >= 2 && r.chips.includes(r.chip)),
   "case pages: theme toggle labelled": caseResults.every((r) => r.iconBtnsLabelled),
   "case pages: all external links https": caseResults.every((r) => r.httpLinks.every((h) => h.startsWith("https://"))),
   "case pages: every scroll-reveal section actually reveals": caseResults.every((r) => r.unrevealed === 0),
@@ -370,6 +450,9 @@ if (bannedRepos.length) console.log("banned repo links still present:", bannedRe
 if (missingCaseFiles.length) console.log("missing case files:", missingCaseFiles);
 if (statMismatches.length) console.log("stat marker mismatches (source):", statMismatches);
 if (statDomMismatches.length) console.log("stat marker mismatches (dom):", statDomMismatches);
+if (leaks.length) console.log("LEAKS:", leaks);
+if (boseRepoLinks.length) console.log("Bose repo links (must be none):", boseRepoLinks);
+if (emDashPages.length) console.log("em dashes found in:", emDashPages);
 for (const r of caseResults) {
   if (r.errors.length) console.log(`${r.file} errors:`, r.errors);
   if (r.external.length) console.log(`${r.file} external:`, r.external.slice(0, 5));

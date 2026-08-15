@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Luvish Gulati · Product-Minded Engineer &amp; AI Builder</title>
-<meta name="description" content="Product-minded software engineer and AI builder in Bengaluru. APM turned SWE intern, building Henry, an open-source local-first AI chief-of-staff. Open to AI-PM and product-engineering roles.">
+<meta name="description" content="Product-minded software engineer and AI builder in Bengaluru. Two flagship agents on one architecture: Bose, an AI teacher and proctor for schools, and Henry, a terminal-first personal agent. Open to AI-PM and product-engineering roles.">
 <meta name="author" content="Luvish Gulati">
 <meta name="color-scheme" content="dark light">
 <link rel="canonical" href="https://luvishgulati03.github.io/">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Luvish Gulati">
 <meta property="og:title" content="Luvish Gulati · Product-Minded Engineer &amp; AI Builder">
-<meta property="og:description" content="I don't just spec products, I ship them. APM → SWE intern → builder of Henry, an open-source AI chief-of-staff that runs my job hunt.">
+<meta property="og:description" content="Two flagship agents, one architecture. Henry runs my life. Bose teaches a school.">
 <meta property="og:url" content="https://luvishgulati03.github.io/">
 <meta property="og:image" content="https://luvishgulati03.github.io/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
 <meta property="og:image:alt" content="Luvish Gulati, product-minded engineer and AI builder.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Luvish Gulati · Product-Minded Engineer &amp; AI Builder">
-<meta name="twitter:description" content="I don't just spec products, I ship them. Builder of Henry, an open-source local-first AI chief-of-staff.">
+<meta name="twitter:description" content="Two flagship agents, one architecture. Henry runs my life. Bose teaches a school.">
 <meta name="twitter:image" content="https://luvishgulati03.github.io/assets/og.png">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e1a'/%3E%3Cpath d='M14 22l10 10-10 10' fill='none' stroke='%234ee6b8' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='31' y='38' width='19' height='6' rx='3' fill='%234ee6b8'/%3E%3C/svg%3E">
@@ -63,6 +63,11 @@
   --accent-dim:rgba(61,220,132,.14);
   --accent-ink:#04120a;
 
+  /* Bose's accent. Henry uses --accent; Bose needs its own so the two flagship
+     agents read as different systems, and it needs a light-theme value like
+     every other colour on this page. */
+  --bose:#8c7dff;
+
   /* contribution levels */
   --h0:#151519; --h1:#0d4023; --h2:#1a7a3f; --h3:#28b96b; --h4:#4ff08f;
 
@@ -94,6 +99,8 @@
   --accent-2:#096341;
   --accent-dim:rgba(11,125,82,.12);
   --accent-ink:#ffffff;
+
+  --bose:#5b4bd6;
 
   --h0:#e4e3dc; --h1:#b8e6c6; --h2:#5cc389; --h3:#249d5d; --h4:#0f6d3c;
 }
@@ -443,6 +450,87 @@ li:hover .spark{ color:var(--accent); }
 }
 
 /* ============================================================
+   11b. FLAGSHIP AGENTS - two equal cards, one shared-spine figure
+   ============================================================ */
+.fg-kicker{
+  font-family:var(--f-mono); font-size:11.5px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--text-3); margin-bottom:12px;
+}
+.fg-lede{ color:var(--text-2); font-size:clamp(15.5px,2.1vw,17.5px); max-width:64ch; }
+.fg-lede b{ color:var(--text); font-weight:600; }
+
+.fg-fig{
+  border:1px dashed var(--rule); border-radius:14px; background:var(--panel);
+  padding:clamp(14px,3vw,24px); margin-top:26px;
+}
+.fg-fig svg{ display:block; width:100%; height:auto; max-width:560px; margin:0 auto; }
+.fg-figcap{
+  font-family:var(--f-mono); font-size:11.5px; line-height:1.75; letter-spacing:.02em;
+  color:var(--text-3); margin-top:16px; text-align:center; max-width:62ch; margin-inline:auto;
+}
+.fg-figcap b{ color:var(--text-2); font-weight:600; }
+.fg-fig .dash{ stroke-dasharray:5 6; animation:dashmove 2.6s linear infinite; }
+
+.fg-grid{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px; margin-top:22px;
+}
+.fg-card{
+  position:relative; display:flex; flex-direction:column; min-width:0;
+  padding:22px; border:1px dashed var(--rule); border-radius:14px;
+  background:var(--panel); overflow:hidden;
+  transition:border-color .2s ease, transform .2s ease;
+}
+.fg-card::before{ content:""; position:absolute; inset:0 0 auto 0; height:2px; background:var(--c1); }
+.fg-card:hover{ border-color:var(--c1); transform:translateY(-3px); }
+.fg-chips{ display:flex; flex-wrap:wrap; gap:7px; }
+.fg-chip{
+  font-family:var(--f-mono); font-size:11.5px; letter-spacing:.04em; line-height:1.25;
+  padding:6px 9px; border-radius:7px; max-width:100%; overflow-wrap:anywhere;
+  border:1px solid var(--c1); color:var(--c1); background:color-mix(in srgb, var(--c1) 11%, transparent);
+}
+.fg-chip.ghost{ border-style:dashed; border-color:var(--edge); color:var(--text-3); background:var(--panel-2); }
+.fg-card h3{ font-size:clamp(25px,3vw,32px); letter-spacing:-.035em; margin:22px 0 8px; }
+.fg-pos{ color:var(--text-2); font-size:15px; line-height:1.5; max-width:44ch; }
+.fg-spec{ margin-top:20px; border-top:1px dashed var(--rule-soft); }
+.fg-spec li{
+  display:grid; grid-template-columns:minmax(76px,.36fr) minmax(0,1fr); gap:14px;
+  padding:10px 0; border-bottom:1px dashed var(--rule-soft);
+  font-family:var(--f-mono); font-size:12px; line-height:1.45;
+}
+.fg-spec b{ color:var(--text-3); font-weight:500; }
+.fg-spec span{ color:var(--text-2); min-width:0; overflow-wrap:anywhere; }
+.fg-cloud{ display:flex; flex-wrap:wrap; gap:6px; margin-top:18px; }
+.fg-cap{
+  font-family:var(--f-mono); font-size:11.5px; line-height:1.25; color:var(--text-3);
+  padding:5px 8px; border:1px solid var(--rule); border-radius:6px; background:var(--panel-2);
+}
+.fg-act{
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  margin-top:auto; padding-top:18px; border-top:1px dashed var(--rule-soft);
+}
+.fg-act .pill{ height:40px; padding:0 14px; border-radius:11px; font-size:14px; white-space:nowrap; }
+.fg-act .pill .arw{ display:inline-block; font-family:var(--f-mono); transition:transform .18s; }
+.fg-act .pill:hover .arw{ transform:translateX(3px); }
+.fg-act .sq{ width:40px; height:40px; border-radius:11px; }
+.fg-act .sq svg{ width:17px; height:17px; }
+.fg-note{ font-family:var(--f-mono); font-size:11.5px; color:var(--text-3); }
+.fg-thesis{
+  display:flex; align-items:center; gap:14px; margin-top:26px;
+  font-family:var(--f-mono); font-size:12px; letter-spacing:.03em; color:var(--text-2);
+  text-align:center;
+}
+.fg-thesis i{ flex:1; min-width:14px; border-top:1px dashed var(--rule); font-style:normal; }
+@media (max-width:880px){
+  .fg-grid{ grid-template-columns:minmax(0,1fr); }
+}
+@media (max-width:420px){
+  .fg-card{ padding:18px; }
+  .fg-spec li{ grid-template-columns:minmax(64px,.4fr) minmax(0,1fr); gap:10px; }
+  .fg-thesis{ gap:9px; }
+}
+
+/* ============================================================
    12. FOOTER
    ============================================================ */
 .foot{
@@ -514,7 +602,8 @@ li:hover .spark{ color:var(--accent); }
       <a class="mark" href="#top">luvish.</a>
       <nav class="nav-links" aria-label="Primary">
         <a href="#skills" class="hide-s">skills</a>
-        <a href="#projects">projects</a>
+        <a href="#projects" class="hide-s">projects</a>
+        <a href="#flagships">agents</a>
         <a href="#contact">contact</a>
         <a href="assets/Luvish_Gulati_Resume.pdf" download>resume</a>
         <button class="tt" id="tt" type="button" aria-label="Switch colour theme">
@@ -566,7 +655,7 @@ li:hover .spark{ color:var(--accent); }
   <section class="pad intro" style="padding-block:30px">
     <p>Hey, I'm <b>Luvish</b>. I own products end to end: discovery and PRDs through code, launch, GTM and analytics. These days I'm a Software Engineering Intern at <b>GrowthX</b>, where I brought community notifications to mobile end to end (unified in-app + push gating, per-channel preferences, native banners), shipped an AI reviewer that gates incomplete event listings, ran the app-install GTM across transactional emails, and built a device-level E2E harness that asserts push-vs-silence against the OS itself.</p>
     <p>Before that I was an Associate Product Manager at <b>Pink Unicorn Algorithms</b>, running three products (<b>CarbonNex</b>, <b>Rapidero</b> and <b>Risk AI Council</b>), and an Associate Product Consultant Intern at <b>Cvent</b> across 10+ enterprise accounts.</p>
-    <p>My main build is <a href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer">Henry</a>, an open-source, local-first AI chief-of-staff. It has a human-like memory engine (semantic + lexical recall over an associative graph that consolidates nightly), cited RAG retrieval over my GTM and project-management playbooks, a Telegram standup bot for my team, and a morning job scout. All of it runs on an 8&nbsp;GB M1 Air at roughly $0 marginal cost. Nothing goes outbound without my sign-off, and it maintains and deploys this website itself.</p>
+    <p>What I actually build is agents. Two of them are real, shipped and running: <a href="projects/bose.html">Bose</a>, an AI teacher and proctor that lives inside a school, and <a href="projects/henry.html">Henry</a>, the terminal-first personal agent I run as my own project-management twin. They are the same architecture, deployed twice. Henry runs my life. Bose teaches a school.</p>
   </section>
 
   <!-- ============ SOCIAL ============ -->
@@ -591,6 +680,150 @@ li:hover .spark{ color:var(--accent); }
       </a>
     </div>
   </div>
+
+  <div class="hatch"></div>
+
+  <!-- ============ FLAGSHIP AGENTS ============
+       Two agents, one architecture. They are presented as equals on purpose:
+       same card component, same spec-row count, same chip count. The audit
+       enforces that (see scripts/audit.mjs). Bose is listed first because it
+       is the product; Henry second because it is the origin story.
+       Facts: content-dossier.md § "Update 2026-08-15 - TWO FLAGSHIP AGENTS".
+       NEVER add a repo link to the Bose card: the repo is private. -->
+  <section class="pad reveal" id="flagships">
+    <p class="fg-kicker">One architecture · two deployments</p>
+    <h2 class="h-sec">flagship agents.</h2>
+    <p class="fg-lede">I build agents that are allowed to act, which means most of the work is in the parts that decide what they are <b>not</b> allowed to do. Two of them are real, shipped and running on the same spine.</p>
+
+    <div class="fg-fig">
+      <svg viewBox="0 0 400 300" role="img" aria-label="Diagram: a shared spine of memory, retrieval, routing and guardrails branches left into Bose with tutor, papers and proctor, and right into Henry with scout, standup and tweets.">
+        <g aria-hidden="true">
+          <path d="M20 0v300M60 0v300M100 0v300M140 0v300M180 0v300M220 0v300M260 0v300M300 0v300M340 0v300M380 0v300M0 30h400M0 70h400M0 110h400M0 150h400M0 190h400M0 230h400M0 270h400" fill="none" stroke="var(--accent)" stroke-opacity=".07" stroke-width="1"/>
+          <path d="M9 23V9h14M377 9h14v14M9 277v14h14M377 291h14v-14" fill="none" stroke="var(--tick)" stroke-width="1.2"/>
+        </g>
+
+        <rect x="121" y="39" width="158" height="220" rx="10" fill="var(--panel-2)" stroke="var(--rule)" stroke-width="1" stroke-dasharray="4 5"/>
+        <text x="200" y="30" text-anchor="middle" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="13" letter-spacing="1.4">SHARED SPINE</text>
+
+        <rect x="134" y="53" width="132" height="34" rx="7" fill="var(--panel)" stroke="var(--rule-soft)" stroke-width="1"/>
+        <rect x="134" y="95" width="132" height="34" rx="7" fill="var(--panel)" stroke="var(--rule-soft)" stroke-width="1"/>
+        <rect x="134" y="137" width="132" height="34" rx="7" fill="var(--panel)" stroke="var(--rule-soft)" stroke-width="1"/>
+        <rect x="134" y="179" width="132" height="34" rx="7" fill="var(--panel)" stroke="var(--accent)" stroke-opacity=".55" stroke-width="1.3"/>
+        <g text-anchor="middle" fill="var(--text)" font-family="ui-monospace,monospace" font-size="15" letter-spacing=".8">
+          <text x="200" y="75">MEMORY</text>
+          <text x="200" y="117">RETRIEVAL</text>
+          <text x="200" y="159">ROUTING</text>
+          <text x="200" y="201">GUARDRAILS</text>
+        </g>
+
+        <path class="dash" d="M121 155H109M109 155L99 106M109 155H99M109 155L99 204" fill="none" stroke="var(--bose)" stroke-width="1.5"/>
+        <path class="dash" d="M279 155H291M291 155L301 106M291 155H301M291 155L301 204" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+        <g fill="var(--bose)"><path d="M106 101L96 106L106 111Z"/><path d="M106 150L96 155L106 160Z"/><path d="M106 199L96 204L106 209Z"/></g>
+        <g fill="var(--accent)"><path d="M294 101L304 106L294 111Z"/><path d="M294 150L304 155L294 160Z"/><path d="M294 199L304 204L294 209Z"/></g>
+
+        <text x="57" y="34" text-anchor="middle" fill="var(--bose)" font-family="ui-monospace,monospace" font-size="17" letter-spacing="1.2">BOSE</text>
+        <text x="343" y="34" text-anchor="middle" fill="var(--accent)" font-family="ui-monospace,monospace" font-size="17" letter-spacing="1.2">HENRY</text>
+
+        <g fill="var(--panel)" stroke="var(--bose)" stroke-opacity=".7" stroke-width="1">
+          <rect x="18" y="94" width="78" height="24" rx="6"/>
+          <rect x="18" y="143" width="78" height="24" rx="6"/>
+          <rect x="18" y="192" width="78" height="24" rx="6"/>
+        </g>
+        <g text-anchor="middle" fill="var(--text)" font-family="ui-monospace,monospace" font-size="13">
+          <text x="57" y="111">TUTOR</text>
+          <text x="57" y="160">PAPERS</text>
+          <text x="57" y="209">PROCTOR</text>
+        </g>
+
+        <g fill="var(--panel)" stroke="var(--accent)" stroke-opacity=".7" stroke-width="1">
+          <rect x="304" y="94" width="78" height="24" rx="6"/>
+          <rect x="304" y="143" width="78" height="24" rx="6"/>
+          <rect x="304" y="192" width="78" height="24" rx="6"/>
+        </g>
+        <g text-anchor="middle" fill="var(--text)" font-family="ui-monospace,monospace" font-size="13">
+          <text x="343" y="111">SCOUT</text>
+          <text x="343" y="160">STANDUP</text>
+          <text x="343" y="209">TWEETS</text>
+        </g>
+
+        <path d="M134 196H104M266 196H296" fill="none" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 4"/>
+        <text x="100" y="240" text-anchor="middle" fill="var(--bose)" font-family="ui-monospace,monospace" font-size="10" letter-spacing=".4">TEACHER APPROVES</text>
+        <text x="300" y="240" text-anchor="middle" fill="var(--accent)" font-family="ui-monospace,monospace" font-size="10" letter-spacing=".4">I APPROVE</text>
+        <path d="M100 228V214H134M300 228V214H266" fill="none" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 4"/>
+
+        <rect x="18" y="250" width="364" height="40" rx="8" fill="none" stroke="var(--rule)" stroke-width="1" stroke-dasharray="5 5"/>
+        <text x="200" y="267" text-anchor="middle" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".8">SAME GUARDRAIL LAYER</text>
+        <text x="200" y="282" text-anchor="middle" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".8">TWO ANSWERS TO "WHO SIGNS OFF"</text>
+      </svg>
+      <p class="fg-figcap"><b>One spine, two deployments.</b> Memory, retrieval, routing and guardrails are shared. What changes is the surface it reaches through and who holds the approval, and that turned out to be the whole difference between a personal agent and one a school can run.</p>
+    </div>
+
+    <div class="fg-grid">
+      <article class="fg-card" style="--c1:var(--bose)">
+        <div class="fg-chips">
+          <span class="fg-chip">AI TEACHER + PROCTOR</span>
+          <span class="fg-chip ghost">PRIVATE REPO</span>
+        </div>
+        <h3>Bose</h3>
+        <p class="fg-pos">Henry's twin for schools. It teaches from the school's own material, sets and marks the papers, and proctors the exam.</p>
+        <ul class="fg-spec">
+          <li><b>stack</b><span>class-scoped RAG · local embeddings</span></li>
+          <li><b>privacy</b><span>AES-256-GCM vault · scrub before persist</span></li>
+          <li><b>proctoring</b><span>browser-only, events never video</span></li>
+          <li><b>guardrail</b><span>teacher approves anything student-facing</span></li>
+          <li><b>tests</b><span>240+ green</span></li>
+        </ul>
+        <div class="fg-cloud">
+          <span class="fg-cap">identity airlock</span>
+          <span class="fg-cap">class RAG</span>
+          <span class="fg-cap">tutor mode</span>
+          <span class="fg-cap">paper engine</span>
+          <span class="fg-cap">online tests</span>
+          <span class="fg-cap">exam proctoring</span>
+          <span class="fg-cap">karma ladder</span>
+          <span class="fg-cap">teacher tools</span>
+        </div>
+        <div class="fg-act">
+          <a class="pill" href="projects/bose.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
+          <span class="fg-note">private repo</span>
+        </div>
+      </article>
+
+      <article class="fg-card" style="--c1:#3ddc84">
+        <div class="fg-chips">
+          <span class="fg-chip">PERSONAL AGENT + PM TWIN</span>
+          <span class="fg-chip ghost">OPEN SOURCE</span>
+        </div>
+        <h3>Henry</h3>
+        <p class="fg-pos">A terminal-first personal agent I run as my own project-management twin. It remembers, it routes, and it works while I sleep.</p>
+        <ul class="fg-spec">
+          <li><b>stack</b><span>TypeScript ESM · zero heavy deps</span></li>
+          <li><b>memory</b><span>Engram + RAG over 900+ modules</span></li>
+          <li><b>reach</b><span>terminal, Telegram, scheduler</span></li>
+          <li><b>guardrail</b><span>1 post a day · kill switch · mirrored to me</span></li>
+          <li><b>tests</b><span>530+ green</span></li>
+        </ul>
+        <div class="fg-cloud">
+          <span class="fg-cap">two-store memory</span>
+          <span class="fg-cap">knowledge RAG</span>
+          <span class="fg-cap">routing brain</span>
+          <span class="fg-cap">job scout</span>
+          <span class="fg-cap">resume tailoring</span>
+          <span class="fg-cap">Telegram bridge</span>
+          <span class="fg-cap">standup</span>
+          <span class="fg-cap">tweet rails</span>
+        </div>
+        <div class="fg-act">
+          <a class="pill" href="projects/henry.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
+          <a class="sq" href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer" aria-label="Henry on GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <p class="fg-thesis"><i aria-hidden="true"></i><span>Henry runs my life. Bose teaches a school. Same spine, two deployments.</span><i aria-hidden="true"></i></p>
+  </section>
 
   <div class="hatch"></div>
 
@@ -632,7 +865,40 @@ li:hover .spark{ color:var(--accent); }
     <h2 class="h-sec pad">featured projects.</h2>
 
     <div class="thumbs" role="list" aria-label="Project covers">
-      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer" style="--c1:#3ddc84; --c2:#4aa3ff" aria-label="Henry: AI chief-of-staff">
+      <a class="thumb" role="listitem" href="projects/bose.html" style="--c1:#8c7dff; --c2:#4aa3ff" aria-label="Bose: read the case study">
+        <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".24"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
+          <rect width="400" height="190" fill="url(#gb)"/>
+          <g stroke="var(--c1)" stroke-opacity=".12" stroke-width="1"><path d="M0 25h400M0 65h400M0 105h400M0 145h400M60 0v190M140 0v190M260 0v190M340 0v190"/></g>
+          <rect x="28" y="35" width="125" height="106" rx="13" fill="var(--panel)" stroke="var(--rule)" stroke-width="1" stroke-dasharray="5 6"/>
+          <path d="M90 47l29 12v22c0 23-12 36-29 48-17-12-29-25-29-48V59l29-12Z" fill="var(--panel-2)" stroke="var(--c1)" stroke-width="1.8"/>
+          <rect x="72" y="77" width="36" height="27" rx="5" fill="var(--c1)" fill-opacity=".22" stroke="var(--c1)" stroke-width="1.6"/>
+          <path d="M80 77v-7a10 10 0 0 1 20 0v7M90 87v7" fill="none" stroke="var(--c1)" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="90" cy="86" r="2" fill="var(--c1)"/>
+          <path d="M43 119h23M114 119h23M47 125h15M118 125h15" stroke="var(--text-3)" stroke-width="1.5" stroke-linecap="round"/>
+          <path class="dash" d="M200 21v148" fill="none" stroke="var(--c1)" stroke-width="1.6"/>
+          <path d="M194 25h12M194 165h12" stroke="var(--tick)" stroke-width="2"/>
+          <path class="dash" d="M155 94h36" fill="none" stroke="var(--c2)" stroke-width="1.8"/>
+          <path d="M185 88l10 6-10 6Z" fill="var(--c2)"/>
+          <path class="dash" d="M245 94h-36" fill="none" stroke="var(--c1)" stroke-width="1.8"/>
+          <path d="M215 88l-10 6 10 6Z" fill="var(--c1)"/>
+          <g fill="var(--panel)" stroke="var(--c2)" stroke-width="1.4">
+            <rect x="240" y="37" width="64" height="42" rx="7"/>
+            <rect x="317" y="37" width="55" height="42" rx="7"/>
+            <rect x="240" y="91" width="64" height="42" rx="7"/>
+            <rect class="pulse-r" x="317" y="91" width="55" height="42" rx="7"/>
+          </g>
+          <g stroke="var(--text-3)" stroke-width="2" stroke-linecap="round">
+            <path d="M251 51h36M251 59h25M251 67h31M328 51h30M328 59h20M328 67h26"/>
+            <path d="M251 105h36M251 113h25M251 121h31M328 105h30M328 113h20M328 121h26"/>
+          </g>
+          <g fill="var(--c1)"><circle cx="251" cy="51" r="2.5"/><circle cx="328" cy="51" r="2.5"/><circle cx="251" cy="105" r="2.5"/><circle cx="328" cy="105" r="2.5"/></g>
+          <text x="232" y="178" font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.2" fill="var(--c1)">AI TEACHER + PROCTOR</text>
+        </svg>
+        <span class="cap">Bose</span>
+      </a>
+
+      <a class="thumb" role="listitem" href="projects/henry.html" style="--c1:#3ddc84; --c2:#4aa3ff" aria-label="Henry: read the case study">
         <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
           <defs><linearGradient id="gh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".22"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
           <rect width="400" height="190" fill="url(#gh)"/>
@@ -762,13 +1028,26 @@ li:hover .spark{ color:var(--accent); }
       <ul class="plist">
         <li>
           <div class="p-main">
+            <h3>Bose
+              <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
+              <span class="flag">Flagship</span>
+            </h3>
+            <p class="d">An AI teacher and proctor for schools. It teaches from the school's own material, and a student's name never reaches an external model.</p>
+          </div>
+          <div class="p-btns">
+            <a class="pill" href="projects/bose.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
+          </div>
+        </li>
+        <li>
+          <div class="p-main">
             <h3>Henry
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
               <span class="flag">Flagship</span>
             </h3>
-            <p class="d">Local-first AI chief-of-staff that remembers, schedules and drafts. It never sends without my sign-off.</p>
+            <p class="d">The terminal-first personal agent I run as my project-management twin. It remembers, it routes, and it never sends without my sign-off.</p>
           </div>
           <div class="p-btns">
+            <a class="pill" href="projects/henry.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
             <a class="sq" href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer" aria-label="Henry on GitHub">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
             </a>

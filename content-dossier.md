@@ -114,3 +114,64 @@ Henry one-liner capabilities (site intro): human-like memory engine (semantic +
 lexical recall over an associative graph, nightly consolidation), cited RAG over
 GTM/PM playbooks, Telegram standup bot, morning job scout, approval-gated
 outbound, maintains + deploys this website. ~$0 marginal cost, 8GB M1 Air.
+
+## Update 2026-08-15 — TWO FLAGSHIP AGENTS (canonical, supplied by Luvish)
+
+Positioning, verbatim intent: **two flagship agents, one architecture.**
+"Henry runs my life; Bose teaches a school." Bose is the headline (the product);
+Henry is the origin story (the personal agent Bose was extracted from). On the
+site they carry **equal weight**; neither is the sidekick.
+
+### Henry (refreshed — supersedes the 2026-08-09 capability list above for site copy)
+
+Terminal-first personal AI agent, now positioned as Luvish's **project-management
+twin**. Real and shipped:
+
+- **Two-store memory (Engram)** plus a separate **knowledge RAG** over **900+
+  modules**, whose ranking changes are **eval-gated**.
+- **Routing brain**: picks the capability and the model tier per request.
+- **Job-scout pipeline**: Naukri + open web + X, batched scoring against his
+  resume, producing a daily shortlist.
+- **Format-locked resume / cover-letter tailoring** (output must return in the
+  exact document format, not free prose).
+- **Telegram two-way DM bridge**, all of it behind a **single update pump**.
+- **Standup module**: group intake, clarify pass, daily summaries.
+- **Scheduler and reminders.**
+- **Mission-control dashboard.**
+- **Daily tech-tweet pipeline** with hard safety rails: one post per day, a kill
+  switch, and every post mirrored back to him.
+- TypeScript ESM, **zero-heavy-deps doctrine**, **530+ tests**, runs on an **M1 Air**.
+- Public repo (already linked on the site):
+  https://github.com/Luvishgulati03/henry-digital-personality-of-luvish
+
+### Bose (new)
+
+Henry's twin for schools: an **AI teacher and proctor**. Real and shipped:
+
+- **Privacy-first identity airlock**: AES-256-GCM vault, pseudonymous IDs,
+  scrub-before-persist. A student's name never reaches an external model.
+- **Class-scoped RAG** over the school's own syllabus + answer bank, on **local
+  embeddings** ($0 marginal cost).
+- **Tutor mode**: guide / hint / full-answer policies, plus per-student style cards.
+- **Pattern-learned question-paper engine**: blueprints extracted from past
+  papers, then new papers with model answers and rubrics, relevance-guarded.
+- **Online test site**: auto-grading, per-question right/wrong feedback, pass/fail.
+- **Exam mode with browser-only proctoring**: events only; video never leaves
+  the device.
+- **Karma points + tier ladder + class leaderboards.**
+- **Teacher automation**: grading suggestions, doubt clustering, worksheets;
+  everything student-facing sits behind **teacher approval**.
+- **Right-to-forget erasure.**
+- **240+ tests.** **Private repo. Never link a repo for Bose.**
+
+### Bose / Henry publication rules (hard)
+
+1. **Never** name a school, a customer, a student, or any student data.
+2. **Never** attribute Bose (or Henry) to an employer. No "GrowthX" anywhere near
+   either agent. GrowthX stays exactly where it already is: the work-experience
+   row and the intro paragraph, as a public resume fact about employment.
+3. **No repo link for Bose**, and no repo-private detail (file layout, internal
+   module names beyond the ones listed above, schemas, prompts).
+4. **No fabricated metrics.** No user counts, no revenue, no uptime, no adoption.
+   The only numbers publishable are the ones in this section: 900+ modules,
+   530+ tests (Henry), 240+ tests (Bose), AES-256-GCM, $0 marginal cost, M1 Air.

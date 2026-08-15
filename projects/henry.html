@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Henry · case study · Luvish Gulati</title>
+<meta name="description" content="Case study: Henry, a terminal-first personal AI agent I run as my own project-management twin. Two-store memory, eval-gated knowledge RAG over 900+ modules, a routing brain, a job-scout pipeline, a Telegram bridge and hard safety rails. 530+ tests, on an M1 Air.">
+<meta name="author" content="Luvish Gulati">
+<meta name="color-scheme" content="dark light">
+<meta name="robots" content="index,follow">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e1a'/%3E%3Cpath d='M14 22l10 10-10 10' fill='none' stroke='%234ee6b8' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='31' y='38' width='19' height='6' rx='3' fill='%234ee6b8'/%3E%3C/svg%3E">
+
+<script>
+  /* Theme resolution before first paint - no flash. Shares the 'lg-theme'
+     key with index.html so the choice carries across pages. */
+  (function () {
+    try {
+      var saved = localStorage.getItem('lg-theme');
+      document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+
+<style>
+/* ============================================================
+   1. TOKENS - identical to index.html
+   ============================================================ */
+:root{
+  --page:#050506;
+  --col-bg:#0a0a0c;
+  --panel:#101013;
+  --panel-2:#15151a;
+
+  --rule:rgba(255,255,255,.16);
+  --rule-soft:rgba(255,255,255,.09);
+  --tick:rgba(255,255,255,.34);
+  --hatch:rgba(255,255,255,.10);
+  --edge:rgba(255,255,255,.10);
+
+  --text:#f2f2f0;
+  --text-2:#a7a7ad;
+  --text-3:#6f6f78;
+
+  --accent:#3ddc84;
+  --accent-2:#28b96b;
+  --accent-dim:rgba(61,220,132,.14);
+  --accent-ink:#04120a;
+
+  --f-sans:-apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"SF Mono", ui-monospace, SFMono-Regular, "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+
+  --col-w:1060px;
+  --halfcol:min(530px, 50vw);
+  --pad:clamp(16px,4.4vw,42px);
+  --sec-y:clamp(34px,5vw,52px);
+
+  /* per-page accent for the diagrams, matching this project's cover art */
+  --c1:#3ddc84;
+  --c2:#4aa3ff;
+}
+:root[data-theme="light"]{
+  --page:#efeee9;
+  --col-bg:#faf9f6;
+  --panel:#ffffff;
+  --panel-2:#f3f2ed;
+
+  --rule:rgba(20,22,26,.22);
+  --rule-soft:rgba(20,22,26,.12);
+  --tick:rgba(20,22,26,.42);
+  --hatch:rgba(20,22,26,.13);
+  --edge:rgba(20,22,26,.12);
+
+  --text:#14161a;
+  --text-2:#4d525c;
+  --text-3:#767c88;
+
+  --accent:#0b7d52;
+  --accent-2:#096341;
+  --accent-dim:rgba(11,125,82,.12);
+  --accent-ink:#ffffff;
+
+  --c1:#0b7d52;
+  --c2:#1f6fd0;
+}
+
+/* ============================================================
+   2. RESET / BASE
+   ============================================================ */
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+body{
+  margin:0; background:var(--page); color:var(--text);
+  font-family:var(--f-sans); font-size:16px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+img,svg{ max-width:100%; }
+h1,h2,h3,h4{ margin:0; line-height:1.18; letter-spacing:-.02em; font-weight:700; }
+p{ margin:0; }
+ul,ol{ margin:0; padding:0; list-style:none; }
+a{ color:var(--accent); text-decoration:none; }
+a:hover{ text-decoration:underline; text-underline-offset:3px; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+::selection{ background:var(--accent); color:var(--accent-ink); }
+.sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important; }
+}
+
+/* ============================================================
+   3. BLUEPRINT FRAME
+   ============================================================ */
+.sheet{ position:relative; overflow-x:clip; min-height:100vh; }
+.col{
+  width:100%; max-width:var(--col-w); margin:0 auto;
+  background:var(--col-bg);
+  border-left:1px dashed var(--rule);
+  border-right:1px dashed var(--rule);
+}
+.rule{
+  position:relative; height:0;
+  margin-inline:calc(50% - 50vw);
+  border-top:1px dashed var(--rule);
+}
+.rule::before,.rule::after{
+  content:""; position:absolute; top:-4px;
+  width:7px; height:7px; background:var(--col-bg);
+  border:1px solid var(--tick);
+}
+.rule::before{ left:calc(50% - var(--halfcol) - 3px); }
+.rule::after { right:calc(50% - var(--halfcol) - 3px); }
+.hatch{
+  height:20px;
+  border-top:1px dashed var(--rule);
+  border-bottom:1px dashed var(--rule);
+  background:repeating-linear-gradient(45deg, var(--hatch) 0 1px, transparent 1px 7px);
+}
+.pad{ padding-inline:var(--pad); }
+section{ padding-block:var(--sec-y); }
+.h-sec{
+  font-size:clamp(25px,4.6vw,34px);
+  letter-spacing:-.035em;
+  margin-bottom:22px;
+}
+
+/* ============================================================
+   4. NAV - back-link home
+   ============================================================ */
+.nav{
+  position:sticky; top:0; z-index:40;
+  background:color-mix(in srgb, var(--col-bg) 88%, transparent);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px dashed var(--rule);
+}
+.nav-in{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding-block:16px; }
+.mark{ font-size:23px; font-weight:800; letter-spacing:-.045em; color:var(--text); }
+.mark:hover{ text-decoration:none; color:var(--accent); }
+.mark .bk{ display:inline-block; color:var(--text-3); margin-right:5px; transition:transform .18s, color .18s; }
+.mark:hover .bk{ transform:translateX(-3px); color:var(--accent); }
+.nav-links{ display:flex; align-items:center; gap:clamp(12px,2.6vw,30px); }
+.nav-links a{ color:var(--text-2); font-size:15px; font-weight:500; }
+.nav-links a:hover{ color:var(--text); text-decoration:none; }
+.tt{
+  display:inline-grid; place-items:center; width:40px; height:40px; flex:none;
+  border:1px solid var(--edge); border-radius:11px;
+  background:var(--panel); color:var(--text-2); cursor:pointer;
+  transition:color .18s, border-color .18s, transform .18s;
+}
+.tt:hover{ color:var(--accent); border-color:var(--accent); transform:translateY(-1px); }
+.tt svg{ width:19px; height:19px; }
+:root[data-theme="dark"] .tt .i-sun{ display:none; }
+:root[data-theme="light"] .tt .i-moon{ display:none; }
+
+/* ============================================================
+   5. HERO
+   ============================================================ */
+.kicker{
+  font-family:var(--f-mono); font-size:11.5px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--text-3); margin-bottom:15px;
+}
+.hero h1{ font-size:clamp(31px,6.2vw,50px); letter-spacing:-.04em; }
+.lede{
+  font-size:clamp(16px,2.4vw,19.5px); color:var(--text-2);
+  margin-top:15px; max-width:62ch;
+}
+.chips{ display:flex; flex-wrap:wrap; gap:9px; margin-top:24px; }
+.chip{
+  font-family:var(--f-mono); font-size:12px; letter-spacing:.01em; line-height:1.5;
+  padding:7px 12px; border-radius:8px;
+  border:1px solid var(--accent); color:var(--accent); background:var(--accent-dim);
+}
+.chip.alt{ border-color:var(--edge); color:var(--text-2); background:var(--panel); }
+.chip.link:hover{ text-decoration:none; border-color:var(--accent); color:var(--accent); }
+
+/* ============================================================
+   6. PROSE + BLOCKS
+   ============================================================ */
+.prose p{ font-size:clamp(15.5px,2.1vw,17px); color:var(--text-2); max-width:68ch; }
+.prose p + p{ margin-top:16px; }
+.prose b{ color:var(--text); font-weight:600; }
+
+.deflist{ margin-top:24px; border-top:1px dashed var(--rule-soft); max-width:68ch; }
+.deflist li{ padding:15px 2px; border-bottom:1px dashed var(--rule-soft); font-size:15px; color:var(--text-2); }
+.deflist b{
+  display:block; margin-bottom:3px;
+  font-family:var(--f-mono); font-size:13px; color:var(--text); letter-spacing:.02em; font-weight:600;
+}
+
+.note{
+  border:1px dashed var(--rule); border-radius:12px;
+  padding:16px 18px; margin-top:26px; max-width:68ch;
+  font-family:var(--f-mono); font-size:12.5px; line-height:1.8; color:var(--text-3);
+}
+.note b{ color:var(--text-2); font-weight:600; }
+
+/* ============================================================
+   7. FIGURE / DIAGRAM
+   ============================================================ */
+.fig{
+  border:1px dashed var(--rule); border-radius:14px;
+  background:var(--panel); padding:clamp(14px,3vw,26px);
+}
+.fig svg{ display:block; width:100%; height:auto; max-width:520px; margin:0 auto; }
+.figcap{
+  font-family:var(--f-mono); font-size:11.5px; line-height:1.75; letter-spacing:.02em;
+  color:var(--text-3); margin-top:18px; text-align:center; max-width:60ch;
+  margin-inline:auto;
+}
+.figcap b{ color:var(--text-2); font-weight:600; }
+
+/* diagram primitives, scoped to the figure so nothing leaks into the page */
+.fig .d-grid{ stroke:var(--c1); stroke-opacity:.10; stroke-width:1; fill:none; }
+.fig .d-frame{ fill:none; stroke:var(--rule); stroke-width:1; stroke-dasharray:4 6; }
+.fig .d-tick{ fill:none; stroke:var(--tick); stroke-width:2; }
+.fig .d-block{ fill:var(--panel); stroke:var(--rule); stroke-width:1; }
+.fig .d-store{ fill:var(--panel-2); stroke:var(--rule); stroke-width:1; }
+.fig .d-route{ fill:var(--panel-2); stroke:var(--c1); stroke-width:1.5; }
+.fig .d-conn{ fill:none; stroke:var(--c2); stroke-width:1.3; }
+.fig .d-label{ fill:var(--text); font-family:ui-monospace,monospace; font-size:13px; letter-spacing:.06em; }
+.fig .d-small{ fill:var(--text-3); font-family:ui-monospace,monospace; font-size:9.5px; letter-spacing:.08em; }
+
+/* ============================================================
+   8. STAT TILES
+   ============================================================ */
+.st-row{
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); width:100%;
+  overflow:hidden; border:1px dashed var(--rule); border-radius:13px; background:var(--panel);
+}
+.st-cell{ display:flex; min-width:0; flex-direction:column; justify-content:center; gap:8px; padding:18px 16px; }
+.st-cell + .st-cell{ border-left:1px dashed var(--rule-soft); }
+.st-value{
+  min-width:0; color:var(--text); font-family:var(--f-mono);
+  font-size:clamp(26px,4.4vw,38px); font-variant-numeric:tabular-nums;
+  line-height:1.05; overflow-wrap:anywhere;
+}
+.st-value.sm{ font-size:clamp(17px,2.6vw,25px); line-height:1.15; }
+.st-caption{ min-width:0; color:var(--text-2); font-size:13px; line-height:1.45; }
+@media (max-width:640px){
+  .st-row{ grid-template-columns:minmax(0,1fr); }
+  .st-cell + .st-cell{ border-top:1px dashed var(--rule-soft); border-left:0; }
+}
+
+/* ============================================================
+   9. MODULE CARD GRID
+   ============================================================ */
+.mc-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; width:100%; }
+.mc-card{
+  display:flex; min-width:0; flex-direction:column; gap:10px; padding:18px;
+  border:1px dashed var(--rule); border-radius:13px; background:var(--panel);
+  transition:transform .2s ease, border-color .2s ease;
+}
+.mc-card:hover{ transform:translateY(-3px); border-color:var(--c1); }
+.mc-glyph{ display:block; width:24px; height:24px; color:var(--c1); }
+.mc-kicker{ color:var(--text-3); font-family:var(--f-mono); font-size:11px; letter-spacing:.12em; line-height:1.45; text-transform:uppercase; }
+.mc-card h3{ font-size:18px; font-weight:650; line-height:1.25; letter-spacing:-.015em; }
+.mc-card p{ color:var(--text-2); font-size:14.5px; line-height:1.5; }
+
+/* ============================================================
+   10. PHASE RAIL
+   ============================================================ */
+.ph-rail{ position:relative; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; width:100%; }
+.ph-rail::before{ content:""; position:absolute; z-index:0; top:38px; left:8%; right:8%; border-top:1px dashed var(--rule); }
+.ph-phase{
+  position:relative; z-index:1; display:flex; min-width:0; flex-direction:column; gap:9px;
+  padding:18px; border:1px dashed var(--rule); border-radius:13px; background:var(--panel);
+}
+.ph-index{
+  display:inline-flex; align-items:center; gap:8px;
+  color:var(--c1); font-family:var(--f-mono); font-size:13px; letter-spacing:.12em;
+}
+.ph-index::before{
+  content:""; width:9px; height:9px; flex:none;
+  border:1px solid var(--c1); background:var(--panel-2);
+}
+.ph-phase h3{ font-size:18px; font-weight:650; line-height:1.25; letter-spacing:-.015em; }
+.ph-copy{ color:var(--text-2); font-size:14.5px; line-height:1.5; }
+@media (max-width:760px){
+  .ph-rail{ grid-template-columns:minmax(0,1fr); }
+  .ph-rail::before{ top:24px; bottom:24px; left:29px; right:auto; border-top:0; border-left:1px dashed var(--rule); }
+}
+
+/* ============================================================
+   11. FOOTER
+   ============================================================ */
+.foot{
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  padding:26px var(--pad);
+  font-size:13.5px; color:var(--text-3); font-family:var(--f-mono);
+}
+.foot a{ color:var(--text-2); }
+.foot a:hover{ color:var(--accent); }
+.backlink{
+  display:inline-flex; align-items:center; gap:9px;
+  height:46px; padding:0 17px; border:1px solid var(--edge); border-radius:12px;
+  background:var(--panel); color:var(--text); font-size:15px; font-weight:500;
+  transition:border-color .18s, transform .18s, background .18s, color .18s;
+}
+.backlink:hover{
+  text-decoration:none; transform:translateY(-2px);
+  border-color:var(--accent); color:var(--accent); background:var(--accent-dim);
+}
+
+/* ============================================================
+   12. MOTION
+   ============================================================ */
+.reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.in{ opacity:1; transform:none; }
+@keyframes dashmove{ to{ stroke-dashoffset:-40; } }
+@keyframes pulser{ 0%,100%{ transform:scale(1); opacity:1 } 50%{ transform:scale(1.03); opacity:.82 } }
+.fig .dash{ stroke-dasharray:5 6; animation:dashmove 2.6s linear infinite; }
+.fig .pulse-r{ transform-box:fill-box; transform-origin:center; animation:pulser 3.2s ease-in-out infinite; }
+
+/* ============================================================
+   13. RESPONSIVE
+   ============================================================ */
+@media (max-width:560px){
+  .nav-links{ gap:13px; }
+  .nav-links a{ font-size:13.5px; }
+  .nav-links a.hide-s{ display:none; }
+  .mark{ font-size:20px; }
+  .foot{ flex-direction:column; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+<a class="sr" href="#main">Skip to content</a>
+
+<div class="sheet">
+<div class="col">
+
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="nav-in pad">
+      <a class="mark" href="../index.html"><span class="bk" aria-hidden="true">←</span>luvish.</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="../index.html#flagships" class="hide-s">agents</a>
+        <a href="bose.html">bose</a>
+        <a href="../index.html#contact">contact</a>
+        <button class="tt" id="tt" type="button" aria-label="Switch colour theme">
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.9 5.9L4.4 4.4M19.6 19.6l-1.5-1.5M18.1 5.9l1.5-1.5M4.4 19.6l1.5-1.5"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="pad hero">
+    <p class="kicker">Case study · flagship agent</p>
+    <h1>Henry</h1>
+    <p class="lede">A terminal-first personal AI agent I run as my own project-management twin. It remembers, it retrieves, it routes, and it goes and does things while I am asleep, all on an M1 Air with no API keys.</p>
+    <div class="chips">
+      <span class="chip">Personal agent + PM twin</span>
+      <span class="chip alt">open source</span>
+      <span class="chip alt">530+ tests</span>
+      <a class="chip alt link" href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer">read the code ↗</a>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ STAT TILES ============ -->
+  <section class="pad reveal">
+    <div class="st-row" role="group" aria-label="Henry at a glance">
+      <div class="st-cell"><p class="st-value">530+</p><p class="st-caption">Tests green across the agent</p></div>
+      <div class="st-cell"><p class="st-value">900+</p><p class="st-caption">Knowledge modules under eval-gated retrieval</p></div>
+      <div class="st-cell"><p class="st-value">2</p><p class="st-caption">Memory stores: Engram plus the knowledge RAG</p></div>
+      <div class="st-cell"><p class="st-value">$0</p><p class="st-caption">Marginal cost per run, on an M1 Air</p></div>
+    </div>
+  </section>
+
+  <div class="hatch"></div>
+
+  <!-- ============ THE PROBLEM ============ -->
+  <section class="pad prose reveal">
+    <h2 class="h-sec">the problem.</h2>
+    <p>I did not want a chat window. I wanted the thing a good chief of staff does: hold the context I keep dropping, notice the work I keep postponing, and come back to me with something already drafted.</p>
+    <p>Every assistant I tried failed in the same two places. It <b>forgot</b>, so every session started from zero and I paid the setup cost again. And it was <b>too eager</b>, happy to send, post or apply on my behalf in a way I would not trust with my own name attached.</p>
+    <p>So the constraints were set before the first line: it has to remember across sessions, it has to run on the laptop I already own, it has to cost nothing per run, and anything that can reach the outside world has to be on a leash I hold.</p>
+  </section>
+
+  <div class="hatch"></div>
+
+  <!-- ============ THE ARCHITECTURE ============ -->
+  <section class="pad reveal">
+    <h2 class="h-sec">the architecture.</h2>
+    <div class="prose" style="margin-bottom:28px">
+      <p>Henry is a spine, not a pile of scripts. Inputs converge on one routing brain, the brain decides which capability and which model tier the request deserves, and a two-store memory sits alongside the whole thing, feeding recall in and taking writes back out.</p>
+      <p>That shape is what made <a href="bose.html">Bose</a> possible: the same spine, redeployed into a school with different surfaces and a different approval model.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 400 600" role="img" aria-label="Diagram: terminal and Telegram inputs converge on a routing brain, which fans out to six capability modules, with a two-store memory of Engram and an eval-gated knowledge RAG feeding recall in and taking writes back out.">
+        <g aria-hidden="true">
+          <path class="d-grid" d="M32 12V588M72 12V588M112 12V588M152 12V588M192 12V588M232 12V588M272 12V588M312 12V588M352 12V588"/>
+          <path class="d-grid" d="M12 52H388M12 92H388M12 132H388M12 172H388M12 212H388M12 252H388M12 292H388M12 332H388M12 372H388M12 412H388M12 452H388M12 492H388M12 532H388M12 572H388"/>
+          <rect x="12" y="12" width="376" height="576" rx="12" class="d-frame"/>
+          <path class="d-tick" d="M12 28V12H28M372 12H388V28M12 572V588H28M372 588H388V572"/>
+        </g>
+
+        <rect x="28" y="38" width="144" height="50" rx="7" class="d-block"/>
+        <rect x="228" y="38" width="144" height="50" rx="7" class="d-block"/>
+        <text x="100" y="62" text-anchor="middle" class="d-label">TERMINAL</text>
+        <text x="300" y="58" text-anchor="middle" class="d-label">TELEGRAM</text>
+        <text x="300" y="78" text-anchor="middle" class="d-small">SINGLE UPDATE PUMP</text>
+
+        <path class="d-conn dash" d="M100 88C100 110 152 110 176 130"/>
+        <path class="d-conn dash" d="M300 88C300 110 248 110 224 130"/>
+        <path d="M172 124L184 132L170 134Z" fill="var(--c2)"/>
+        <path d="M228 124L216 132L230 134Z" fill="var(--c2)"/>
+
+        <g class="pulse-r">
+          <rect x="120" y="132" width="160" height="76" rx="9" class="d-route"/>
+        </g>
+        <path d="M136 152H264M136 190H264" stroke="var(--c1)" stroke-opacity=".22" stroke-width="1"/>
+        <text x="200" y="176" text-anchor="middle" class="d-label" font-size="16">ROUTING BRAIN</text>
+
+        <rect x="18" y="238" width="150" height="146" rx="9" class="d-frame"/>
+        <text x="93" y="258" text-anchor="middle" class="d-label" font-size="11" letter-spacing=".02em">TWO-STORE MEMORY</text>
+        <rect x="34" y="272" width="118" height="36" rx="6" class="d-store"/>
+        <text x="93" y="295" text-anchor="middle" class="d-label">ENGRAM</text>
+        <path class="d-conn dash" d="M93 308V336"/>
+        <path d="M88 328L93 338L98 328Z" fill="var(--c2)"/>
+        <text x="103" y="326" class="d-small">EVAL GATE</text>
+        <rect x="34" y="338" width="118" height="36" rx="6" class="d-store"/>
+        <text x="93" y="357" text-anchor="middle" class="d-label" font-size="12">KNOWLEDGE RAG</text>
+        <text x="93" y="369" text-anchor="middle" class="d-small">900+ MODULES</text>
+
+        <path class="d-conn dash" d="M126 200C96 214 92 226 93 238"/>
+        <path d="M88 231L93 241L98 231Z" fill="var(--c2)"/>
+        <path class="d-conn dash" d="M168 300C196 296 206 254 200 212"/>
+        <path d="M195 219L200 209L205 219Z" fill="var(--c2)"/>
+        <text x="212" y="250" class="d-small">RECALL IN</text>
+        <text x="212" y="332" class="d-small">WRITES OUT</text>
+
+        <path class="d-conn dash" d="M200 208V396"/>
+        <path d="M195 390L200 400L205 390Z" fill="var(--c2)"/>
+        <path class="d-conn dash" d="M76 404H324M76 404V424M200 404V424M324 404V424"/>
+
+        <rect x="18" y="424" width="116" height="42" rx="7" class="d-block"/>
+        <rect x="142" y="424" width="116" height="42" rx="7" class="d-block"/>
+        <rect x="266" y="424" width="116" height="42" rx="7" class="d-block"/>
+        <text x="76" y="450" text-anchor="middle" class="d-label">JOB SCOUT</text>
+        <text x="200" y="450" text-anchor="middle" class="d-label" font-size="12">RESUME + COVER</text>
+        <text x="324" y="450" text-anchor="middle" class="d-label">STANDUP</text>
+
+        <path class="d-conn dash" d="M76 466V500M200 466V500M324 466V500"/>
+
+        <rect x="18" y="500" width="116" height="42" rx="7" class="d-block"/>
+        <rect x="142" y="500" width="116" height="42" rx="7" class="d-block"/>
+        <rect x="266" y="500" width="116" height="42" rx="7" class="d-block"/>
+        <text x="76" y="526" text-anchor="middle" class="d-label">SCHEDULER</text>
+        <text x="200" y="526" text-anchor="middle" class="d-label" font-size="12">TWEET PIPELINE</text>
+        <text x="324" y="526" text-anchor="middle" class="d-label">DASHBOARD</text>
+
+        <path class="d-conn dash" d="M200 542V548"/>
+        <rect x="96" y="548" width="208" height="24" rx="6" class="d-frame"/>
+        <text x="200" y="564" text-anchor="middle" class="d-small">1/DAY · KILL SWITCH · MIRRORED</text>
+      </svg>
+      <p class="figcap"><b>The spine.</b> One routing brain in front of everything, so adding a capability is adding a route rather than another entry point. Memory sits beside the spine rather than inside a module, which is why recall works across capabilities instead of within one.</p>
+    </div>
+
+    <div class="ph-rail" role="list" aria-label="How Henry was built, in order" style="margin-top:32px">
+      <article class="ph-phase" role="listitem">
+        <span class="ph-index">01</span>
+        <h3>memory before features</h3>
+        <p class="ph-copy">A two-store memory came first, because an agent without recall is a command line with extra steps.</p>
+      </article>
+      <article class="ph-phase" role="listitem">
+        <span class="ph-index">02</span>
+        <h3>one brain, many hands</h3>
+        <p class="ph-copy">A routing brain in front of the capabilities, so adding a module means adding a route rather than another entry point.</p>
+      </article>
+      <article class="ph-phase" role="listitem">
+        <span class="ph-index">03</span>
+        <h3>it works while I sleep</h3>
+        <p class="ph-copy">The job scout, the scheduler and the standup module, all reporting back through a single Telegram update pump.</p>
+      </article>
+      <article class="ph-phase" role="listitem">
+        <span class="ph-index">04</span>
+        <h3>rails before reach</h3>
+        <p class="ph-copy">Anything that can speak in public runs behind hard limits, a kill switch, and a mirror back to me.</p>
+      </article>
+    </div>
+  </section>
+
+  <div class="hatch"></div>
+
+  <!-- ============ THE RAILS ============ -->
+  <section class="pad prose reveal">
+    <h2 class="h-sec">the rails.</h2>
+    <p>The most interesting engineering in Henry is the part that stops it doing things. An agent with my accounts attached is only as good as the limits around it, so the limits are structural rather than prompt-level.</p>
+    <ul class="deflist">
+      <li><b>One post a day, hard</b>The daily tech-tweet pipeline cannot post twice. It is not asked nicely to behave, it is capped, and there is a kill switch that stops the pipeline outright.</li>
+      <li><b>Every post mirrored to me</b>Anything published in public is also sent to me. If Henry says something in my name, I find out from Henry first, not from someone replying to it.</li>
+      <li><b>A single update pump</b>All Telegram traffic runs through one loop that owns polling. Two consumers racing for the same updates is the classic way a bot double-sends, so there is only ever one.</li>
+      <li><b>Eval-gated retrieval</b>Ranking changes to the knowledge RAG ship only when the eval harness agrees they are an improvement. Retrieval quality is the kind of thing that degrades invisibly, so it gets a gate rather than a vibe check.</li>
+      <li><b>Format-locked output</b>Resume and cover-letter tailoring has to return the exact document format, not free prose. A model that drifts into helpful commentary produces something I cannot actually send.</li>
+    </ul>
+    <p class="note"><b>Why this matters more than the feature list:</b> the rails are the reason the same architecture could be handed to a school. Swap "I approve" for "the teacher approves" and the guardrail layer is already there. That is the whole extraction story behind Bose.</p>
+  </section>
+
+  <div class="hatch"></div>
+
+  <!-- ============ WHAT'S LIVE ============ -->
+  <section class="pad reveal">
+    <h2 class="h-sec">what's live.</h2>
+    <div class="prose" style="margin-bottom:28px">
+      <p>All of this is shipped and running as a daily driver, in TypeScript ESM under a deliberate zero-heavy-dependencies doctrine, on an 8&nbsp;GB M1 Air.</p>
+    </div>
+
+    <div class="mc-grid" role="list" aria-label="Henry shipped modules">
+      <article class="mc-card" role="listitem">
+        <svg class="mc-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="3" width="16" height="7" rx="2"/><rect x="4" y="14" width="16" height="7" rx="2"/><path d="M8 10v4M16 10v4"/><path d="M8 6h.01M8 17h.01"/>
+        </svg>
+        <p class="mc-kicker">memory</p>
+        <h3>two-store memory</h3>
+        <p>Engram keeps personal recall separate from the knowledge store, so the two can be tuned independently instead of poisoning each other's rankings.</p>
+      </article>
+
+      <article class="mc-card" role="listitem">
+        <svg class="mc-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <ellipse cx="10" cy="5" rx="6" ry="2.5"/><path d="M4 5v9c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V5"/><path d="M4 9.5C4 10.9 6.7 12 10 12s6-1.1 6-2.5"/><circle cx="17.5" cy="16.5" r="3.5"/><path d="m20 19 2 2"/>
+        </svg>
+        <p class="mc-kicker">knowledge</p>
+        <h3>knowledge RAG</h3>
+        <p>Retrieval across 900+ modules. Ranking changes ship only when the eval harness agrees, so quality moves in one direction.</p>
+      </article>
+
+      <article class="mc-card" role="listitem">
+        <svg class="mc-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/><circle cx="4" cy="5" r="2"/><circle cx="20" cy="5" r="2"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="19" r="2"/><path d="M10 10 5.5 6.5M14 10l4.5-3.5M10 14l-4.5 3.5M14 14l4.5 3.5"/>
+        </svg>
+        <p class="mc-kicker">routing</p>
+        <h3>routing brain</h3>
+        <p>One front door decides which capability handles a request and which model tier it is worth. Adding a module is adding a route.</p>
+      </article>
+
+      <article class="mc-card" role="listitem">
+        <svg class="mc-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="10" cy="10" r="5.5"/><path d="m14 14 5 5"/><path d="M6.5 7.5h7M6.5 10h5M6.5 12.5h3"/><path d="M3 18h8"/>
+        </svg>
+        <p class="mc-kicker">automation</p>
+        <h3>job scout</h3>
+        <p>Reads Naukri, the open web and X, then batches and scores what it finds against my resume and hands me a shortlist each morning.</p>
+      </article>
+
+      <article class="mc-card" role="listitem">
+        <svg class="mc-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 3.5h9l3 3V21H6z"/><path d="M15 3.5V7h3M9 11h6M9 14h6M9 17h3"/><path d="m15 15 1.5 1.5L19 14"/>
+        </svg>
+        <p class="mc-kicker">documents</p>
+        <h3>resume and cover tailoring</h3>
+        <p>Format-locked output: the tailored resume and cover letter come back as the document, not as prose about the document.</p>
+      </article>
+
+      <article class="mc-card" role="listitem">
+        <svg class="mc-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m3 11 17-7-4 16-4-6z"/><path d="m3 11 9 3M12 14l4-6"/><path d="M4 18h5M6 21h5"/>
+        </svg>
+        <p class="mc-kicker">telegram</p>
+        <h3>two-way DM bridge</h3>
+        <p>I can talk to Henry from my phone. A single update pump owns polling, so nothing races for the same messages.</p>
+      </article>
+
+      <article class="mc-card" role="listitem">
+        <svg class="mc-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><path d="M3.5 18c.5-3 2-4.5 3.5-4.5S10 15 10.5 18M13.5 18c.5-3 2-4.5 3.5-4.5s3 1.5 3.5 4.5"/><path d="M11 5h2M11 9h2"/>
+        </svg>
+        <p class="mc-kicker">operations</p>
+        <h3>standup and scheduler</h3>
+        <p>Group intake, a clarify pass, then daily summaries, plus reminders and cron work, all visible from a mission-control dashboard.</p>
+      </article>
+
+      <article class="mc-card" role="listitem">
+        <svg class="mc-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 5.5h16v11H9l-5 3z"/><path d="M8 9h8M8 12h5"/><path d="M17 3v4M15 5h4"/>
+        </svg>
+        <p class="mc-kicker">publishing</p>
+        <h3>tweet pipeline</h3>
+        <p>A daily tech tweet behind hard rails: one a day, a kill switch, and every post mirrored back to me before I hear about it from anyone else.</p>
+      </article>
+    </div>
+  </section>
+
+  </main>
+
+  <div class="rule"></div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="foot">
+    <a class="backlink" href="../index.html"><span aria-hidden="true">←</span> Back to luvish.</a>
+    <p>
+      <a href="bose.html">Bose case study</a>
+      ·
+      <a href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer">GitHub</a>
+      ·
+      <a href="mailto:Gulatiluvish@gmail.com">Gulatiluvish@gmail.com</a>
+    </p>
+  </footer>
+
+</div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- theme toggle (shares 'lg-theme' with index.html) ---------- */
+  var tt = document.getElementById('tt');
+  if (tt) {
+    tt.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('lg-theme', next); } catch (e) {}
+    });
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  var reveals = [].slice.call(document.querySelectorAll('.reveal'));
+  if (reduce || !('IntersectionObserver' in window)) {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>

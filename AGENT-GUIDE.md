@@ -12,7 +12,7 @@ If you only read one section, read [Hard rules](#hard-rules).
 
 ## 1. What this repo is
 
-Luvish Gulati's personal portfolio. **One hand-written HTML file** plus two case-study pages.
+Luvish Gulati's personal portfolio. **One hand-written HTML file** plus four case-study pages.
 No framework, no build step, no dependencies, no runtime network requests.
 
 | | |
@@ -43,11 +43,13 @@ design-spec.md / design-spec-v2.md  earlier design notes (historical)
 index-v2-backup.html              previous version, kept for reference — not served
 
 projects/
+  bose.html                       case study — Bose (FLAGSHIP AGENT, private repo)
+  henry.html                      case study — Henry (FLAGSHIP AGENT, public repo)
   risk-ai-council.html            case study — Risk AI Council (GTM + content)
   carbonnex.html                  case study — CarbonNex (ESG reporting workflows)
 
 scripts/
-  audit.mjs                       pre-publish gate — 47 headless-Chromium checks
+  audit.mjs                       pre-publish gate — 56 headless-Chromium checks
   build-stats.mjs                 reads Henry's live DBs  → data/henry-stats.json
   refresh-stats.mjs               data/henry-stats.json   → the STAT markers in index.html
   build-heatmap.mjs               reads the GitHub export → bakes the heatmap into index.html
@@ -77,12 +79,13 @@ corner ticks) or `.hatch` (diagonal-hatch strip).
 | 3 | Profile | — | avatar, name, role, location, live IST clock `#clock` |
 | 4 | Intro | — | three paragraphs of first-person positioning |
 | 5 | Social | — | GitHub / LinkedIn / email / résumé |
-| 6 | Work experience | `#experience` | 3 rows — GrowthX, Pink Unicorn Algorithms, Cvent |
-| 7 | Featured projects | `#projects` | 5 cover thumbnails + 5 list rows |
-| 8 | Technical skills | `#skills` | Engineering / AI / Product tile groups |
-| 9 | GitHub | `#github` | heatmap. Markers: `GH_MONTHS`, `GH_GRID`; count in `#ghcount` |
-| 10 | Henry stats | `#henry-stats` | real numbers. Markers: `STAT:*` — see §4 |
-| 11 | Footer | `#contact` | copyright, email, GitHub, LinkedIn |
+| 6 | Flagship agents | `#flagships` | **Bose + Henry, presented as equals.** Shared-spine SVG + two cards |
+| 7 | Work experience | `#experience` | 3 rows — GrowthX, Pink Unicorn Algorithms, Cvent |
+| 8 | Featured projects | `#projects` | 6 cover thumbnails + 6 list rows |
+| 9 | Technical skills | `#skills` | Engineering / AI / Product tile groups |
+| 10 | GitHub | `#github` | heatmap. Markers: `GH_MONTHS`, `GH_GRID`; count in `#ghcount` |
+| 11 | Henry stats | `#henry-stats` | real numbers. Markers: `STAT:*` — see §4 |
+| 12 | Footer | `#contact` | copyright, email, GitHub, LinkedIn |
 
 Then a JSON-LD `Person` block and the single inline `<script>` (theme toggle, clock, scroll
 reveals, count-ups).
@@ -93,7 +96,8 @@ Five projects. **Two different affordances**, and they are not interchangeable:
 
 | Project | Affordance |
 |---|---|
-| Henry | GitHub button → `github.com/Luvishgulati03/henry-digital-personality-of-luvish` |
+| **Bose** | **`Case study →` → `projects/bose.html`. NO repo button, ever: the repo is private.** |
+| **Henry** | **`Case study →` → `projects/henry.html`** plus a GitHub button → `github.com/Luvishgulati03/henry-digital-personality-of-luvish` |
 | AI Digital Twin for Recruiters | GitHub button → `github.com/Luvishgulati03/luvish-ai-twin-recruiters` |
 | Coding Efficiency Measurement System | `case study · private repo` note, no link |
 | Risk AI Council | **`Case study →` → `projects/risk-ai-council.html`** |
@@ -290,7 +294,7 @@ an empty `{}` and every push and refetch fails silently from there.
 cd ~/dev/henry && node ~/dev/portfolio/scripts/audit.mjs
 ```
 
-It runs from the Henry repo because that's where Playwright is installed. Exit 0 = safe. **47
+It runs from the Henry repo because that's where Playwright is installed. Exit 0 = safe. **56
 checks** across three groups:
 
 - **index.html** — zero console errors, zero external requests, no horizontal scroll at
@@ -363,7 +367,7 @@ These are not style preferences. Breaking one is a defect.
    fails if a single request leaves `file://`.
 
 3. **The audit must pass before any commit.**
-   `cd ~/dev/henry && node ~/dev/portfolio/scripts/audit.mjs` → all 47 PASS. No commits on a
+   `cd ~/dev/henry && node ~/dev/portfolio/scripts/audit.mjs` → all 56 PASS. No commits on a
    failing audit, and don't "fix" a failure by weakening the check.
 
 4. **NEVER push without Luvish's explicit go.**
@@ -376,7 +380,16 @@ These are not style preferences. Breaking one is a defect.
    No frameworks, no build step, no npm dependencies in this repo, no splitting the CSS into
    files. The whole point is that `open index.html` is the entire development environment.
 
-6. **Preserve the markers.** `STAT:*`, `GH_GRID`, `GH_MONTHS`, `HERO_BAND`. They're how real data
+6. **The two flagship agents are equals, and Bose is sealed.**
+   `#flagships` presents Bose and Henry with the same card, the same number of spec rows and
+   the same chip count. Do not promote one over the other. And on the Bose surfaces
+   (`projects/bose.html` and the `#flagships` block) there must NEVER be: a repo link of any
+   kind (the repo is private), a school, a customer, a student, or an employer name. GrowthX
+   stays exactly where it already is, in the intro sentence and the work-experience row, as a
+   public resume fact about employment, and never anywhere near either agent. The audit gates
+   all of this; see `FORBIDDEN` in `scripts/audit.mjs`.
+
+7. **Preserve the markers.** `STAT:*`, `GH_GRID`, `GH_MONTHS`, `HERO_BAND`. They're how real data
    gets back into a static file.
 
 ---
