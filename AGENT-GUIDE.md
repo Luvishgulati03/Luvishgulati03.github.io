@@ -275,10 +275,12 @@ have red-lined the first night the real count moved while the nightly refresh ke
 (audit 2026-08-09 B-M24, fixed in `7ae74bf`). If you ever reintroduce a literal contribution
 number anywhere in `audit.mjs`, you are rebuilding that bug.
 
-Both commands need an authenticated `gh` with the **`read:user`** scope — `contributionsCollection`
-is not readable anonymously. `gh auth login` (browser flow, so a human runs it) then
-`gh auth setup-git`; verify with `gh api graphql -f query='query { viewer { login } }'` before
-assuming a nightly refresh can work.
+Both commands need an authenticated `gh` — `contributionsCollection` is not readable anonymously,
+though for a public profile no special scope is needed (verified 2026-08-15 with a plain
+`gist, read:org, repo, workflow` token). `gh auth login` runs a browser flow, so a human runs it,
+never the agent. Verify with `gh api graphql -f query='query { viewer { login } }'` before
+assuming a nightly refresh can work — an interrupted login leaves `~/.config/gh/hosts.yml` as
+an empty `{}` and every push and refetch fails silently from there.
 
 ---
 
