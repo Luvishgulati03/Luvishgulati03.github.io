@@ -665,7 +665,7 @@ li:hover .spark{ color:var(--accent); }
       <nav class="nav-links" aria-label="Primary">
         <a href="#skills" class="hide-s">skills</a>
         <a href="#projects" class="hide-s">projects</a>
-        <a href="#flagships">agents</a>
+        <a href="#flagships">builds</a>
         <a href="#contact">contact</a>
         <a href="assets/Luvish_Gulati_Resume.pdf" download>resume</a>
         <button class="tt" id="tt" type="button" aria-label="Switch colour theme">
@@ -716,7 +716,7 @@ li:hover .spark{ color:var(--accent); }
   <!-- ============ INTRO ============ -->
   <section class="pad intro" style="padding-block:30px">
     <p>I turn AI product ideas into working systems. Right now I am a software engineering intern at <b>GrowthX</b>, where I ship product and engineering work across notifications, mobile testing and internal AI tools.</p>
-    <p>Outside work, I built <a href="projects/bose.html">Bose</a> to help schools teach and run clearer exams. I also built <a href="projects/henry.html">Henry</a> to manage my own work. I designed the product flows and wrote the software for both.</p>
+    <p>Outside work, I designed and built <a href="projects/bose.html">Bose</a>, a school AI product for teaching, assessment and exam integrity. <a href="projects/henry.html">Henry</a> is different: it is the personal agent I use to manage my own work.</p>
   </section>
 
   <!-- ============ SOCIAL ============ -->
@@ -744,17 +744,17 @@ li:hover .spark{ color:var(--accent); }
 
   <div class="hatch"></div>
 
-  <!-- ============ FLAGSHIP AGENTS ============
-       Two agents, one architecture. They are presented as equals on purpose:
+  <!-- ============ FLAGSHIP BUILDS ============
+       One school product and one personal agent. They are presented as equals on purpose:
        same card component, same spec-row count, same chip count. The audit
        enforces that (see scripts/audit.mjs). Bose is listed first because it
        is the product; Henry second because it is the origin story.
        Facts: content-dossier.md § "Update 2026-08-15 - TWO FLAGSHIP AGENTS".
        NEVER add a repo link to the Bose card: the repo is private. -->
   <section class="pad reveal" id="flagships">
-    <p class="fg-kicker">One core system · two agents</p>
-    <h2 class="h-sec">flagship agents.</h2>
-    <p class="fg-lede">Both agents remember context, find the right information and choose a capability. The user, tools and approval step change.</p>
+    <p class="fg-kicker">One product · one personal agent</p>
+    <h2 class="h-sec">flagship builds.</h2>
+    <p class="fg-lede"><b>Bose is the school product.</b> Henry is the personal agent I use every day. They share an engineering core, but solve different jobs.</p>
 
     <div class="fg-fig">
       <div class="arch-switch" role="group" aria-label="Choose an architecture path">
@@ -765,11 +765,11 @@ li:hover .spark{ color:var(--accent); }
 
       <div class="arch-lane" data-lane="bose" style="--lane:var(--bose)">
         <span class="arch-name">BOSE</span>
-        <span class="arch-node"><strong>student or teacher asks</strong></span>
-        <span class="arch-node">find class material and learner context</span>
-        <span class="arch-node">choose tutor, test or exam monitor</span>
-        <span class="arch-node">teacher reviews evidence and output</span>
-        <span class="arch-node"><strong>lesson, test or exam record</strong></span>
+        <span class="arch-node"><strong>student learns or takes a test</strong></span>
+        <span class="arch-node">load class material and learner context</span>
+        <span class="arch-node">run tutor, paper, exam or marking tool</span>
+        <span class="arch-node">calculate scores and log exam events</span>
+        <span class="arch-node"><strong>teacher reviews the full record</strong></span>
       </div>
 
       <div class="arch-shared">
@@ -777,7 +777,7 @@ li:hover .spark{ color:var(--accent); }
           <path class="dash" d="M8 8H612" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
           <circle cx="8" cy="8" r="3" fill="var(--bose)"/><circle cx="612" cy="8" r="3" fill="var(--accent)"/>
         </svg>
-        shared core: remember context → retrieve → route → check approval
+        shared core: remember context → retrieve → route → apply rules
       </div>
 
       <div class="arch-lane" data-lane="henry" style="--lane:var(--accent)">
@@ -789,21 +789,21 @@ li:hover .spark{ color:var(--accent); }
         <span class="arch-node"><strong>draft, reminder or finished task</strong></span>
       </div>
 
-      <p class="arch-readout" id="arch-readout" aria-live="polite">The structure is shared. Bose works with school context and teacher review. Henry works with personal context and my approval.</p>
+      <p class="arch-readout" id="arch-readout" aria-live="polite">Bose turns school data into teaching, assessment and review workflows. Henry turns my personal context into finished work.</p>
     </div>
 
     <div class="fg-grid">
       <article class="fg-card" style="--c1:var(--bose)">
         <div class="fg-chips">
-          <span class="fg-chip">AI TEACHER + PROCTOR</span>
+          <span class="fg-chip">SCHOOL AI PRODUCT</span>
           <span class="fg-chip ghost">PRIVATE REPO</span>
         </div>
         <h3>Bose</h3>
-        <p class="fg-pos">A demo-ready AI teacher and exam-integrity system built for schools.</p>
+        <p class="fg-pos">A demo-ready product that connects teaching, assessment, marking and exam integrity.</p>
         <ul class="fg-spec">
           <li><b>what it does</b><span>teaches in chat, builds papers and runs online exams</span></li>
           <li><b>how it adapts</b><span>uses learner history and patterns from past papers</span></li>
-          <li><b>for teachers</b><span>shows progress, scores and flagged exam events</span></li>
+          <li><b>how it marks</b><span>calculates scores from recorded answers and scoring rules</span></li>
         </ul>
         <div class="fg-cloud">
           <span class="fg-cap">chat tutor</span>
@@ -811,7 +811,7 @@ li:hover .spark{ color:var(--accent); }
           <span class="fg-cap">randomized exams</span>
           <span class="fg-cap">integrity signals</span>
           <span class="fg-cap">evidence timeline</span>
-          <span class="fg-cap">score controls</span>
+          <span class="fg-cap">automated marking</span>
           <span class="fg-cap">identity airlock</span>
         </div>
         <div class="fg-act">
@@ -850,7 +850,7 @@ li:hover .spark{ color:var(--accent); }
       </article>
     </div>
 
-    <p class="fg-thesis"><i aria-hidden="true"></i><span>Same product thinking. Different users, tools and decisions.</span><i aria-hidden="true"></i></p>
+    <p class="fg-thesis"><i aria-hidden="true"></i><span>Bose is designed for schools. Henry is built for my own work.</span><i aria-hidden="true"></i></p>
   </section>
 
   <div class="hatch"></div>
@@ -1060,7 +1060,7 @@ li:hover .spark{ color:var(--accent); }
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
               <span class="flag">Flagship</span>
             </h3>
-            <p class="d">Demo-ready school AI for tutoring, randomized exams and reviewable integrity evidence.</p>
+            <p class="d">A school AI product for tutoring, automated marking, randomized exams and reviewable integrity evidence.</p>
           </div>
           <div class="p-btns">
             <a class="pill" href="projects/bose.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
@@ -1435,8 +1435,8 @@ li:hover .spark{ color:var(--accent); }
   var archLanes = [].slice.call(document.querySelectorAll('[data-lane]'));
   var archReadout = document.getElementById('arch-readout');
   var archCopy = {
-    both: 'The structure is shared. Bose works with school context and teacher review. Henry works with personal context and my approval.',
-    bose: 'Bose combines class material and learner context, routes the request to teaching or exam tools, then gives teachers the final control.',
+    both: 'Bose turns school data into teaching, assessment and review workflows. Henry turns my personal context into finished work.',
+    bose: 'Bose connects learning, exams and marking. It calculates scores from recorded answers and keeps the result reviewable for teachers.',
     henry: 'Henry combines personal memory and reusable knowledge, routes work to a focused capability, then waits for my approval before external action.'
   };
   archButtons.forEach(function (button) {

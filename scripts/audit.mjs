@@ -19,7 +19,7 @@ const PAGE = `file://${REPO}/index.html`;
 // Each entry names the h1 the page must carry and the role chip it must show, so
 // adding a case study means adding a row here, not editing a check body.
 const CASE_PAGES = [
-  { file: "projects/bose.html", shot: "case-bose.png", h1: "Bose", chip: "AI teacher + exam integrity" },
+  { file: "projects/bose.html", shot: "case-bose.png", h1: "Bose", chip: "school AI product" },
   { file: "projects/henry.html", shot: "case-henry.png", h1: "Henry", chip: "Personal work agent" },
   { file: "projects/risk-ai-council.html", shot: "case-risk-ai-council.png", h1: "Risk AI Council", chip: "Product, GTM + website design" },
   { file: "projects/carbonnex.html", shot: "case-carbonnex.png", h1: "CarbonNex", chip: "Associate Product Manager" },

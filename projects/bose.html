@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bose · case study · Luvish Gulati</title>
-<meta name="description" content="Case study: Bose, a demo-ready AI teacher and exam-integrity system for schools, with teacher review and student identity protection.">
+<meta name="description" content="Case study: Bose, a demo-ready school AI product for teaching, assessment, automated marking and exam integrity.">
 <meta name="author" content="Luvish Gulati">
 <meta name="color-scheme" content="dark light">
 <meta name="robots" content="index,follow">
@@ -292,6 +292,38 @@ section{ padding-block:var(--sec-y); }
 }
 
 /* ============================================================
+   10b. MARKING FLOW
+   ============================================================ */
+.mark-flow{
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+  border:1px dashed var(--rule); border-radius:14px; overflow:hidden; background:var(--panel);
+}
+.mark-step{
+  position:relative; display:flex; min-width:0; flex-direction:column; gap:9px;
+  padding:20px 18px; background:linear-gradient(145deg,color-mix(in srgb,var(--c1) 7%,transparent),transparent 70%);
+}
+.mark-step + .mark-step{ border-left:1px dashed var(--rule-soft); }
+.mark-step:not(:last-child)::after{
+  content:"→"; position:absolute; z-index:2; right:-11px; top:50%; transform:translateY(-50%);
+  display:grid; width:22px; height:22px; place-items:center; border:1px solid var(--c1);
+  border-radius:50%; background:var(--col-bg); color:var(--c1); font:12px/1 var(--f-mono);
+}
+.mark-index{ color:var(--c1); font:12px/1.3 var(--f-mono); letter-spacing:.12em; }
+.mark-step h3{ font-size:17px; font-weight:650; line-height:1.25; }
+.mark-step p{ color:var(--text-2); font-size:14px; line-height:1.5; }
+.mark-rule{
+  margin-top:16px; padding:14px 16px; border:1px solid color-mix(in srgb,var(--c1) 36%,var(--rule));
+  border-radius:11px; background:color-mix(in srgb,var(--c1) 7%,var(--panel));
+  color:var(--text-2); font-size:14.5px; line-height:1.55;
+}
+.mark-rule b{ color:var(--text); font-weight:650; }
+@media (max-width:760px){
+  .mark-flow{ grid-template-columns:minmax(0,1fr); }
+  .mark-step + .mark-step{ border-top:1px dashed var(--rule-soft); border-left:0; }
+  .mark-step:not(:last-child)::after{ right:50%; top:auto; bottom:-11px; transform:translateX(50%); content:"↓"; }
+}
+
+/* ============================================================
    11. FOOTER
    ============================================================ */
 .foot{
@@ -345,7 +377,7 @@ section{ padding-block:var(--sec-y); }
     <div class="nav-in pad">
       <a class="mark" href="../index.html"><span class="bk" aria-hidden="true">←</span>luvish.</a>
       <nav class="nav-links" aria-label="Primary">
-        <a href="../index.html#flagships" class="hide-s">agents</a>
+        <a href="../index.html#flagships" class="hide-s">builds</a>
         <a href="henry.html">henry</a>
         <a href="../index.html#contact">contact</a>
         <button class="tt" id="tt" type="button" aria-label="Switch colour theme">
@@ -360,14 +392,14 @@ section{ padding-block:var(--sec-y); }
 
   <!-- ============ HERO ============ -->
   <section class="pad hero">
-    <p class="kicker">Case study · flagship agent</p>
+    <p class="kicker">Case study · school AI product</p>
     <h1>Bose</h1>
-    <p class="lede">A demo-ready AI teacher and exam-integrity system for schools. Students learn in chat, teachers run tests and every flagged exam event can be reviewed.</p>
+    <p class="lede">A demo-ready school AI product that connects teaching, assessment, marking and exam integrity. Students learn in chat. Teachers can trace every score and flagged exam event.</p>
     <div class="chips">
-      <span class="chip">AI teacher + exam integrity</span>
+      <span class="chip">school AI product</span>
+      <span class="chip alt">teaching + assessment</span>
       <span class="chip alt">demo-ready</span>
       <span class="chip alt">private repo</span>
-      <span class="chip alt">built for schools</span>
     </div>
   </section>
 
@@ -377,7 +409,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <div class="st-row" role="group" aria-label="Bose at a glance">
       <div class="st-cell"><p class="st-value sm">Demo-ready</p><p class="st-caption">Teaching, assessment and integrity flows built</p></div>
-      <div class="st-cell"><p class="st-value sm">AES-256-GCM</p><p class="st-caption">Identity vault, scrubbed before persist</p></div>
+      <div class="st-cell"><p class="st-value sm">Rule-based</p><p class="st-caption">Marks calculated from recorded answers and scoring rules</p></div>
       <div class="st-cell"><p class="st-value">0</p><p class="st-caption">Student names that reach an external model</p></div>
       <div class="st-cell"><p class="st-value sm">Teacher-led</p><p class="st-caption">Evidence, scores and student activity stay reviewable</p></div>
     </div>
@@ -388,8 +420,8 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ THE PROBLEM ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">the problem.</h2>
-    <p>India's 2026 student protests around alleged exam paper leaks made the trust problem impossible to ignore. Students want fair exams. Schools need evidence they can inspect, not a black-box cheating score.</p>
-    <p>Bose tackles the part a school can control: how students prepare, how online exams run, what gets flagged and how teachers review it. It does not claim to stop national paper-leak networks.</p>
+    <p>Schools often split teaching, tests, marking and exam review across different tools. That makes a simple question hard to answer: how was this result reached?</p>
+    <p>Bose keeps the learning journey, recorded answers, calculated marks and exam events in one reviewable system. India's 2026 student protests around alleged paper leaks sharpened the need for this kind of transparency. Bose focuses on what a school can control. It does not claim to stop national paper-leak networks.</p>
     <p class="note">Public context: <a href="https://apnews.com/article/59d045fbd485635def01b01f3898307b" target="_blank" rel="noopener noreferrer">AP's report on the protests ↗</a></p>
   </section>
 
@@ -399,7 +431,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">the architecture.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Bose starts with school context, chooses the right teaching or exam tool, and returns the result through a teacher-controlled workflow.</p>
+      <p>Bose connects the full school workflow. Learning context feeds teaching and assessment, then each result is calculated, recorded and opened for teacher review.</p>
     </div>
 
     <div class="ph-rail" role="list" aria-label="How Bose was built, in order">
@@ -415,15 +447,49 @@ section{ padding-block:var(--sec-y); }
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">03</span>
-        <h3>choose the job</h3>
-        <p class="ph-copy">The request goes to the chat tutor, paper builder, test runner or exam monitor.</p>
+        <h3>run the workflow</h3>
+        <p class="ph-copy">The request goes to the tutor, paper builder, test runner, exam monitor or marking flow.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">04</span>
-        <h3>make it reviewable</h3>
-        <p class="ph-copy">Teachers inspect evidence, scores and student activity before acting on it.</p>
+        <h3>calculate and review</h3>
+        <p class="ph-copy">Bose calculates the result and keeps the inputs, score and exam events together for teachers.</p>
       </article>
     </div>
+  </section>
+
+  <div class="hatch"></div>
+
+  <!-- ============ AUTOMATED MARKING ============ -->
+  <section class="pad reveal">
+    <h2 class="h-sec">how marking works.</h2>
+    <div class="prose" style="margin-bottom:28px">
+      <p>Bose does not invent a score. It checks recorded answers against the stored answer key or rubric, applies the same scoring rules for that assessment and saves how the mark was calculated.</p>
+    </div>
+
+    <div class="mark-flow" role="list" aria-label="Bose marking flow from recorded answer to teacher review">
+      <article class="mark-step" role="listitem">
+        <span class="mark-index">01 · INPUT</span>
+        <h3>recorded answer</h3>
+        <p>The student's submitted answer becomes the source data.</p>
+      </article>
+      <article class="mark-step" role="listitem">
+        <span class="mark-index">02 · RULES</span>
+        <h3>answer key or rubric</h3>
+        <p>The assessment's stored scoring rules define what earns marks.</p>
+      </article>
+      <article class="mark-step" role="listitem">
+        <span class="mark-index">03 · RESULT</span>
+        <h3>calculated mark</h3>
+        <p>The same rules are applied and the result is saved with its inputs.</p>
+      </article>
+      <article class="mark-step" role="listitem">
+        <span class="mark-index">04 · REVIEW</span>
+        <h3>teacher checks</h3>
+        <p>The teacher can inspect the answer, score and recorded exam events.</p>
+      </article>
+    </div>
+    <p class="mark-rule"><b>Why this is more trustworthy:</b> every mark has a visible path back to the recorded answer and scoring rule. Teachers can review the result instead of trusting a black-box score.</p>
   </section>
 
   <div class="hatch"></div>
@@ -602,9 +668,9 @@ section{ padding-block:var(--sec-y); }
           <path d="M3.5 8h17M7 12h3M7 15h3M13 12l1.5 1.5L18 10"/>
           <path d="M5.8 6h.1M8 6h.1"/>
         </svg>
-        <p class="mc-kicker">assessment loop</p>
-        <h3>online test site</h3>
-        <p>Grades each answer and shows what was right or wrong, plus the final result.</p>
+        <p class="mc-kicker">assessment + marking</p>
+        <h3>online tests and marks</h3>
+        <p>Checks recorded answers against the assessment rules, calculates marks and keeps each result reviewable.</p>
       </article>
 
       <article class="mc-card" role="listitem">

@@ -223,3 +223,16 @@ networks.
   and patterns extracted from past papers.
 - Employer marks should follow the supplied references: the blue X on black for GrowthX,
   the pink PinkUnicorn wordmark on white, and the black C on green for Cvent.
+
+## Update 2026-08-17 — Bose product positioning and marking
+
+- Bose is a school AI product. Public copy should frame it around the school workflow and
+  product goal, not as a commercial offer and not as another personal project like Henry.
+- Henry remains Luvish's personal work agent. The distinction should be explicit wherever
+  the two appear together.
+- Bose automates internal marking from recorded answers and stored scoring rules such as an
+  answer key or rubric. Each calculated mark keeps a traceable path to its inputs and remains
+  reviewable by a teacher.
+- Do not claim that software makes assessment "completely fair." Use the defensible language:
+  consistent rules, recorded inputs, traceable calculations and teacher review.
+- Do not mention future sales, monetisation, customers or revenue in public portfolio copy.
