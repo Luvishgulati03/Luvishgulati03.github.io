@@ -213,3 +213,13 @@ networks.
   accessible and motion-safe.
 - Prefer official employer icons when they can be bundled locally with little effort;
   otherwise use clean, recognisable monograms.
+
+## Update 2026-08-17 — agent-card content and employer marks
+
+- Agent-card summaries should tell a recruiter what the agent does, how it adapts or
+  learns, and what its human user can inspect or approve. Avoid abstract labels such as
+  "control" when the information does not help someone understand the product.
+- Do not describe Bose as self-training. It adapts from learner history, class material
+  and patterns extracted from past papers.
+- Employer marks should follow the supplied references: the blue X on black for GrowthX,
+  the pink PinkUnicorn wordmark on white, and the black C on green for Cvent.
