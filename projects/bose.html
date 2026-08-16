@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bose · case study · Luvish Gulati</title>
-<meta name="description" content="Case study: Bose, a privacy-first AI teacher and proctor for schools. It teaches from school material, creates and grades tests, monitors exams and keeps student identities away from external models.">
+<meta name="description" content="Case study: Bose, a demo-ready AI teacher and exam-integrity system for schools, with teacher review and student identity protection.">
 <meta name="author" content="Luvish Gulati">
 <meta name="color-scheme" content="dark light">
 <meta name="robots" content="index,follow">
@@ -362,12 +362,12 @@ section{ padding-block:var(--sec-y); }
   <section class="pad hero">
     <p class="kicker">Case study · flagship agent</p>
     <h1>Bose</h1>
-    <p class="lede">An AI teacher and proctor for schools. It teaches from the school's material, creates and grades tests, and monitors exams. Student names never reach an external model.</p>
+    <p class="lede">A demo-ready AI teacher and exam-integrity system for schools. Students learn in chat, teachers run tests and every flagged exam event can be reviewed.</p>
     <div class="chips">
-      <span class="chip">AI teacher + proctor</span>
+      <span class="chip">AI teacher + exam integrity</span>
+      <span class="chip alt">demo-ready</span>
       <span class="chip alt">private repo</span>
-      <span class="chip alt">240+ tests</span>
-      <span class="chip alt">Henry's twin for schools</span>
+      <span class="chip alt">built for schools</span>
     </div>
   </section>
 
@@ -376,10 +376,10 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ STAT TILES ============ -->
   <section class="pad reveal">
     <div class="st-row" role="group" aria-label="Bose at a glance">
-      <div class="st-cell"><p class="st-value">240+</p><p class="st-caption">Tests green across the school agent</p></div>
+      <div class="st-cell"><p class="st-value sm">Demo-ready</p><p class="st-caption">Teaching, assessment and integrity flows built</p></div>
       <div class="st-cell"><p class="st-value sm">AES-256-GCM</p><p class="st-caption">Identity vault, scrubbed before persist</p></div>
       <div class="st-cell"><p class="st-value">0</p><p class="st-caption">Student names that reach an external model</p></div>
-      <div class="st-cell"><p class="st-value">$0</p><p class="st-caption">Marginal cost per run, on local embeddings</p></div>
+      <div class="st-cell"><p class="st-value sm">Teacher-led</p><p class="st-caption">Evidence, scores and student activity stay reviewable</p></div>
     </div>
   </section>
 
@@ -388,8 +388,9 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ THE PROBLEM ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">the problem.</h2>
-    <p>Schools want AI to save teachers time. They also need to protect student data and keep teachers in control.</p>
-    <p>That made the real product questions clear: where answers come from, who sees a student's identity, who approves the output and how data gets deleted. Bose handles those questions in the system design, not through a privacy setting added later.</p>
+    <p>India's 2026 student protests around alleged exam paper leaks made the trust problem impossible to ignore. Students want fair exams. Schools need evidence they can inspect, not a black-box cheating score.</p>
+    <p>Bose tackles the part a school can control: how students prepare, how online exams run, what gets flagged and how teachers review it. It does not claim to stop national paper-leak networks.</p>
+    <p class="note">Public context: <a href="https://apnews.com/article/59d045fbd485635def01b01f3898307b" target="_blank" rel="noopener noreferrer">AP's report on the protests ↗</a></p>
   </section>
 
   <div class="hatch"></div>
@@ -398,30 +399,29 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">the architecture.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Bose uses the same core as <a href="henry.html">Henry</a>: memory, retrieval, routing and guardrails. I changed the tools for a school setting and put teachers in control of anything students see.</p>
-      <p>I built it in this order:</p>
+      <p>Bose starts with school context, chooses the right teaching or exam tool, and returns the result through a teacher-controlled workflow.</p>
     </div>
 
     <div class="ph-rail" role="list" aria-label="How Bose was built, in order">
       <article class="ph-phase" role="listitem">
         <span class="ph-index">01</span>
-        <h3>airlock first</h3>
-        <p class="ph-copy">I built the identity boundary before any teaching feature, so names never entered the rest of the system.</p>
+        <h3>protect identity</h3>
+        <p class="ph-copy">Real names stay in an encrypted vault. The rest of Bose uses a private student ID.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">02</span>
-        <h3>the school's own material</h3>
-        <p class="ph-copy">Each class searches its own syllabus and answer bank using local embeddings.</p>
+        <h3>load class context</h3>
+        <p class="ph-copy">Each class searches its own syllabus, answer bank and learner history.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">03</span>
-        <h3>teach, then test</h3>
-        <p class="ph-copy">Tutor mode controls how much help to give. The test site creates, grades and explains each result.</p>
+        <h3>choose the job</h3>
+        <p class="ph-copy">The request goes to the chat tutor, paper builder, test runner or exam monitor.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">04</span>
-        <h3>hand it to the teacher</h3>
-        <p class="ph-copy">Teachers approve student-facing output. They also get grading help, worksheets and grouped doubts.</p>
+        <h3>make it reviewable</h3>
+        <p class="ph-copy">Teachers inspect evidence, scores and student activity before acting on it.</p>
       </article>
     </div>
   </section>
@@ -527,18 +527,18 @@ section{ padding-block:var(--sec-y); }
         <text x="40" y="549" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="13">CROSSES: scrubbed question + pseudo ID</text>
         <text x="40" y="568" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="13">NEVER CROSSES: name, class, identifiers</text>
       </svg>
-      <p class="figcap"><b>The identity airlock.</b> The vault holds the real identity. A scrub step removes personal details before the model sees the question. The answer returns through the airlock.</p>
+      <p class="figcap"><b>The privacy boundary.</b> A real name stays in the encrypted vault. Only a private student ID and scrubbed question can reach an external model.</p>
     </div>
 
     <div class="prose" style="margin-top:30px">
-      <p>Four parts enforce the rule:</p>
+      <p>The rule is enforced in four places:</p>
       <ul class="deflist">
         <li><b>The vault</b>Real identities stay in one AES-256-GCM encrypted store. The rest of Bose uses a pseudonymous ID.</li>
         <li><b>Scrub before saving</b>Bose removes identifying details before saving data or calling an external model.</li>
-        <li><b>On-device proctoring</b>Exam mode records browser events. Video never leaves the device.</li>
+        <li><b>On-device camera checks</b>The browser records integrity signals. Video never leaves the device.</li>
         <li><b>Right to forget</b>Identity lives in one vault, so deletion is direct and complete.</li>
       </ul>
-      <p class="note"><b>What I do not show:</b> school names, student data, private work or the repository. This page covers the public architecture and my product decisions.</p>
+      <p class="note">No school, student data or private repository detail is shown here.</p>
     </div>
   </section>
 
@@ -616,7 +616,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">browser-only</p>
         <h3>exam mode + proctoring</h3>
-        <p>Records browser events during an exam. Video never leaves the device.</p>
+        <p>Runs timed, randomized exams and records tab switches, fullscreen exits, copy-paste, device changes and camera-based integrity signals.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -626,7 +626,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">class progress</p>
         <h3>karma and leaderboards</h3>
-        <p>Tracks karma points, tiers and class leaderboards between tests.</p>
+        <p>Turns learning and test activity into points, mastery and a student scoreboard.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -636,9 +636,17 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">approval gate</p>
         <h3>teacher automation</h3>
-        <p>Suggests grades, groups common doubts and creates worksheets. Teachers approve what students see.</p>
+        <p>Shows the evidence timeline, student activity and score history. Teachers decide what happens next.</p>
       </article>
     </div>
+  </section>
+
+  <div class="hatch"></div>
+
+  <section class="pad prose reveal">
+    <h2 class="h-sec">what comes next.</h2>
+    <p>The next layer compares AI-supported learning across schools. A student's preparation, knowledge gained and assessment activity will become points on a scoreboard. A school's score will be the average of its student scores.</p>
+    <p>This is planned, not live. The goal is to give schools a transparent way to track AI adoption in their area while teachers retain control over student scores and activity.</p>
   </section>
 
   </main>

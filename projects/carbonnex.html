@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CarbonNex · case study · Luvish Gulati</title>
-<meta name="description" content="Case study: CarbonNex, an ESG reporting product. As associate product manager I designed the core workflows: data in, normalize, report out.">
+<meta name="description" content="Case study: CarbonNex. I designed the software architecture for automated ESG compliance management.">
 <meta name="author" content="Luvish Gulati">
 <meta name="color-scheme" content="dark light">
 <meta name="robots" content="index,follow">
@@ -319,7 +319,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad hero">
     <p class="kicker">Case study · work product</p>
     <h1>CarbonNex</h1>
-    <p class="lede">An ESG reporting product. I designed the core workflows: how data gets in, how it's made comparable, and how it comes back out as a report someone can defend.</p>
+    <p class="lede">An ESG compliance-management product. I designed the software architecture that moves company data from collection to a traceable report.</p>
     <div class="chips">
       <span class="chip">Associate Product Manager</span>
       <span class="chip alt">Pink Unicorn Algorithms</span>
@@ -408,7 +408,7 @@ section{ padding-block:var(--sec-y); }
           <path d="M4 458 V466 H12"/><path d="M388 466 H396 V458"/>
         </g>
       </svg>
-      <p class="figcap"><b>The three workflows.</b> Inputs arrive in whatever shape they were recorded in. Normalize maps them onto one shape, and anything that doesn't map cleanly is flagged rather than dropped. The report is assembled from the normalized set, with every figure still leading back to the input it came from.</p>
+      <p class="figcap"><b>The product flow.</b> Collect company data, make it comparable, flag gaps and produce a report that links back to its source.</p>
     </div>
   </section>
 
@@ -417,12 +417,12 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ THE PROBLEM ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">the problem.</h2>
-    <p>ESG reporting looks like a writing task and behaves like a data-reconciliation one. The thing at the end is a document, but almost everything before it is figures arriving from different parts of a business, recorded by different people, at different times, to different levels of confidence.</p>
-    <p>Three properties of the domain make that hard:</p>
+    <p>ESG reporting starts with scattered company data. Different teams record different units, periods and levels of detail. The final report still needs to be complete and explainable.</p>
+    <p>The main workflow problems were:</p>
     <ul class="deflist">
-      <li><b>The data isn't born in one place</b>It's generated wherever the activity happened, which is almost never where the reporting happens. Someone has to go and get it, and that someone is usually not the person who needs it.</li>
-      <li><b>Comparable-looking numbers often aren't</b>Figures show up in different units, over different periods, against different boundaries. Quiet errors live in the conversions, and they survive right up until someone checks.</li>
-      <li><b>The output has to be defensible</b>An ESG report is something a person is eventually asked to stand behind. The first question about any figure is where it came from. If the answer isn't in the product, the product hasn't finished the job.</li>
+      <li><b>Scattered ownership</b>Data comes from different teams, so the product must show who owns each missing input.</li>
+      <li><b>Mismatched data</b>Units and reporting periods must be normalized before they can be compared.</li>
+      <li><b>Traceability</b>Every reported figure should link back to its source.</li>
     </ul>
   </section>
 
@@ -431,9 +431,8 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ WHAT IT DOES ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">what carbonnex does.</h2>
-    <p>CarbonNex is an <b>ESG reporting product</b>: it takes an organisation's environmental, social and governance data and turns it into reporting.</p>
-    <p>My work sat on the layer underneath that: the <b>core workflows</b>. Not the visual design of the report and not the pipeline code, but the sequence a user moves through, what the product does at each step, and what it does when a step doesn't go to plan. Those decisions are what a reporting tool actually is once you're using it every quarter.</p>
-    <p class="note"><b>On what's not on this page:</b> internal figures, screenshots, the customer list and anything else that belongs to the company aren't here. No adoption numbers, no uptime, no invented outcomes. What's here is the shape of the work and the reasoning behind it.</p>
+    <p>CarbonNex automates ESG compliance management. I designed the full software architecture, including data collection, normalization, gap handling and report generation.</p>
+    <p class="note">Internal figures, customers and company data are not shown.</p>
   </section>
 
   <div class="hatch"></div>
@@ -446,24 +445,21 @@ section{ padding-block:var(--sec-y); }
         <span class="num">01</span>
         <div>
           <h3>Data in</h3>
-          <p>Getting figures into the system from wherever they live. The design questions here are ownership and incompleteness: who is responsible for a given input, what the product shows when a number hasn't arrived yet, and how a half-finished period is represented.</p>
-          <p>The trap is treating a missing input as a zero. A gap and a zero look identical in a total and mean opposite things, so the workflow has to keep them distinguishable all the way through. That is a decision you make at intake or not at all.</p>
+          <p>Collect figures from different owners and keep missing data visibly different from zero.</p>
         </div>
       </li>
       <li>
         <span class="num">02</span>
         <div>
           <h3>Normalize</h3>
-          <p>The step that makes the numbers comparable: raw inputs, in whatever shape they arrived, mapped onto one consistent internal shape. This is where a reporting product earns its keep, because everything downstream assumes it was done properly.</p>
-          <p>The interesting design isn't the happy path, it's the leftovers. Something always fails to map cleanly, and silently dropping it is the failure mode that destroys trust in a reporting tool. So the workflow surfaces exceptions instead of swallowing them, keeps them in the dataset rather than off to one side, and makes it explicit whose job it is to resolve each one.</p>
+          <p>Map units and reporting periods into one structure. Keep failed mappings visible and assign them for review.</p>
         </div>
       </li>
       <li>
         <span class="num">03</span>
         <div>
           <h3>Report out</h3>
-          <p>Assembling the normalized data into the output. The constraint that shapes this workflow is traceability: every figure in the report should lead back to the input it came from, because that's the first thing anyone asks about an ESG number.</p>
-          <p>Designing for that constraint reaches backwards. You can only offer a trace at the end if you kept the lineage at the start. Which is why these three workflows had to be designed as one, not three.</p>
+          <p>Build the compliance report from normalized data while preserving the source behind every figure.</p>
         </div>
       </li>
     </ul>
@@ -474,9 +470,8 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ HOW IT FITS TOGETHER ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">how it fits together.</h2>
-    <p>Read left to right the product is a straight line: <b>data in → normalize → report out</b>. That straight line is the easy half. It's also the half that gets specced.</p>
-    <p>The half that decides whether people keep using the thing is what happens when data is <b>late, partial, in the wrong unit, or disputed</b>, and workflow design is mostly deciding those cases deliberately, in advance, rather than letting them get decided by whoever writes that branch of the code first. That's the actual craft in a product like this, and it's most of what I spent my time on.</p>
-    <p>The through-line across all three: <b>never let the product quietly guess</b>. A missing figure stays visibly missing, an input that won't map gets flagged rather than dropped, and a number in the final report can always be traced back to where it came from. In a domain where the output is something a person has to defend, being honest about what you don't know is a product feature. It's the same instinct behind everything else I build.</p>
+    <p>The main path is <b>data in → normalize → report out</b>. The architecture also handles late, partial and disputed data.</p>
+    <p>The rule across the system is simple: never guess silently. Missing data stays missing, exceptions stay visible and report figures remain traceable.</p>
   </section>
 
   </main>

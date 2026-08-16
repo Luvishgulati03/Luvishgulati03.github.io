@@ -1,10 +1,10 @@
-# luvishgulati03.github.io — personal portfolio (v3)
+# luvishgulati.com personal portfolio (v3)
 
 Hand-written HTML — one homepage plus two self-contained case-study pages. No frameworks, no
 build step, no dependencies, no external requests. Open `index.html` in a browser and that's the
 whole site.
 
-**Live:** https://luvishgulati03.github.io/
+**Live:** https://luvishgulati.com/
 
 > Editing this repo with an agent? Read **[AGENT-GUIDE.md](AGENT-GUIDE.md)** first — file map,
 > the baked-data marker conventions, and the rules that aren't negotiable.

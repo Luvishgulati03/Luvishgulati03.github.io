@@ -38,7 +38,7 @@ const stats = {
   activeFor,
   embeddingDims: 384,
   runsOn: "8GB M1 Air",
-  marginalCost: "$0",
+  marginalCost: "₹0",
 };
 
 const out = path.join(path.dirname(new URL(import.meta.url).pathname), "..", "data", "henry-stats.json");

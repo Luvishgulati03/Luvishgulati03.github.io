@@ -17,11 +17,11 @@ No framework, no build step, no dependencies, no runtime network requests.
 
 | | |
 |---|---|
-| **Live URL** | https://luvishgulati03.github.io |
+| **Live URL** | https://luvishgulati.com |
 | **GitHub repo** | `Luvishgulati03/Luvishgulati03.github.io` |
 | **Hosting** | GitHub Pages — a user site, served straight from the repo root |
 | **Deploy** | **push to `main` = live in ~30 seconds.** There is no staging environment. |
-| **Cost** | $0 |
+| **Cost** | ₹0 |
 | **Local path** | `/Users/luvishgulati/dev/portfolio` |
 
 There is a `.nojekyll` file at the root so GitHub Pages serves the files as-is instead of running
@@ -77,9 +77,9 @@ corner ticks) or `.hatch` (diagonal-hatch strip).
 | 1 | Nav | — | sticky; `luvish.` wordmark, links, theme toggle `#tt` |
 | 2 | Activity band | — | decorative mosaic, `aria-hidden`. Marker: `HERO_BAND` |
 | 3 | Profile | — | avatar, name, role, location, live IST clock `#clock` |
-| 4 | Intro | — | three paragraphs of first-person positioning |
+| 4 | Intro | — | two short paragraphs of first-person positioning |
 | 5 | Social | — | GitHub / LinkedIn / email / résumé |
-| 6 | Flagship agents | `#flagships` | **Bose + Henry, presented as equals.** Shared-spine SVG + two cards |
+| 6 | Flagship agents | `#flagships` | **Bose + Henry, presented as equals.** Interactive request-path comparison + two cards |
 | 7 | Work experience | `#experience` | 3 rows — GrowthX, Pink Unicorn Algorithms, Cvent |
 | 8 | Featured projects | `#projects` | 6 cover thumbnails + 6 list rows |
 | 9 | Technical skills | `#skills` | Engineering / AI / Product tile groups |
@@ -92,7 +92,7 @@ reveals, count-ups).
 
 ### The projects section, specifically
 
-Five projects. **Two different affordances**, and they are not interchangeable:
+Six projects. **Two different affordances**, and they are not interchangeable:
 
 | Project | Affordance |
 |---|---|
@@ -179,9 +179,13 @@ chip, `the problem.` / `what it is.` / `what I owned.` / `how it works.` section
 hand-drawn **inline SVG** diagram in the style of the project covers (blueprint grid, dashed
 animated connectors, mono labels, corner ticks).
 
-Diagrams are authored on a ~400-unit-wide viewBox with labels at 13–19 units, so they stay legible
+Case-study diagrams are authored on a ~400-unit-wide viewBox with labels at 13–19 units, so they stay legible
 when the SVG scales down to a 360px phone. Keep explanatory text in the HTML `.figcap` below the
 diagram, not inside the SVG — real text scales, stays selectable and stays accessible.
+
+The homepage architecture comparison is intentionally HTML-first. Its plain-language lanes can
+be isolated with the `data-arch` buttons. Keep the labelled inline SVG connector so the figure
+remains machine-readable and the audit can verify it.
 
 ---
 
@@ -205,7 +209,7 @@ the non-numeric ones:
 | `queriesAnswered` | `queriesAnswered` | `62` | stat tile 1 |
 | `totalMemories` | `totalMemories` | `140` | stat tile 2 |
 | `activeFor` | `activeFor` | `<1 month` (HTML-escaped as `&lt;1 month`) | stat tile 3 |
-| `marginalCost` | `marginalCost` | `$0` | stat tile 4 |
+| `marginalCost` | `marginalCost` | `₹0` | stat tile 4 |
 | `runsOn` | `runsOn` | `8GB M1 Air` | stat tile 4 caption |
 | `generatedAt` | `generatedAt` | `8 Aug 2026` | the muted "as of …" line |
 

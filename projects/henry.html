@@ -374,11 +374,11 @@ section{ padding-block:var(--sec-y); }
   <section class="pad hero">
     <p class="kicker">Case study · flagship agent</p>
     <h1>Henry</h1>
-    <p class="lede">My terminal-first project-management agent. It remembers context, routes work and handles scheduled tasks on an M1 Air.</p>
+    <p class="lede">The personal work agent I use every day. It remembers context, finds knowledge and runs focused workflows from my terminal or phone.</p>
     <div class="chips">
-      <span class="chip">Personal agent + PM twin</span>
+      <span class="chip">Personal work agent</span>
       <span class="chip alt">open source</span>
-      <span class="chip alt">530+ tests</span>
+      <span class="chip alt">daily driver</span>
       <a class="chip alt link" href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer">read the code ↗</a>
     </div>
   </section>
@@ -388,10 +388,10 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ STAT TILES ============ -->
   <section class="pad reveal">
     <div class="st-row" role="group" aria-label="Henry at a glance">
-      <div class="st-cell"><p class="st-value">530+</p><p class="st-caption">Tests green across the agent</p></div>
+      <div class="st-cell"><p class="st-value sm">Daily</p><p class="st-caption">Used for job search, documents and scheduled work</p></div>
       <div class="st-cell"><p class="st-value">900+</p><p class="st-caption">Knowledge modules under eval-gated retrieval</p></div>
-      <div class="st-cell"><p class="st-value">2</p><p class="st-caption">Memory stores: Engram plus the knowledge RAG</p></div>
-      <div class="st-cell"><p class="st-value">$0</p><p class="st-caption">Marginal cost per run, on an M1 Air</p></div>
+      <div class="st-cell"><p class="st-value">2</p><p class="st-caption">Separate stores for personal memory and reusable knowledge</p></div>
+      <div class="st-cell"><p class="st-value">₹0</p><p class="st-caption">API spend per run, on an M1 Air</p></div>
     </div>
   </section>
 
@@ -400,8 +400,8 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ THE PROBLEM ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">the problem.</h2>
-    <p>I wanted more than a chat window. I needed an agent that could remember past work, pick up unfinished tasks and prepare the next step.</p>
-    <p>It also had to stay under my control. Henry runs on my laptop, costs nothing per run and keeps every external action behind clear limits and approval.</p>
+    <p>I kept losing context between chats, documents and job-search tasks. A chatbot could answer one prompt, but it could not reliably continue yesterday's work.</p>
+    <p>Henry keeps that context locally, chooses a focused workflow and asks for approval before external action.</p>
   </section>
 
   <div class="hatch"></div>
@@ -410,8 +410,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">the architecture.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Henry has one entry point. A router chooses the right capability and model tier, while two separate stores handle personal memory and knowledge.</p>
-      <p>I reused that core for <a href="bose.html">Bose</a>, then changed the tools and approval flow for schools.</p>
+      <p>Read the system top to bottom: a request arrives, the router loads the right context, then one focused capability does the work.</p>
     </div>
 
     <div class="fig">
@@ -482,29 +481,29 @@ section{ padding-block:var(--sec-y); }
         <rect x="96" y="548" width="208" height="24" rx="6" class="d-frame"/>
         <text x="200" y="564" text-anchor="middle" class="d-small">1/DAY · KILL SWITCH · MIRRORED</text>
       </svg>
-      <p class="figcap"><b>The core system.</b> Terminal and Telegram requests go through one router. Memory and knowledge are shared across every capability.</p>
+      <p class="figcap"><b>The request path.</b> Terminal and Telegram feed one router. Personal memory and the knowledge library add context before a focused workflow runs.</p>
     </div>
 
     <div class="ph-rail" role="list" aria-label="How Henry was built, in order" style="margin-top:32px">
       <article class="ph-phase" role="listitem">
         <span class="ph-index">01</span>
-        <h3>memory before features</h3>
-        <p class="ph-copy">I started with separate stores for personal memory and reusable knowledge.</p>
+        <h3>remember context</h3>
+        <p class="ph-copy">Personal history and reusable knowledge stay in separate stores.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">02</span>
-        <h3>one brain, many hands</h3>
-        <p class="ph-copy">One router sends each request to the right capability and model tier.</p>
+        <h3>route the request</h3>
+        <p class="ph-copy">One router selects a capability and the right model tier.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">03</span>
-        <h3>it works while I sleep</h3>
-        <p class="ph-copy">The job scout, scheduler and standup tools can run on time and report through Telegram.</p>
+        <h3>run focused work</h3>
+        <p class="ph-copy">Job search, documents, standups and reminders use their own workflows.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">04</span>
-        <h3>rails before reach</h3>
-        <p class="ph-copy">Public actions have fixed limits, a kill switch and a copy sent back to me.</p>
+        <h3>ask before acting</h3>
+        <p class="ph-copy">External actions stay drafted until I approve the exact item.</p>
       </article>
     </div>
   </section>
@@ -514,7 +513,7 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ THE RAILS ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">the rails.</h2>
-    <p>Henry can access real accounts, so its limits live in code rather than prompts.</p>
+    <p>Henry can access real accounts, so the limits are enforced in code.</p>
     <ul class="deflist">
       <li><b>One post a day</b>The publishing pipeline has a hard daily cap and a kill switch.</li>
       <li><b>Every post comes back to me</b>I receive a copy of anything Henry publishes in my name.</li>
@@ -522,7 +521,7 @@ section{ padding-block:var(--sec-y); }
       <li><b>Tested retrieval changes</b>Ranking changes ship only when the evaluation scores improve.</li>
       <li><b>Fixed document formats</b>Resume and cover-letter tools return the finished document, not extra commentary.</li>
     </ul>
-    <p class="note"><b>Why this matters:</b> I could reuse the same safety layer for Bose by changing who approves the output.</p>
+    <p class="note">Bose reuses this pattern, with teachers approving student-facing decisions.</p>
   </section>
 
   <div class="hatch"></div>

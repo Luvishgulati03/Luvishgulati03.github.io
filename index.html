@@ -3,25 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Luvish Gulati · Product-Minded Engineer &amp; AI Builder</title>
-<meta name="description" content="Product-minded software engineer and AI builder in Bengaluru. Two flagship agents on one architecture: Bose, an AI teacher and proctor for schools, and Henry, a terminal-first personal agent. Open to AI-PM and product-engineering roles.">
+<title>Luvish Gulati · AI-Native Product Engineer</title>
+<meta name="description" content="AI-native product engineer in Bengaluru. I design and build working AI products, including Bose for schools and Henry for my own work.">
 <meta name="author" content="Luvish Gulati">
 <meta name="color-scheme" content="dark light">
-<link rel="canonical" href="https://luvishgulati03.github.io/">
+<link rel="canonical" href="https://luvishgulati.com/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Luvish Gulati">
-<meta property="og:title" content="Luvish Gulati · Product-Minded Engineer &amp; AI Builder">
-<meta property="og:description" content="Two flagship agents, one architecture. Henry runs my life. Bose teaches a school.">
-<meta property="og:url" content="https://luvishgulati03.github.io/">
-<meta property="og:image" content="https://luvishgulati03.github.io/assets/og.png">
+<meta property="og:title" content="Luvish Gulati · AI-Native Product Engineer">
+<meta property="og:description" content="I turn AI product ideas into working systems. See Bose, Henry and the product decisions behind them.">
+<meta property="og:url" content="https://luvishgulati.com/">
+<meta property="og:image" content="https://luvishgulati.com/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Luvish Gulati, product-minded engineer and AI builder.">
+<meta property="og:image:alt" content="Luvish Gulati, AI-native product engineer.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Luvish Gulati · Product-Minded Engineer &amp; AI Builder">
-<meta name="twitter:description" content="Two flagship agents, one architecture. Henry runs my life. Bose teaches a school.">
-<meta name="twitter:image" content="https://luvishgulati03.github.io/assets/og.png">
+<meta name="twitter:title" content="Luvish Gulati · AI-Native Product Engineer">
+<meta name="twitter:description" content="I turn AI product ideas into working systems. See Bose, Henry and the product decisions behind them.">
+<meta name="twitter:image" content="https://luvishgulati.com/assets/og.png">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e1a'/%3E%3Cpath d='M14 22l10 10-10 10' fill='none' stroke='%234ee6b8' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='31' y='38' width='19' height='6' rx='3' fill='%234ee6b8'/%3E%3C/svg%3E">
 
@@ -341,12 +341,15 @@ section[id],footer[id],span[id]{ scroll-margin-top:88px; }
   transition:transform .22s, border-color .22s;
 }
 .thumb:hover{ transform:translateY(-3px); border-color:var(--accent); }
-.thumb svg{ display:block; width:100%; height:100%; }
+.thumb svg{ display:block; width:100%; height:100%; transition:transform .45s cubic-bezier(.33,.81,.66,.95); }
+.thumb:hover svg{ transform:scale(1.025); }
 .thumb .cap{
-  position:absolute; left:0; right:0; bottom:0;
-  padding:16px 12px 9px; font-size:12.5px; font-weight:600; color:var(--text);
+  position:absolute; left:0; right:0; bottom:0; display:flex; align-items:flex-end;
+  justify-content:space-between; gap:10px;
+  padding:20px 12px 9px; font-size:12.5px; font-weight:600; color:var(--text);
   background:linear-gradient(to top, color-mix(in srgb, var(--col-bg) 92%, transparent), transparent);
 }
+.thumb .cap small{ color:var(--text-3); font:10px/1.2 var(--f-mono); letter-spacing:.03em; text-align:right; }
 
 .plist{ border-top:1px dashed var(--rule-soft); }
 .plist li{
@@ -463,13 +466,55 @@ li:hover .spark{ color:var(--accent); }
   border:1px dashed var(--rule); border-radius:14px; background:var(--panel);
   padding:clamp(14px,3vw,24px); margin-top:26px;
 }
-.fg-fig svg{ display:block; width:100%; height:auto; max-width:560px; margin:0 auto; }
+.fg-fig svg{ display:block; width:100%; height:auto; margin:0 auto; }
 .fg-figcap{
   font-family:var(--f-mono); font-size:11.5px; line-height:1.75; letter-spacing:.02em;
   color:var(--text-3); margin-top:16px; text-align:center; max-width:62ch; margin-inline:auto;
 }
 .fg-figcap b{ color:var(--text-2); font-weight:600; }
 .fg-fig .dash{ stroke-dasharray:5 6; animation:dashmove 2.6s linear infinite; }
+
+.arch-switch{
+  display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:20px;
+}
+.arch-switch button{
+  min-height:38px; padding:0 14px; border:1px solid var(--edge); border-radius:10px;
+  background:var(--panel-2); color:var(--text-2); font:600 12px/1 var(--f-mono);
+  letter-spacing:.04em; cursor:pointer; transition:color .18s,border-color .18s,background .18s;
+}
+.arch-switch button:hover,.arch-switch button[aria-pressed="true"]{
+  color:var(--text); border-color:var(--accent); background:var(--accent-dim);
+}
+.arch-lane{
+  display:grid; grid-template-columns:86px repeat(5,minmax(0,1fr)); align-items:stretch;
+  gap:8px; transition:opacity .22s ease,filter .22s ease,transform .22s ease;
+}
+.arch-lane + .arch-lane{ margin-top:10px; }
+.arch-lane.is-muted{ opacity:.3; filter:saturate(.4); transform:scale(.99); }
+.arch-name{
+  display:flex; align-items:center; justify-content:center; border:1px solid var(--lane);
+  border-radius:9px; color:var(--lane); background:color-mix(in srgb,var(--lane) 10%,transparent);
+  font:700 12px/1.2 var(--f-mono); letter-spacing:.08em;
+}
+.arch-node{
+  position:relative; display:flex; min-height:74px; align-items:center; justify-content:center;
+  padding:10px 8px; border:1px solid var(--edge); border-radius:9px; background:var(--col-bg);
+  color:var(--text-2); text-align:center; font-size:12.5px; line-height:1.35;
+}
+.arch-node:not(:last-child)::after{
+  content:"→"; position:absolute; right:-9px; top:50%; z-index:2; transform:translateY(-50%);
+  width:10px; color:var(--lane); font-family:var(--f-mono); background:var(--panel);
+}
+.arch-node strong{ color:var(--text); font-weight:600; }
+.arch-shared{
+  margin:12px 0; padding:9px 12px; border:1px dashed var(--rule); border-radius:9px;
+  color:var(--text-3); text-align:center; font:11px/1.55 var(--f-mono); letter-spacing:.03em;
+}
+.arch-shared svg{ width:100%; height:16px; max-width:620px; margin-bottom:4px; }
+.arch-readout{
+  min-height:48px; margin-top:18px; padding-top:15px; border-top:1px dashed var(--rule-soft);
+  color:var(--text-2); text-align:center; font-size:14px;
+}
 
 .fg-grid{
   display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
@@ -523,6 +568,11 @@ li:hover .spark{ color:var(--accent); }
 .fg-thesis i{ flex:1; min-width:14px; border-top:1px dashed var(--rule); font-style:normal; }
 @media (max-width:880px){
   .fg-grid{ grid-template-columns:minmax(0,1fr); }
+  .arch-lane{ grid-template-columns:1fr 1fr; }
+  .arch-name{ grid-column:1/-1; min-height:36px; }
+  .arch-node{ min-height:64px; }
+  .arch-node:not(:last-child)::after{ display:none; }
+  .arch-node:last-child{ grid-column:1/-1; }
 }
 @media (max-width:420px){
   .fg-card{ padding:18px; }
@@ -638,7 +688,7 @@ li:hover .spark{ color:var(--accent); }
         <h1>Luvish Gulati
           <svg class="verified" viewBox="0 0 24 24" fill="currentColor" aria-label="Verified" role="img"><path d="M12 1.6l2.5 1.9 3.1-.3 1 3 2.7 1.6-1 3 1 3-2.7 1.6-1 3-3.1-.3L12 22.4l-2.5-1.9-3.1.3-1-3-2.7-1.6 1-3-1-3 2.7-1.6 1-3 3.1.3z"/><path d="M8.2 12.2l2.6 2.6 5-5.2" fill="none" stroke="var(--col-bg)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </h1>
-        <p class="role">Product-minded software engineer &amp; AI builder</p>
+        <p class="role">AI-native product engineer</p>
       </div>
       <div class="geo">
         <span class="loc">
@@ -653,8 +703,8 @@ li:hover .spark{ color:var(--accent); }
 
   <!-- ============ INTRO ============ -->
   <section class="pad intro" style="padding-block:30px">
-    <p>Hey, I'm <b>Luvish</b>. I build products from idea to launch. At <b>GrowthX</b>, I work across product and engineering on notifications, AI tools that check event listings, app-install campaigns and mobile testing. Before that, I worked in product at <b>Pink Unicorn Algorithms</b> and with enterprise customers at <b>Cvent</b>.</p>
-    <p>I also build agents. <a href="projects/bose.html">Bose</a> is an AI teacher and proctor for schools. <a href="projects/henry.html">Henry</a> is my personal project-management agent. They share the same core architecture, but solve different problems.</p>
+    <p>I turn AI product ideas into working systems. Right now I am a software engineering intern at <b>GrowthX</b>, where I ship product and engineering work across notifications, mobile testing and internal AI tools.</p>
+    <p>Outside work, I built <a href="projects/bose.html">Bose</a> to help schools teach and run clearer exams. I also built <a href="projects/henry.html">Henry</a> to manage my own work. I designed the product flows and wrote the software for both.</p>
   </section>
 
   <!-- ============ SOCIAL ============ -->
@@ -692,69 +742,42 @@ li:hover .spark{ color:var(--accent); }
   <section class="pad reveal" id="flagships">
     <p class="fg-kicker">One core system · two agents</p>
     <h2 class="h-sec">flagship agents.</h2>
-    <p class="fg-lede">I built two working agents on the same core system. Bose supports teachers and students. Henry handles my own work.</p>
+    <p class="fg-lede">Both agents remember context, find the right information and choose a capability. The user, tools and approval step change.</p>
 
     <div class="fg-fig">
-      <svg viewBox="0 0 400 300" role="img" aria-label="Diagram: a shared spine of memory, retrieval, routing and guardrails branches left into Bose with tutor, papers and proctor, and right into Henry with scout, standup and tweets.">
-        <g aria-hidden="true">
-          <path d="M20 0v300M60 0v300M100 0v300M140 0v300M180 0v300M220 0v300M260 0v300M300 0v300M340 0v300M380 0v300M0 30h400M0 70h400M0 110h400M0 150h400M0 190h400M0 230h400M0 270h400" fill="none" stroke="var(--accent)" stroke-opacity=".07" stroke-width="1"/>
-          <path d="M9 23V9h14M377 9h14v14M9 277v14h14M377 291h14v-14" fill="none" stroke="var(--tick)" stroke-width="1.2"/>
-        </g>
+      <div class="arch-switch" role="group" aria-label="Choose an architecture path">
+        <button type="button" data-arch="both" aria-pressed="true">compare both</button>
+        <button type="button" data-arch="bose" aria-pressed="false">show Bose</button>
+        <button type="button" data-arch="henry" aria-pressed="false">show Henry</button>
+      </div>
 
-        <rect x="121" y="39" width="158" height="220" rx="10" fill="var(--panel-2)" stroke="var(--rule)" stroke-width="1" stroke-dasharray="4 5"/>
-        <text x="200" y="30" text-anchor="middle" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="13" letter-spacing="1.4">SHARED SPINE</text>
+      <div class="arch-lane" data-lane="bose" style="--lane:var(--bose)">
+        <span class="arch-name">BOSE</span>
+        <span class="arch-node"><strong>student or teacher asks</strong></span>
+        <span class="arch-node">find class material and learner context</span>
+        <span class="arch-node">choose tutor, test or exam monitor</span>
+        <span class="arch-node">teacher reviews evidence and output</span>
+        <span class="arch-node"><strong>lesson, test or exam record</strong></span>
+      </div>
 
-        <rect x="134" y="53" width="132" height="34" rx="7" fill="var(--panel)" stroke="var(--rule-soft)" stroke-width="1"/>
-        <rect x="134" y="95" width="132" height="34" rx="7" fill="var(--panel)" stroke="var(--rule-soft)" stroke-width="1"/>
-        <rect x="134" y="137" width="132" height="34" rx="7" fill="var(--panel)" stroke="var(--rule-soft)" stroke-width="1"/>
-        <rect x="134" y="179" width="132" height="34" rx="7" fill="var(--panel)" stroke="var(--accent)" stroke-opacity=".55" stroke-width="1.3"/>
-        <g text-anchor="middle" fill="var(--text)" font-family="ui-monospace,monospace" font-size="15" letter-spacing=".8">
-          <text x="200" y="75">MEMORY</text>
-          <text x="200" y="117">RETRIEVAL</text>
-          <text x="200" y="159">ROUTING</text>
-          <text x="200" y="201">GUARDRAILS</text>
-        </g>
+      <div class="arch-shared">
+        <svg viewBox="0 0 620 16" role="img" aria-label="Both agents use the same sequence: remember context, retrieve information, route the request and apply an approval rule.">
+          <path class="dash" d="M8 8H612" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+          <circle cx="8" cy="8" r="3" fill="var(--bose)"/><circle cx="612" cy="8" r="3" fill="var(--accent)"/>
+        </svg>
+        shared core: remember context → retrieve → route → check approval
+      </div>
 
-        <path class="dash" d="M121 155H109M109 155L99 106M109 155H99M109 155L99 204" fill="none" stroke="var(--bose)" stroke-width="1.5"/>
-        <path class="dash" d="M279 155H291M291 155L301 106M291 155H301M291 155L301 204" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
-        <g fill="var(--bose)"><path d="M106 101L96 106L106 111Z"/><path d="M106 150L96 155L106 160Z"/><path d="M106 199L96 204L106 209Z"/></g>
-        <g fill="var(--accent)"><path d="M294 101L304 106L294 111Z"/><path d="M294 150L304 155L294 160Z"/><path d="M294 199L304 204L294 209Z"/></g>
+      <div class="arch-lane" data-lane="henry" style="--lane:var(--accent)">
+        <span class="arch-name">HENRY</span>
+        <span class="arch-node"><strong>I ask in terminal or Telegram</strong></span>
+        <span class="arch-node">find personal memory and knowledge</span>
+        <span class="arch-node">choose scout, documents or scheduler</span>
+        <span class="arch-node">I approve external actions</span>
+        <span class="arch-node"><strong>draft, reminder or finished task</strong></span>
+      </div>
 
-        <text x="57" y="34" text-anchor="middle" fill="var(--bose)" font-family="ui-monospace,monospace" font-size="17" letter-spacing="1.2">BOSE</text>
-        <text x="343" y="34" text-anchor="middle" fill="var(--accent)" font-family="ui-monospace,monospace" font-size="17" letter-spacing="1.2">HENRY</text>
-
-        <g fill="var(--panel)" stroke="var(--bose)" stroke-opacity=".7" stroke-width="1">
-          <rect x="18" y="94" width="78" height="24" rx="6"/>
-          <rect x="18" y="143" width="78" height="24" rx="6"/>
-          <rect x="18" y="192" width="78" height="24" rx="6"/>
-        </g>
-        <g text-anchor="middle" fill="var(--text)" font-family="ui-monospace,monospace" font-size="13">
-          <text x="57" y="111">TUTOR</text>
-          <text x="57" y="160">PAPERS</text>
-          <text x="57" y="209">PROCTOR</text>
-        </g>
-
-        <g fill="var(--panel)" stroke="var(--accent)" stroke-opacity=".7" stroke-width="1">
-          <rect x="304" y="94" width="78" height="24" rx="6"/>
-          <rect x="304" y="143" width="78" height="24" rx="6"/>
-          <rect x="304" y="192" width="78" height="24" rx="6"/>
-        </g>
-        <g text-anchor="middle" fill="var(--text)" font-family="ui-monospace,monospace" font-size="13">
-          <text x="343" y="111">SCOUT</text>
-          <text x="343" y="160">STANDUP</text>
-          <text x="343" y="209">TWEETS</text>
-        </g>
-
-        <path d="M134 196H104M266 196H296" fill="none" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 4"/>
-        <text x="100" y="240" text-anchor="middle" fill="var(--bose)" font-family="ui-monospace,monospace" font-size="10" letter-spacing=".4">TEACHER APPROVES</text>
-        <text x="300" y="240" text-anchor="middle" fill="var(--accent)" font-family="ui-monospace,monospace" font-size="10" letter-spacing=".4">I APPROVE</text>
-        <path d="M100 228V214H134M300 228V214H266" fill="none" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 4"/>
-
-        <rect x="18" y="250" width="364" height="40" rx="8" fill="none" stroke="var(--rule)" stroke-width="1" stroke-dasharray="5 5"/>
-        <text x="200" y="267" text-anchor="middle" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".8">SAME GUARDRAIL LAYER</text>
-        <text x="200" y="282" text-anchor="middle" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".8">TWO ANSWERS TO "WHO SIGNS OFF"</text>
-      </svg>
-      <p class="fg-figcap"><b>One core, two products.</b> Both agents share memory, retrieval, routing and guardrails. Their tools and approval flows are different.</p>
+      <p class="arch-readout" id="arch-readout" aria-live="polite">The structure is shared. Bose works with school context and teacher review. Henry works with personal context and my approval.</p>
     </div>
 
     <div class="fg-grid">
@@ -764,20 +787,20 @@ li:hover .spark{ color:var(--accent); }
           <span class="fg-chip ghost">PRIVATE REPO</span>
         </div>
         <h3>Bose</h3>
-        <p class="fg-pos">An AI teacher and proctor for schools. It teaches from school material, creates and grades tests, and monitors exams.</p>
+        <p class="fg-pos">A demo-ready AI teacher and exam-integrity system built for schools.</p>
         <ul class="fg-spec">
-          <li><b>learning</b><span>school syllabus · local search</span></li>
-          <li><b>privacy</b><span>encrypted identity vault</span></li>
-          <li><b>exams</b><span>browser events, never video</span></li>
+          <li><b>users</b><span>students, teachers and school admins</span></li>
+          <li><b>learning</b><span>class material, learner history and chat tutor</span></li>
+          <li><b>control</b><span>teacher evidence, score review and identity privacy</span></li>
         </ul>
         <div class="fg-cloud">
-          <span class="fg-cap">identity privacy</span>
-          <span class="fg-cap">school material</span>
-          <span class="fg-cap">guided tutoring</span>
-          <span class="fg-cap">test creator</span>
-          <span class="fg-cap">online tests</span>
-          <span class="fg-cap">exam monitoring</span>
-          <span class="fg-cap">teacher tools</span>
+          <span class="fg-cap">chat tutor</span>
+          <span class="fg-cap">question-paper generation</span>
+          <span class="fg-cap">randomized exams</span>
+          <span class="fg-cap">integrity signals</span>
+          <span class="fg-cap">evidence timeline</span>
+          <span class="fg-cap">score controls</span>
+          <span class="fg-cap">identity airlock</span>
         </div>
         <div class="fg-act">
           <a class="pill" href="projects/bose.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
@@ -791,20 +814,20 @@ li:hover .spark{ color:var(--accent); }
           <span class="fg-chip ghost">OPEN SOURCE</span>
         </div>
         <h3>Henry</h3>
-        <p class="fg-pos">My terminal-first project-management agent. It remembers context, routes work and handles scheduled tasks.</p>
+        <p class="fg-pos">The personal work agent I use to remember context and run repeatable workflows.</p>
         <ul class="fg-spec">
-          <li><b>stack</b><span>TypeScript · local-first</span></li>
-          <li><b>memory</b><span>Engram + 900+ knowledge modules</span></li>
-          <li><b>access</b><span>terminal · Telegram · scheduler</span></li>
+          <li><b>context</b><span>personal memory plus 900+ knowledge modules</span></li>
+          <li><b>work</b><span>job search, documents, standups and reminders</span></li>
+          <li><b>control</b><span>draft first, approve before external action</span></li>
         </ul>
         <div class="fg-cloud">
           <span class="fg-cap">personal memory</span>
-          <span class="fg-cap">knowledge search</span>
-          <span class="fg-cap">smart routing</span>
+          <span class="fg-cap">cited knowledge</span>
           <span class="fg-cap">job scout</span>
           <span class="fg-cap">document tailoring</span>
-          <span class="fg-cap">Telegram</span>
-          <span class="fg-cap">standup</span>
+          <span class="fg-cap">standups</span>
+          <span class="fg-cap">scheduler</span>
+          <span class="fg-cap">approval gate</span>
         </div>
         <div class="fg-act">
           <a class="pill" href="projects/henry.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
@@ -815,7 +838,7 @@ li:hover .spark{ color:var(--accent); }
       </article>
     </div>
 
-    <p class="fg-thesis"><i aria-hidden="true"></i><span>Henry handles my work. Bose helps a school teach. Same core, two uses.</span><i aria-hidden="true"></i></p>
+    <p class="fg-thesis"><i aria-hidden="true"></i><span>Same product thinking. Different users, tools and decisions.</span><i aria-hidden="true"></i></p>
   </section>
 
   <div class="hatch"></div>
@@ -825,7 +848,7 @@ li:hover .spark{ color:var(--accent); }
     <h2 class="h-sec">work experience.</h2>
     <ul class="xp">
       <li>
-        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="GrowthX"><rect width="56" height="56" fill="#101014"/><path d="M8 44L28 12l20 32" fill="none" stroke="#3ddc84" stroke-width="4" stroke-linejoin="round"/><path d="M18 44h20" stroke="#3ddc84" stroke-width="4" stroke-linecap="round"/></svg></div>
+        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="GrowthX monogram"><rect width="56" height="56" fill="#101014"/><text x="28" y="35" text-anchor="middle" fill="#f2f2f0" font-family="ui-sans-serif,system-ui" font-size="18" font-weight="750" letter-spacing="-1">GX</text><path d="M14 43h28" stroke="#3ddc84" stroke-width="2.5" stroke-linecap="round"/></svg></div>
         <div class="xp-main">
           <h3>Software Engineering Intern</h3>
           <p class="xp-at">@ <a href="https://growthx.club" target="_blank" rel="noopener noreferrer">GrowthX ↗</a></p>
@@ -833,7 +856,7 @@ li:hover .spark{ color:var(--accent); }
         <div class="xp-meta"><span>Jun 2026 – Present</span><span class="place">Bengaluru, India</span></div>
       </li>
       <li>
-        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="Pink Unicorn Algorithms"><rect width="56" height="56" fill="#141017"/><circle cx="28" cy="28" r="14" fill="none" stroke="#e46bb8" stroke-width="3.4"/><path d="M28 14v28M14 28h28" stroke="#e46bb8" stroke-width="3.4" stroke-linecap="round"/></svg></div>
+        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="Pink Unicorn Algorithms monogram"><rect width="56" height="56" fill="#141017"/><text x="28" y="33" text-anchor="middle" fill="#f4d7ea" font-family="ui-sans-serif,system-ui" font-size="14" font-weight="750" letter-spacing="-.7">PUA</text><circle cx="28" cy="28" r="21" fill="none" stroke="#e46bb8" stroke-width="1.6" stroke-dasharray="3 4"/></svg></div>
         <div class="xp-main">
           <h3>Associate Product Manager</h3>
           <p class="xp-at">@ Pink Unicorn Algorithms (Globerra)</p>
@@ -841,7 +864,7 @@ li:hover .spark{ color:var(--accent); }
         <div class="xp-meta"><span>Aug 2025 – May 2026</span><span class="place">India</span></div>
       </li>
       <li>
-        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="Cvent"><rect width="56" height="56" fill="#0e1116"/><path d="M38 20a13 13 0 1 0 0 16" fill="none" stroke="#4aa3ff" stroke-width="4.4" stroke-linecap="round"/></svg></div>
+        <div class="logo"><svg viewBox="0 0 56 56" role="img" aria-label="Cvent monogram"><rect width="56" height="56" fill="#0e1116"/><text x="28" y="34" text-anchor="middle" fill="#dcecff" font-family="ui-sans-serif,system-ui" font-size="15" font-weight="750" letter-spacing="-.7">cvent</text><path d="M12 42h32" stroke="#4aa3ff" stroke-width="2.5" stroke-linecap="round"/></svg></div>
         <div class="xp-main">
           <h3>Associate Product Consultant Intern</h3>
           <p class="xp-at">@ <a href="https://www.cvent.com" target="_blank" rel="noopener noreferrer">Cvent ↗</a></p>
@@ -888,7 +911,7 @@ li:hover .spark{ color:var(--accent); }
           <g fill="var(--c1)"><circle cx="251" cy="51" r="2.5"/><circle cx="328" cy="51" r="2.5"/><circle cx="251" cy="105" r="2.5"/><circle cx="328" cy="105" r="2.5"/></g>
           <text x="232" y="178" font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.2" fill="var(--c1)">AI TEACHER + PROCTOR</text>
         </svg>
-        <span class="cap">Bose</span>
+        <span class="cap"><span>Bose</span><small>teach · test · review</small></span>
       </a>
 
       <a class="thumb" role="listitem" href="projects/henry.html" style="--c1:#3ddc84; --c2:#4aa3ff" aria-label="Henry: read the case study">
@@ -914,7 +937,7 @@ li:hover .spark{ color:var(--accent); }
           <rect x="316" y="114" width="40" height="8" rx="4" fill="var(--c2)" fill-opacity=".18"/>
           <rect x="316" y="128" width="48" height="8" rx="4" fill="var(--c2)" fill-opacity=".18"/>
         </svg>
-        <span class="cap">Henry</span>
+        <span class="cap"><span>Henry</span><small>remember · route · approve</small></span>
       </a>
 
       <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/luvish-ai-twin-recruiters" target="_blank" rel="noopener noreferrer" style="--c1:#7c6cff; --c2:#b95cff" aria-label="AI Digital Twin for Recruiters">
@@ -940,7 +963,7 @@ li:hover .spark{ color:var(--accent); }
           </g>
           <path class="pulse-r" d="M356 34l4 11 11 4-11 4-4 11-4-11-11-4 11-4z" fill="var(--c2)"/>
         </svg>
-        <span class="cap">AI Digital Twin</span>
+        <span class="cap"><span>AI Digital Twin</span><small>ask my resume</small></span>
       </a>
 
       <span class="thumb" role="listitem" style="--c1:#ffb454; --c2:#ff7a59" aria-label="Coding Efficiency Measurement System">
@@ -966,7 +989,7 @@ li:hover .spark{ color:var(--accent); }
           </g>
           <text x="200" y="158" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.6" fill="var(--c1)">NET EFFICIENCY</text>
         </svg>
-        <span class="cap">Coding Efficiency</span>
+        <span class="cap"><span>Coding Efficiency</span><small>process → score</small></span>
       </span>
 
       <a class="thumb" role="listitem" href="projects/risk-ai-council.html" style="--c1:#5ad1c8; --c2:#3ddc84" aria-label="Risk AI Council: read the case study">
@@ -993,7 +1016,7 @@ li:hover .spark{ color:var(--accent); }
           <path d="M178 128l16 16 30-32" fill="none" stroke="var(--c2)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
           <g font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.2" fill="var(--c1)" fill-opacity=".8"><text x="24" y="100">NIST</text><text x="24" y="116">AI RMF</text><text x="330" y="100">EU AI</text><text x="330" y="116">ACT</text></g>
         </svg>
-        <span class="cap">Risk AI Council</span>
+        <span class="cap"><span>Risk AI Council</span><small>assess → learn</small></span>
       </a>
 
       <a class="thumb" role="listitem" href="projects/carbonnex.html" style="--c1:#7ddb5c; --c2:#3ddc84" aria-label="CarbonNex: read the case study">
@@ -1013,7 +1036,7 @@ li:hover .spark{ color:var(--accent); }
           <path class="pulse-r" d="M244 60l24 14 24-20 24-14 24-8" fill="none" stroke="var(--c1)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
           <text x="240" y="178" font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.4" fill="var(--c2)">ESG REPORTING</text>
         </svg>
-        <span class="cap">CarbonNex</span>
+        <span class="cap"><span>CarbonNex</span><small>collect → report</small></span>
       </a>
     </div>
 
@@ -1025,7 +1048,7 @@ li:hover .spark{ color:var(--accent); }
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
               <span class="flag">Flagship</span>
             </h3>
-            <p class="d">An AI teacher and proctor for schools. It teaches from the school's own material, and a student's name never reaches an external model.</p>
+            <p class="d">Demo-ready school AI for tutoring, randomized exams and reviewable integrity evidence.</p>
           </div>
           <div class="p-btns">
             <a class="pill" href="projects/bose.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
@@ -1037,7 +1060,7 @@ li:hover .spark{ color:var(--accent); }
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
               <span class="flag">Flagship</span>
             </h3>
-            <p class="d">The terminal-first personal agent I run as my project-management twin. It remembers, it routes, and it never sends without my sign-off.</p>
+            <p class="d">My daily work agent for memory, job search, documents, standups and scheduled tasks.</p>
           </div>
           <div class="p-btns">
             <a class="pill" href="projects/henry.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
@@ -1051,7 +1074,7 @@ li:hover .spark{ color:var(--accent); }
             <h3>AI Digital Twin for Recruiters
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
             </h3>
-            <p class="d">Context-aware chatbot recruiters can interrogate about my work instead of reading a static resume.</p>
+            <p class="d">A chat interface recruiters can use to ask about my experience and projects.</p>
           </div>
           <div class="p-btns">
             <a class="sq" href="https://github.com/Luvishgulati03/luvish-ai-twin-recruiters" target="_blank" rel="noopener noreferrer" aria-label="AI Digital Twin on GitHub">
@@ -1064,16 +1087,16 @@ li:hover .spark{ color:var(--accent); }
             <h3>Coding Efficiency Measurement System
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
             </h3>
-            <p class="d">Grades the coding process, not just the output: a Net Efficiency Score from keystrokes, idle time and focus intervals.</p>
+            <p class="d">Measures how a student codes, using focus, debugging and interaction signals. Piloted at Amity University Noida.</p>
           </div>
-          <p class="p-note">case study · private repo</p>
+          <p class="p-note">university pilot · private repo</p>
         </li>
         <li>
           <div class="p-main">
             <h3>Risk AI Council
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
             </h3>
-            <p class="d">AI-risk platform where I led GTM and content across 6 risk categories, aligned to NIST AI RMF and the EU AI Act.</p>
+            <p class="d">I designed the assessment, six-category model, learning programs, website and launch story.</p>
           </div>
           <div class="p-btns">
             <a class="pill" href="projects/risk-ai-council.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
@@ -1084,7 +1107,7 @@ li:hover .spark{ color:var(--accent); }
             <h3>CarbonNex
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
             </h3>
-            <p class="d">ESG reporting product. I designed the core workflows as its associate product manager.</p>
+            <p class="d">I designed the software architecture for automated ESG compliance management.</p>
           </div>
           <div class="p-btns">
             <a class="pill" href="projects/carbonnex.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
@@ -1164,7 +1187,7 @@ li:hover .spark{ color:var(--accent); }
         <div class="hm-months" aria-hidden="true"><!--GH_MONTHS-->
 <span style="grid-column:1">Aug</span><span style="grid-column:4">Sep</span><span style="grid-column:8">Oct</span><span style="grid-column:12">Nov</span><span style="grid-column:17">Dec</span><span style="grid-column:21">Jan</span><span style="grid-column:25">Feb</span><span style="grid-column:29">Mar</span><span style="grid-column:34">Apr</span><span style="grid-column:38">May</span><span style="grid-column:43">Jun</span><span style="grid-column:47">Jul</span><span style="grid-column:51">Aug</span>
 <!--/GH_MONTHS--></div>
-        <div class="hm" id="hm" role="img" aria-label="GitHub contribution heatmap for Luvishgulati03: 206 contributions between 17 Aug 2025 and 16 Aug 2026."><!--GH_GRID-->
+        <div class="hm" id="hm" role="img" aria-label="GitHub contribution heatmap for Luvishgulati03: 208 contributions between 17 Aug 2025 and 17 Aug 2026."><!--GH_GRID-->
 <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
 <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
 <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
@@ -1217,13 +1240,13 @@ li:hover .spark{ color:var(--accent); }
 <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
 <i></i><i></i><i class="l1" title="1 contribution on 4 Aug 2026"></i><i class="l2" title="5 contributions on 5 Aug 2026"></i><i class="l4" title="35 contributions on 6 Aug 2026"></i><i class="l4" title="39 contributions on 7 Aug 2026"></i><i class="l4" title="18 contributions on 8 Aug 2026"></i>
 <i class="l4" title="24 contributions on 9 Aug 2026"></i><i class="l1" title="2 contributions on 10 Aug 2026"></i><i></i><i></i><i></i><i></i><i class="l2" title="5 contributions on 15 Aug 2026"></i>
-<i class="l1" title="1 contribution on 16 Aug 2026"></i>
+<i class="l1" title="2 contributions on 16 Aug 2026"></i><i class="l1" title="1 contribution on 17 Aug 2026"></i>
 <!--/GH_GRID--></div>
       </div>
     </div>
 
     <div class="hm-foot">
-      <p><b id="ghcount" data-count data-n="206">206</b> contributions in the last year</p>
+      <p><b id="ghcount" data-count data-n="208">208</b> contributions in the last year</p>
       <p class="legend"><span>Less</span><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>More</span></p>
     </div>
   </section>
@@ -1236,7 +1259,7 @@ li:hover .spark{ color:var(--accent); }
       <h2 class="h-sec">henry stats.</h2>
       <a class="h-side" href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg>
-        ai-agent- ↗
+        Henry source ↗
       </a>
     </div>
 
@@ -1246,22 +1269,22 @@ li:hover .spark{ color:var(--accent); }
     <div class="stats">
       <div>
         <p class="n"><span data-count><!--STAT:queriesAnswered-->82<!--/STAT--></span></p>
-        <p class="k">Queries answered, one memory logged per turn</p>
+        <p class="k">Requests handled through Henry</p>
       </div>
       <div>
-        <p class="n"><span data-count><!--STAT:totalMemories-->212<!--/STAT--></span></p>
-        <p class="k">Memories formed: episodic, semantic and procedural</p>
+        <p class="n"><span data-count><!--STAT:totalMemories-->216<!--/STAT--></span></p>
+        <p class="k">Saved memories across work, decisions and preferences</p>
       </div>
       <div>
         <p class="n"><!--STAT:activeFor-->&lt;1 month<!--/STAT--></p>
-        <p class="k">Active for, running as a daily driver</p>
+        <p class="k">Current local install has been active</p>
       </div>
       <div>
-        <p class="n"><!--STAT:marginalCost-->$0<!--/STAT--></p>
-        <p class="k">Marginal cost per run: no API keys · runs on an <!--STAT:runsOn-->8GB M1 Air<!--/STAT--></p>
+        <p class="n"><!--STAT:marginalCost-->₹0<!--/STAT--></p>
+        <p class="k">API spend per run · runs on an <!--STAT:runsOn-->8GB M1 Air<!--/STAT--></p>
       </div>
     </div>
-    <p class="stats-as">as of <!--STAT:generatedAt-->16 Aug 2026<!--/STAT--> · read straight out of Henry's local databases, never hand-typed</p>
+    <p class="stats-as">updated <!--STAT:generatedAt-->16 Aug 2026<!--/STAT--> from Henry's local data</p>
   </section>
 
   </main>
@@ -1271,7 +1294,7 @@ li:hover .spark{ color:var(--accent); }
   <!-- ============ CONTACT ============ -->
   <section class="pad reveal" id="contact">
     <h2 class="h-sec">get in touch.</h2>
-    <p style="max-width:58ch">Open to AI-product and product-engineering roles in Bengaluru (or remote). If something here resonated, or you want the honest story behind any of these builds, my inbox is the fastest route. I reply.</p>
+    <p style="max-width:58ch">I am looking for AI product-engineering roles in Bengaluru or remote. If the work here matches what your team is building, email is the fastest way to reach me.</p>
     <p style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px">
       <a class="pill" href="mailto:Gulatiluvish@gmail.com">&#9993;&#65039; Email me</a>
       <a class="pill" href="https://www.linkedin.com/in/luvish-gulati-282a84184" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
@@ -1299,9 +1322,9 @@ li:hover .spark{ color:var(--accent); }
   "@context":"https://schema.org",
   "@type":"Person",
   "name":"Luvish Gulati",
-  "jobTitle":"Product-minded software engineer & AI builder",
+  "jobTitle":"AI-native product engineer",
   "email":"mailto:Gulatiluvish@gmail.com",
-  "url":"https://luvishgulati03.github.io/",
+  "url":"https://luvishgulati.com/",
   "address":{"@type":"PostalAddress","addressLocality":"Bengaluru","addressCountry":"IN"},
   "alumniOf":{"@type":"CollegeOrUniversity","name":"Amity University"},
   "sameAs":["https://github.com/Luvishgulati03","https://www.linkedin.com/in/luvish-gulati-282a84184"],
@@ -1394,6 +1417,26 @@ li:hover .spark{ color:var(--accent); }
   /* ---------- keep the heatmap scrolled to "now" on first paint ---------- */
   var wrap = document.querySelector('.hm-wrap');
   if (wrap) { wrap.scrollLeft = wrap.scrollWidth; }
+
+  /* ---------- architecture comparison ---------- */
+  var archButtons = [].slice.call(document.querySelectorAll('[data-arch]'));
+  var archLanes = [].slice.call(document.querySelectorAll('[data-lane]'));
+  var archReadout = document.getElementById('arch-readout');
+  var archCopy = {
+    both: 'The structure is shared. Bose works with school context and teacher review. Henry works with personal context and my approval.',
+    bose: 'Bose combines class material and learner context, routes the request to teaching or exam tools, then gives teachers the final control.',
+    henry: 'Henry combines personal memory and reusable knowledge, routes work to a focused capability, then waits for my approval before external action.'
+  };
+  archButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var mode = button.getAttribute('data-arch') || 'both';
+      archButtons.forEach(function (item) { item.setAttribute('aria-pressed', String(item === button)); });
+      archLanes.forEach(function (lane) {
+        lane.classList.toggle('is-muted', mode !== 'both' && lane.getAttribute('data-lane') !== mode);
+      });
+      if (archReadout) { archReadout.textContent = archCopy[mode]; }
+    });
+  });
 })();
 
 /* ---------- living activity band: random sparkle + a commit wave ---------- */
