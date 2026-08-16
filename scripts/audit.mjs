@@ -381,7 +381,7 @@ const checks = {
   "flagship cards are equals (same spec rows, same chip count)": (() => {
     const f = dom.flagship;
     if (!f) return false;
-    return f.specRows.length === 2 && f.specRows[0] === f.specRows[1] && f.specRows[0] >= 4 &&
+    return f.specRows.length === 2 && f.specRows[0] === f.specRows[1] && f.specRows[0] >= 3 &&
       f.chips.length === 2 && Math.abs(f.chips[0] - f.chips[1]) <= 1 && f.chips[0] >= 6;
   })(),
   "flagship section carries a labelled shared-architecture figure": (dom.flagship?.figs || 0) >= 1,

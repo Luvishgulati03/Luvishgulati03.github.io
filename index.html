@@ -653,9 +653,8 @@ li:hover .spark{ color:var(--accent); }
 
   <!-- ============ INTRO ============ -->
   <section class="pad intro" style="padding-block:30px">
-    <p>Hey, I'm <b>Luvish</b>. I own products end to end: discovery and PRDs through code, launch, GTM and analytics. These days I'm a Software Engineering Intern at <b>GrowthX</b>, where I brought community notifications to mobile end to end (unified in-app + push gating, per-channel preferences, native banners), shipped an AI reviewer that gates incomplete event listings, ran the app-install GTM across transactional emails, and built a device-level E2E harness that asserts push-vs-silence against the OS itself.</p>
-    <p>Before that I was an Associate Product Manager at <b>Pink Unicorn Algorithms</b>, running three products (<b>CarbonNex</b>, <b>Rapidero</b> and <b>Risk AI Council</b>), and an Associate Product Consultant Intern at <b>Cvent</b> across 10+ enterprise accounts.</p>
-    <p>What I actually build is agents. Two of them are real, shipped and running: <a href="projects/bose.html">Bose</a>, an AI teacher and proctor that lives inside a school, and <a href="projects/henry.html">Henry</a>, the terminal-first personal agent I run as my own project-management twin. They are the same architecture, deployed twice. Henry runs my life. Bose teaches a school.</p>
+    <p>Hey, I'm <b>Luvish</b>. I build products from idea to launch. At <b>GrowthX</b>, I work across product and engineering on notifications, AI tools that check event listings, app-install campaigns and mobile testing. Before that, I worked in product at <b>Pink Unicorn Algorithms</b> and with enterprise customers at <b>Cvent</b>.</p>
+    <p>I also build agents. <a href="projects/bose.html">Bose</a> is an AI teacher and proctor for schools. <a href="projects/henry.html">Henry</a> is my personal project-management agent. They share the same core architecture, but solve different problems.</p>
   </section>
 
   <!-- ============ SOCIAL ============ -->
@@ -691,9 +690,9 @@ li:hover .spark{ color:var(--accent); }
        Facts: content-dossier.md § "Update 2026-08-15 - TWO FLAGSHIP AGENTS".
        NEVER add a repo link to the Bose card: the repo is private. -->
   <section class="pad reveal" id="flagships">
-    <p class="fg-kicker">One architecture · two deployments</p>
+    <p class="fg-kicker">One core system · two agents</p>
     <h2 class="h-sec">flagship agents.</h2>
-    <p class="fg-lede">I build agents that are allowed to act, which means most of the work is in the parts that decide what they are <b>not</b> allowed to do. Two of them are real, shipped and running on the same spine.</p>
+    <p class="fg-lede">I built two working agents on the same core system. Bose supports teachers and students. Henry handles my own work.</p>
 
     <div class="fg-fig">
       <svg viewBox="0 0 400 300" role="img" aria-label="Diagram: a shared spine of memory, retrieval, routing and guardrails branches left into Bose with tutor, papers and proctor, and right into Henry with scout, standup and tweets.">
@@ -755,7 +754,7 @@ li:hover .spark{ color:var(--accent); }
         <text x="200" y="267" text-anchor="middle" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".8">SAME GUARDRAIL LAYER</text>
         <text x="200" y="282" text-anchor="middle" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".8">TWO ANSWERS TO "WHO SIGNS OFF"</text>
       </svg>
-      <p class="fg-figcap"><b>One spine, two deployments.</b> Memory, retrieval, routing and guardrails are shared. What changes is the surface it reaches through and who holds the approval, and that turned out to be the whole difference between a personal agent and one a school can run.</p>
+      <p class="fg-figcap"><b>One core, two products.</b> Both agents share memory, retrieval, routing and guardrails. Their tools and approval flows are different.</p>
     </div>
 
     <div class="fg-grid">
@@ -765,22 +764,19 @@ li:hover .spark{ color:var(--accent); }
           <span class="fg-chip ghost">PRIVATE REPO</span>
         </div>
         <h3>Bose</h3>
-        <p class="fg-pos">Henry's twin for schools. It teaches from the school's own material, sets and marks the papers, and proctors the exam.</p>
+        <p class="fg-pos">An AI teacher and proctor for schools. It teaches from school material, creates and grades tests, and monitors exams.</p>
         <ul class="fg-spec">
-          <li><b>stack</b><span>class-scoped RAG · local embeddings</span></li>
-          <li><b>privacy</b><span>AES-256-GCM vault · scrub before persist</span></li>
-          <li><b>proctoring</b><span>browser-only, events never video</span></li>
-          <li><b>guardrail</b><span>teacher approves anything student-facing</span></li>
-          <li><b>tests</b><span>240+ green</span></li>
+          <li><b>learning</b><span>school syllabus · local search</span></li>
+          <li><b>privacy</b><span>encrypted identity vault</span></li>
+          <li><b>exams</b><span>browser events, never video</span></li>
         </ul>
         <div class="fg-cloud">
-          <span class="fg-cap">identity airlock</span>
-          <span class="fg-cap">class RAG</span>
-          <span class="fg-cap">tutor mode</span>
-          <span class="fg-cap">paper engine</span>
+          <span class="fg-cap">identity privacy</span>
+          <span class="fg-cap">school material</span>
+          <span class="fg-cap">guided tutoring</span>
+          <span class="fg-cap">test creator</span>
           <span class="fg-cap">online tests</span>
-          <span class="fg-cap">exam proctoring</span>
-          <span class="fg-cap">karma ladder</span>
+          <span class="fg-cap">exam monitoring</span>
           <span class="fg-cap">teacher tools</span>
         </div>
         <div class="fg-act">
@@ -791,27 +787,24 @@ li:hover .spark{ color:var(--accent); }
 
       <article class="fg-card" style="--c1:#3ddc84">
         <div class="fg-chips">
-          <span class="fg-chip">PERSONAL AGENT + PM TWIN</span>
+          <span class="fg-chip">PERSONAL WORK AGENT</span>
           <span class="fg-chip ghost">OPEN SOURCE</span>
         </div>
         <h3>Henry</h3>
-        <p class="fg-pos">A terminal-first personal agent I run as my own project-management twin. It remembers, it routes, and it works while I sleep.</p>
+        <p class="fg-pos">My terminal-first project-management agent. It remembers context, routes work and handles scheduled tasks.</p>
         <ul class="fg-spec">
-          <li><b>stack</b><span>TypeScript ESM · zero heavy deps</span></li>
-          <li><b>memory</b><span>Engram + RAG over 900+ modules</span></li>
-          <li><b>reach</b><span>terminal, Telegram, scheduler</span></li>
-          <li><b>guardrail</b><span>1 post a day · kill switch · mirrored to me</span></li>
-          <li><b>tests</b><span>530+ green</span></li>
+          <li><b>stack</b><span>TypeScript · local-first</span></li>
+          <li><b>memory</b><span>Engram + 900+ knowledge modules</span></li>
+          <li><b>access</b><span>terminal · Telegram · scheduler</span></li>
         </ul>
         <div class="fg-cloud">
-          <span class="fg-cap">two-store memory</span>
-          <span class="fg-cap">knowledge RAG</span>
-          <span class="fg-cap">routing brain</span>
+          <span class="fg-cap">personal memory</span>
+          <span class="fg-cap">knowledge search</span>
+          <span class="fg-cap">smart routing</span>
           <span class="fg-cap">job scout</span>
-          <span class="fg-cap">resume tailoring</span>
-          <span class="fg-cap">Telegram bridge</span>
+          <span class="fg-cap">document tailoring</span>
+          <span class="fg-cap">Telegram</span>
           <span class="fg-cap">standup</span>
-          <span class="fg-cap">tweet rails</span>
         </div>
         <div class="fg-act">
           <a class="pill" href="projects/henry.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
@@ -822,7 +815,7 @@ li:hover .spark{ color:var(--accent); }
       </article>
     </div>
 
-    <p class="fg-thesis"><i aria-hidden="true"></i><span>Henry runs my life. Bose teaches a school. Same spine, two deployments.</span><i aria-hidden="true"></i></p>
+    <p class="fg-thesis"><i aria-hidden="true"></i><span>Henry handles my work. Bose helps a school teach. Same core, two uses.</span><i aria-hidden="true"></i></p>
   </section>
 
   <div class="hatch"></div>

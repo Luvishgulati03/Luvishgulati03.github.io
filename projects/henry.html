@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Henry · case study · Luvish Gulati</title>
-<meta name="description" content="Case study: Henry, a terminal-first personal AI agent I run as my own project-management twin. Two-store memory, eval-gated knowledge RAG over 900+ modules, a routing brain, a job-scout pipeline, a Telegram bridge and hard safety rails. 530+ tests, on an M1 Air.">
+<meta name="description" content="Case study: Henry, my terminal-first project-management agent. It remembers context, routes work, finds jobs, prepares documents, runs scheduled tasks and reports through Telegram.">
 <meta name="author" content="Luvish Gulati">
 <meta name="color-scheme" content="dark light">
 <meta name="robots" content="index,follow">
@@ -374,7 +374,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad hero">
     <p class="kicker">Case study · flagship agent</p>
     <h1>Henry</h1>
-    <p class="lede">A terminal-first personal AI agent I run as my own project-management twin. It remembers, it retrieves, it routes, and it goes and does things while I am asleep, all on an M1 Air with no API keys.</p>
+    <p class="lede">My terminal-first project-management agent. It remembers context, routes work and handles scheduled tasks on an M1 Air.</p>
     <div class="chips">
       <span class="chip">Personal agent + PM twin</span>
       <span class="chip alt">open source</span>
@@ -400,9 +400,8 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ THE PROBLEM ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">the problem.</h2>
-    <p>I did not want a chat window. I wanted the thing a good chief of staff does: hold the context I keep dropping, notice the work I keep postponing, and come back to me with something already drafted.</p>
-    <p>Every assistant I tried failed in the same two places. It <b>forgot</b>, so every session started from zero and I paid the setup cost again. And it was <b>too eager</b>, happy to send, post or apply on my behalf in a way I would not trust with my own name attached.</p>
-    <p>So the constraints were set before the first line: it has to remember across sessions, it has to run on the laptop I already own, it has to cost nothing per run, and anything that can reach the outside world has to be on a leash I hold.</p>
+    <p>I wanted more than a chat window. I needed an agent that could remember past work, pick up unfinished tasks and prepare the next step.</p>
+    <p>It also had to stay under my control. Henry runs on my laptop, costs nothing per run and keeps every external action behind clear limits and approval.</p>
   </section>
 
   <div class="hatch"></div>
@@ -411,8 +410,8 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">the architecture.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Henry is a spine, not a pile of scripts. Inputs converge on one routing brain, the brain decides which capability and which model tier the request deserves, and a two-store memory sits alongside the whole thing, feeding recall in and taking writes back out.</p>
-      <p>That shape is what made <a href="bose.html">Bose</a> possible: the same spine, redeployed into a school with different surfaces and a different approval model.</p>
+      <p>Henry has one entry point. A router chooses the right capability and model tier, while two separate stores handle personal memory and knowledge.</p>
+      <p>I reused that core for <a href="bose.html">Bose</a>, then changed the tools and approval flow for schools.</p>
     </div>
 
     <div class="fig">
@@ -483,29 +482,29 @@ section{ padding-block:var(--sec-y); }
         <rect x="96" y="548" width="208" height="24" rx="6" class="d-frame"/>
         <text x="200" y="564" text-anchor="middle" class="d-small">1/DAY · KILL SWITCH · MIRRORED</text>
       </svg>
-      <p class="figcap"><b>The spine.</b> One routing brain in front of everything, so adding a capability is adding a route rather than another entry point. Memory sits beside the spine rather than inside a module, which is why recall works across capabilities instead of within one.</p>
+      <p class="figcap"><b>The core system.</b> Terminal and Telegram requests go through one router. Memory and knowledge are shared across every capability.</p>
     </div>
 
     <div class="ph-rail" role="list" aria-label="How Henry was built, in order" style="margin-top:32px">
       <article class="ph-phase" role="listitem">
         <span class="ph-index">01</span>
         <h3>memory before features</h3>
-        <p class="ph-copy">A two-store memory came first, because an agent without recall is a command line with extra steps.</p>
+        <p class="ph-copy">I started with separate stores for personal memory and reusable knowledge.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">02</span>
         <h3>one brain, many hands</h3>
-        <p class="ph-copy">A routing brain in front of the capabilities, so adding a module means adding a route rather than another entry point.</p>
+        <p class="ph-copy">One router sends each request to the right capability and model tier.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">03</span>
         <h3>it works while I sleep</h3>
-        <p class="ph-copy">The job scout, the scheduler and the standup module, all reporting back through a single Telegram update pump.</p>
+        <p class="ph-copy">The job scout, scheduler and standup tools can run on time and report through Telegram.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">04</span>
         <h3>rails before reach</h3>
-        <p class="ph-copy">Anything that can speak in public runs behind hard limits, a kill switch, and a mirror back to me.</p>
+        <p class="ph-copy">Public actions have fixed limits, a kill switch and a copy sent back to me.</p>
       </article>
     </div>
   </section>
@@ -515,15 +514,15 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ THE RAILS ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">the rails.</h2>
-    <p>The most interesting engineering in Henry is the part that stops it doing things. An agent with my accounts attached is only as good as the limits around it, so the limits are structural rather than prompt-level.</p>
+    <p>Henry can access real accounts, so its limits live in code rather than prompts.</p>
     <ul class="deflist">
-      <li><b>One post a day, hard</b>The daily tech-tweet pipeline cannot post twice. It is not asked nicely to behave, it is capped, and there is a kill switch that stops the pipeline outright.</li>
-      <li><b>Every post mirrored to me</b>Anything published in public is also sent to me. If Henry says something in my name, I find out from Henry first, not from someone replying to it.</li>
-      <li><b>A single update pump</b>All Telegram traffic runs through one loop that owns polling. Two consumers racing for the same updates is the classic way a bot double-sends, so there is only ever one.</li>
-      <li><b>Eval-gated retrieval</b>Ranking changes to the knowledge RAG ship only when the eval harness agrees they are an improvement. Retrieval quality is the kind of thing that degrades invisibly, so it gets a gate rather than a vibe check.</li>
-      <li><b>Format-locked output</b>Resume and cover-letter tailoring has to return the exact document format, not free prose. A model that drifts into helpful commentary produces something I cannot actually send.</li>
+      <li><b>One post a day</b>The publishing pipeline has a hard daily cap and a kill switch.</li>
+      <li><b>Every post comes back to me</b>I receive a copy of anything Henry publishes in my name.</li>
+      <li><b>One Telegram update loop</b>A single loop handles incoming messages, which prevents duplicate replies.</li>
+      <li><b>Tested retrieval changes</b>Ranking changes ship only when the evaluation scores improve.</li>
+      <li><b>Fixed document formats</b>Resume and cover-letter tools return the finished document, not extra commentary.</li>
     </ul>
-    <p class="note"><b>Why this matters more than the feature list:</b> the rails are the reason the same architecture could be handed to a school. Swap "I approve" for "the teacher approves" and the guardrail layer is already there. That is the whole extraction story behind Bose.</p>
+    <p class="note"><b>Why this matters:</b> I could reuse the same safety layer for Bose by changing who approves the output.</p>
   </section>
 
   <div class="hatch"></div>
@@ -532,7 +531,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">what's live.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>All of this is shipped and running as a daily driver, in TypeScript ESM under a deliberate zero-heavy-dependencies doctrine, on an 8&nbsp;GB M1 Air.</p>
+      <p>These features run daily on an 8&nbsp;GB M1 Air:</p>
     </div>
 
     <div class="mc-grid" role="list" aria-label="Henry shipped modules">
@@ -542,7 +541,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">memory</p>
         <h3>two-store memory</h3>
-        <p>Engram keeps personal recall separate from the knowledge store, so the two can be tuned independently instead of poisoning each other's rankings.</p>
+        <p>Keeps personal memory separate from reusable knowledge, so each store can be tuned on its own.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -551,7 +550,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">knowledge</p>
         <h3>knowledge RAG</h3>
-        <p>Retrieval across 900+ modules. Ranking changes ship only when the eval harness agrees, so quality moves in one direction.</p>
+        <p>Searches 900+ modules. Ranking changes ship only when evaluation scores improve.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -560,7 +559,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">routing</p>
         <h3>routing brain</h3>
-        <p>One front door decides which capability handles a request and which model tier it is worth. Adding a module is adding a route.</p>
+        <p>Chooses the right capability and model tier for each request.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -569,7 +568,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">automation</p>
         <h3>job scout</h3>
-        <p>Reads Naukri, the open web and X, then batches and scores what it finds against my resume and hands me a shortlist each morning.</p>
+        <p>Finds roles on Naukri, the open web and X, scores them against my resume and returns a shortlist.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -578,7 +577,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">documents</p>
         <h3>resume and cover tailoring</h3>
-        <p>Format-locked output: the tailored resume and cover letter come back as the document, not as prose about the document.</p>
+        <p>Tailors resumes and cover letters while keeping the required document format.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -587,7 +586,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">telegram</p>
         <h3>two-way DM bridge</h3>
-        <p>I can talk to Henry from my phone. A single update pump owns polling, so nothing races for the same messages.</p>
+        <p>Lets me use Henry from my phone without duplicate replies.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -596,7 +595,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">operations</p>
         <h3>standup and scheduler</h3>
-        <p>Group intake, a clarify pass, then daily summaries, plus reminders and cron work, all visible from a mission-control dashboard.</p>
+        <p>Collects standups, sends summaries, runs reminders and shows scheduled work on a dashboard.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -605,7 +604,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">publishing</p>
         <h3>tweet pipeline</h3>
-        <p>A daily tech tweet behind hard rails: one a day, a kill switch, and every post mirrored back to me before I hear about it from anyone else.</p>
+        <p>Publishes one tech post a day, with a kill switch and a copy sent back to me.</p>
       </article>
     </div>
   </section>

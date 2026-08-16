@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bose · case study · Luvish Gulati</title>
-<meta name="description" content="Case study: Bose, an AI teacher and proctor for schools. A privacy-first identity airlock, class-scoped retrieval over the school's own material, a question-paper engine, auto-graded tests and browser-only exam proctoring.">
+<meta name="description" content="Case study: Bose, a privacy-first AI teacher and proctor for schools. It teaches from school material, creates and grades tests, monitors exams and keeps student identities away from external models.">
 <meta name="author" content="Luvish Gulati">
 <meta name="color-scheme" content="dark light">
 <meta name="robots" content="index,follow">
@@ -362,7 +362,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad hero">
     <p class="kicker">Case study · flagship agent</p>
     <h1>Bose</h1>
-    <p class="lede">An AI teacher and proctor that runs inside a school. It teaches from the school's own syllabus, sets and marks its own papers, and invigilates the exam, without a student's name ever reaching an external model.</p>
+    <p class="lede">An AI teacher and proctor for schools. It teaches from the school's material, creates and grades tests, and monitors exams. Student names never reach an external model.</p>
     <div class="chips">
       <span class="chip">AI teacher + proctor</span>
       <span class="chip alt">private repo</span>
@@ -388,9 +388,8 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ THE PROBLEM ============ -->
   <section class="pad prose reveal">
     <h2 class="h-sec">the problem.</h2>
-    <p>A school has two scarce resources: teacher hours and trust. An AI tutor is easy to demo against the first and very easy to lose the second, because the instant it becomes genuinely useful it is also handling children.</p>
-    <p>That changes what the hard part is. Answering a syllabus question well is the part a language model already does. The parts that decide whether a school can actually run the thing are elsewhere: <b>whose material is it answering from</b>, <b>who sees a student's name</b>, <b>who signs off on what reaches a child</b>, and <b>what happens when a parent asks you to delete everything</b>.</p>
-    <p>Most of those are not model problems. They are architecture problems, and they have to be solved before the teaching features exist, because a system that has already written names into a database cannot be made private by adding a setting later.</p>
+    <p>Schools want AI to save teachers time. They also need to protect student data and keep teachers in control.</p>
+    <p>That made the real product questions clear: where answers come from, who sees a student's identity, who approves the output and how data gets deleted. Bose handles those questions in the system design, not through a privacy setting added later.</p>
   </section>
 
   <div class="hatch"></div>
@@ -399,30 +398,30 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">the architecture.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Bose is not a chatbot with a school theme on it. It is the same agent spine I built for <a href="henry.html">Henry</a>, my own personal agent, redeployed into a classroom: memory, retrieval, routing and guardrails, with the surfaces and the approval model swapped out.</p>
-      <p>It was built in this order, and the order is the point.</p>
+      <p>Bose uses the same core as <a href="henry.html">Henry</a>: memory, retrieval, routing and guardrails. I changed the tools for a school setting and put teachers in control of anything students see.</p>
+      <p>I built it in this order:</p>
     </div>
 
     <div class="ph-rail" role="list" aria-label="How Bose was built, in order">
       <article class="ph-phase" role="listitem">
         <span class="ph-index">01</span>
         <h3>airlock first</h3>
-        <p class="ph-copy">The identity boundary was built before any teaching feature, because retrofitting privacy onto a system that already stores names is not a refactor, it is a rewrite.</p>
+        <p class="ph-copy">I built the identity boundary before any teaching feature, so names never entered the rest of the system.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">02</span>
         <h3>the school's own material</h3>
-        <p class="ph-copy">Class-scoped retrieval over the syllabus and the answer bank, on local embeddings, so answers come from the material the class is actually taught from.</p>
+        <p class="ph-copy">Each class searches its own syllabus and answer bank using local embeddings.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">03</span>
         <h3>teach, then test</h3>
-        <p class="ph-copy">Tutor mode with guide, hint and full-answer policies, then the paper engine and the online test site with auto-grading and per-question feedback.</p>
+        <p class="ph-copy">Tutor mode controls how much help to give. The test site creates, grades and explains each result.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">04</span>
         <h3>hand it to the teacher</h3>
-        <p class="ph-copy">Proctoring, karma and leaderboards, and teacher automation, with every student-facing output sitting behind teacher approval.</p>
+        <p class="ph-copy">Teachers approve student-facing output. They also get grading help, worksheets and grouped doubts.</p>
       </article>
     </div>
   </section>
@@ -433,7 +432,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">privacy engineering.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>This is the part of Bose I would want read first. The claim is narrow and testable: <b>a student's name never reaches an external model</b>. Not "is not logged", not "is redacted in transit". Never arrives.</p>
+      <p>This is Bose's main privacy rule: <b>a student's name never reaches an external model</b>.</p>
     </div>
 
     <div class="fig">
@@ -528,18 +527,18 @@ section{ padding-block:var(--sec-y); }
         <text x="40" y="549" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="13">CROSSES: scrubbed question + pseudo ID</text>
         <text x="40" y="568" fill="var(--text-3)" font-family="ui-monospace,monospace" font-size="13">NEVER CROSSES: name, class, identifiers</text>
       </svg>
-      <p class="figcap"><b>The airlock.</b> I built the trust boundary before the teaching features, then routed every question through it. The vault stops the real identity, the scrub step strips identifying fields, and the model only ever sees a scrubbed question and a pseudonymous ID. The answer comes back through the airlock to be re-identified.</p>
+      <p class="figcap"><b>The identity airlock.</b> The vault holds the real identity. A scrub step removes personal details before the model sees the question. The answer returns through the airlock.</p>
     </div>
 
     <div class="prose" style="margin-top:30px">
-      <p>Four moves do the work, and each one is deliberately boring:</p>
+      <p>Four parts enforce the rule:</p>
       <ul class="deflist">
-        <li><b>The vault</b>Real identities live in an AES-256-GCM encrypted store and nowhere else. Every other part of the system is written against a pseudonymous ID, so the privacy property holds even if a downstream module is careless.</li>
-        <li><b>Scrub before persist</b>Identifying fields are stripped before anything is written down and before any external call, not on the way out of a log viewer. If it was never persisted, there is no cleanup job to get wrong.</li>
-        <li><b>Proctoring that stays on the device</b>Exam mode watches browser events, not the student. It records events only, and video never leaves the device, which is also why it can be honest about what it does and does not see.</li>
-        <li><b>Right to forget</b>Erasure reaches into the vault itself. Because identity was only ever in one place, deleting it is a real deletion rather than a sweep through six tables hoping you found them all.</li>
+        <li><b>The vault</b>Real identities stay in one AES-256-GCM encrypted store. The rest of Bose uses a pseudonymous ID.</li>
+        <li><b>Scrub before saving</b>Bose removes identifying details before saving data or calling an external model.</li>
+        <li><b>On-device proctoring</b>Exam mode records browser events. Video never leaves the device.</li>
+        <li><b>Right to forget</b>Identity lives in one vault, so deletion is direct and complete.</li>
       </ul>
-      <p class="note"><b>On what's not on this page:</b> no school, no class, no student, no screenshots of anyone's work, and no repo. Bose runs on a private repository and on someone else's data, so what's here is the architecture and the reasoning, which is the part that is mine to show.</p>
+      <p class="note"><b>What I do not show:</b> school names, student data, private work or the repository. This page covers the public architecture and my product decisions.</p>
     </div>
   </section>
 
@@ -549,7 +548,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">what's live.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Everything below is shipped and covered by the test suite, not a roadmap.</p>
+      <p>These features are live:</p>
     </div>
 
     <div class="mc-grid" role="list" aria-label="Bose shipped modules">
@@ -561,7 +560,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">privacy boundary</p>
         <h3>identity airlock</h3>
-        <p>Real identities stay in an AES-256-GCM vault. Everything downstream sees a pseudonymous ID, and personal details are scrubbed before persist and before any external model call.</p>
+        <p>Keeps real identities in an encrypted vault and removes personal details before any model call.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -572,7 +571,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">school material</p>
         <h3>class-scoped RAG</h3>
-        <p>Retrieval runs over the school's own syllabus and answer bank on local embeddings, at no marginal cost. Each class stays scoped to its own material.</p>
+        <p>Answers questions from each class's syllabus and answer bank using local embeddings.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -583,7 +582,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">graduated help</p>
         <h3>tutor mode</h3>
-        <p>Guide, hint and full-answer policies control how much help is released. Per-student style cards adapt how each explanation is pitched.</p>
+        <p>Controls whether to guide, hint or give a full answer, and adapts how explanations are written.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -594,7 +593,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">paper generation</p>
         <h3>question-paper engine</h3>
-        <p>Blueprints are pattern-learned from past papers, then used to generate new papers with model answers and rubrics. A relevance guard checks what comes out.</p>
+        <p>Learns patterns from past papers, then creates new papers with answers and rubrics.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -605,7 +604,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">assessment loop</p>
         <h3>online test site</h3>
-        <p>Auto-grading with per-question right or wrong feedback and a pass or fail result, so a student finds out what they got wrong and not just what they scored.</p>
+        <p>Grades each answer and shows what was right or wrong, plus the final result.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -617,7 +616,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">browser-only</p>
         <h3>exam mode + proctoring</h3>
-        <p>Exam mode records browser events only. Video never leaves the device, which is what makes the promise checkable rather than a policy line.</p>
+        <p>Records browser events during an exam. Video never leaves the device.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -627,7 +626,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">class progress</p>
         <h3>karma and leaderboards</h3>
-        <p>Karma points, a tier ladder and class leaderboards, so effort has somewhere to accumulate between one test and the next.</p>
+        <p>Tracks karma points, tiers and class leaderboards between tests.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -637,7 +636,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">approval gate</p>
         <h3>teacher automation</h3>
-        <p>Grading suggestions, doubt clustering and worksheets. Every student-facing output sits behind teacher approval, so the teacher stays the author of record.</p>
+        <p>Suggests grades, groups common doubts and creates worksheets. Teachers approve what students see.</p>
       </article>
     </div>
   </section>
