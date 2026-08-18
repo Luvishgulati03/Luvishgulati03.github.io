@@ -236,3 +236,18 @@ networks.
 - Do not claim that software makes assessment "completely fair." Use the defensible language:
   consistent rules, recorded inputs, traceable calculations and teacher review.
 - Do not mention future sales, monetisation, customers or revenue in public portfolio copy.
+
+## Update 2026-08-18 — flagship case-study stories
+
+- Bose is framed around two motivations: making assessment easier to inspect after seeing
+  students demand exam transparency, and shortening the wait between a mistake and useful
+  feedback. Public copy may describe that motivation, but must not promise to prevent paper
+  leaks, guarantee fairness or claim an unmeasured learning-speed multiplier.
+- Bose's public product promise is a connected school learning loop: school-grounded teaching,
+  practice shaped by recent work and mastery, assessment against stored rules, and evidence a
+  teacher can review.
+- Henry is framed around continuity and execution. Generic chats lost context between days and
+  stopped at answers; Henry carries decisions forward, routes repeated work into focused
+  workflows and pauses before external action.
+- Keep the stories distinct. Bose is a demo-ready school product. Henry is Luvish's local,
+  open-source personal work agent.

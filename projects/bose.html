@@ -216,6 +216,31 @@ section{ padding-block:var(--sec-y); }
 }
 .note b{ color:var(--text-2); font-weight:600; }
 
+.story-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:28px;
+}
+.story-card{
+  position:relative; min-width:0; padding:22px;
+  border:1px dashed var(--rule); border-radius:13px; background:var(--panel);
+  overflow:hidden;
+}
+.story-card::before{
+  content:""; position:absolute; inset:0 auto 0 0; width:2px; background:var(--c1);
+}
+.story-index{
+  display:block; margin-bottom:12px; color:var(--c1);
+  font:12px/1.3 var(--f-mono); letter-spacing:.12em; text-transform:uppercase;
+}
+.story-card h3{ font-size:19px; margin-bottom:9px; }
+.story-card p{ color:var(--text-2); font-size:14.5px; line-height:1.55; }
+.story-close{
+  margin-top:14px; padding:17px 18px; border:1px solid color-mix(in srgb,var(--c1) 34%,var(--rule));
+  border-radius:12px; background:color-mix(in srgb,var(--c1) 7%,var(--panel));
+  color:var(--text-2); font-size:15px; line-height:1.6;
+}
+.story-close b{ color:var(--text); font-weight:650; }
+@media (max-width:640px){ .story-grid{ grid-template-columns:minmax(0,1fr); } }
+
 /* ============================================================
    7. FIGURE / DIAGRAM
    ============================================================ */
@@ -394,7 +419,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad hero">
     <p class="kicker">Case study · school AI product</p>
     <h1>Bose</h1>
-    <p class="lede">A demo-ready school AI product that connects teaching, assessment, marking and exam integrity. Students learn in chat. Teachers can trace every score and flagged exam event.</p>
+    <p class="lede">A school AI product built to shorten the learning loop and make assessment easier to trust. Bose teaches from school material, turns weak chapters into practice, calculates marks from stored rules and keeps the record behind every result.</p>
     <div class="chips">
       <span class="chip">school AI product</span>
       <span class="chip alt">teaching + assessment</span>
@@ -408,21 +433,34 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ STAT TILES ============ -->
   <section class="pad reveal">
     <div class="st-row" role="group" aria-label="Bose at a glance">
-      <div class="st-cell"><p class="st-value sm">Demo-ready</p><p class="st-caption">Teaching, assessment and integrity flows built</p></div>
-      <div class="st-cell"><p class="st-value sm">Rule-based</p><p class="st-caption">Marks calculated from recorded answers and scoring rules</p></div>
-      <div class="st-cell"><p class="st-value">0</p><p class="st-caption">Student names that reach an external model</p></div>
-      <div class="st-cell"><p class="st-value sm">Teacher-led</p><p class="st-caption">Evidence, scores and student activity stay reviewable</p></div>
+      <div class="st-cell"><p class="st-value sm">Demo-ready</p><p class="st-caption">Student, teacher, admin and parent journeys built</p></div>
+      <div class="st-cell"><p class="st-value sm">Adaptive</p><p class="st-caption">Mastery and recent work shape the next explanation</p></div>
+      <div class="st-cell"><p class="st-value sm">Traceable</p><p class="st-caption">Answers, rubrics and calculated marks stay connected</p></div>
+      <div class="st-cell"><p class="st-value sm">Private</p><p class="st-caption">Real names stay in an encrypted local vault</p></div>
     </div>
   </section>
 
   <div class="hatch"></div>
 
-  <!-- ============ THE PROBLEM ============ -->
-  <section class="pad prose reveal">
-    <h2 class="h-sec">the problem.</h2>
-    <p>Schools often split teaching, tests, marking and exam review across different tools. That makes a simple question hard to answer: how was this result reached?</p>
-    <p>Bose keeps the learning journey, recorded answers, calculated marks and exam events in one reviewable system. India's 2026 student protests around alleged paper leaks sharpened the need for this kind of transparency. Bose focuses on what a school can control. It does not claim to stop national paper-leak networks.</p>
-    <p class="note">Public context: <a href="https://apnews.com/article/59d045fbd485635def01b01f3898307b" target="_blank" rel="noopener noreferrer">AP's report on the protests ↗</a></p>
+  <!-- ============ ORIGIN STORY ============ -->
+  <section class="pad reveal">
+    <h2 class="h-sec">why I built Bose.</h2>
+    <div class="prose">
+      <p>I built Bose after noticing two gaps in the way schools use technology.</p>
+    </div>
+    <div class="story-grid" role="list" aria-label="The two ideas behind Bose">
+      <article class="story-card" role="listitem">
+        <span class="story-index">01 · trust</span>
+        <h3>Students should be able to understand a result.</h3>
+        <p>The student protests around exam transparency made the problem impossible to ignore. A score should not feel like the end of a closed process. The answer, marking rule, calculated score and recorded exam events should form a trail that a teacher can inspect.</p>
+      </article>
+      <article class="story-card" role="listitem">
+        <span class="story-index">02 · learning</span>
+        <h3>Feedback should arrive while it can still help.</h3>
+        <p>Students often wait for the next class or marked paper to learn what they missed. Bose uses recent work and chapter mastery to choose the next explanation, hint or practice set, so the learning loop keeps moving.</p>
+      </article>
+    </div>
+    <p class="story-close"><b>The product idea:</b> connect teaching, practice, exams and marking in one system. Students get help based on what they actually know. Teachers get the evidence behind every result.</p>
   </section>
 
   <div class="hatch"></div>
@@ -431,7 +469,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">the architecture.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Bose connects the full school workflow. Learning context feeds teaching and assessment, then each result is calculated, recorded and opened for teacher review.</p>
+      <p>One learning loop, not a stack of disconnected tools. Bose carries context from teaching into practice, from practice into assessment, and from each result into the next lesson.</p>
     </div>
 
     <div class="ph-rail" role="list" aria-label="How Bose was built, in order">
@@ -442,18 +480,18 @@ section{ padding-block:var(--sec-y); }
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">02</span>
-        <h3>load class context</h3>
-        <p class="ph-copy">Each class searches its own syllabus, answer bank and learner history.</p>
+        <h3>understand the learner</h3>
+        <p class="ph-copy">School material, recent work and chapter mastery shape the response.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">03</span>
-        <h3>run the workflow</h3>
-        <p class="ph-copy">The request goes to the tutor, paper builder, test runner, exam monitor or marking flow.</p>
+        <h3>choose the next step</h3>
+        <p class="ph-copy">Bose can explain, hint, create practice, build a paper or run an exam.</p>
       </article>
       <article class="ph-phase" role="listitem">
         <span class="ph-index">04</span>
-        <h3>calculate and review</h3>
-        <p class="ph-copy">Bose calculates the result and keeps the inputs, score and exam events together for teachers.</p>
+        <h3>keep the result clear</h3>
+        <p class="ph-copy">Answers, scoring rules, marks and exam events stay together for review.</p>
       </article>
     </div>
   </section>
@@ -464,7 +502,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">how marking works.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Bose does not invent a score. It checks recorded answers against the stored answer key or rubric, applies the same scoring rules for that assessment and saves how the mark was calculated.</p>
+      <p>Every result begins with evidence. Bose checks the submitted answer against the stored answer key or rubric, applies the assessment rules and saves how the mark was reached.</p>
     </div>
 
     <div class="mark-flow" role="list" aria-label="Bose marking flow from recorded answer to teacher review">
@@ -614,7 +652,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">what's live.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>These features are live:</p>
+      <p>The demo covers the full school loop, from a student's first question to a teacher reviewing the result:</p>
     </div>
 
     <div class="mc-grid" role="list" aria-label="Bose shipped modules">
@@ -636,8 +674,8 @@ section{ padding-block:var(--sec-y); }
           <path d="M6.5 7h1M10.5 12h1M14.5 18h1"/>
         </svg>
         <p class="mc-kicker">school material</p>
-        <h3>class-scoped RAG</h3>
-        <p>Answers questions from each class's syllabus and answer bank using local embeddings.</p>
+        <h3>answers from school material</h3>
+        <p>Uses the class syllabus and answer bank, so explanations stay tied to what is being taught.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -647,8 +685,8 @@ section{ padding-block:var(--sec-y); }
           <path d="M18 6.5l.6 1.3 1.4.5-1.4.5-.6 1.3-.6-1.3-1.4-.5 1.4-.5.6-1.3Z"/>
         </svg>
         <p class="mc-kicker">graduated help</p>
-        <h3>tutor mode</h3>
-        <p>Controls whether to guide, hint or give a full answer, and adapts how explanations are written.</p>
+        <h3>adaptive tutor</h3>
+        <p>Uses recent work and mastery to decide whether to guide, hint or explain the answer in full.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -659,7 +697,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">paper generation</p>
         <h3>question-paper engine</h3>
-        <p>Learns patterns from past papers, then creates new papers with answers and rubrics.</p>
+        <p>Reads the shape of past papers, then creates new papers with answers and marking rubrics.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -691,8 +729,8 @@ section{ padding-block:var(--sec-y); }
           <path d="M4 19.5h4M10 17h4M16 14.5h4M4 21h16"/>
         </svg>
         <p class="mc-kicker">class progress</p>
-        <h3>karma and leaderboards</h3>
-        <p>Turns learning and test activity into points, mastery and a student scoreboard.</p>
+        <h3>visible learning progress</h3>
+        <p>Turns preparation, learning and assessment activity into points, mastery and a class scoreboard.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -702,7 +740,7 @@ section{ padding-block:var(--sec-y); }
         </svg>
         <p class="mc-kicker">approval gate</p>
         <h3>teacher automation</h3>
-        <p>Shows the evidence timeline, student activity and score history. Teachers decide what happens next.</p>
+        <p>Builds worksheets, suggests grades and groups common doubts while teachers review student-facing decisions.</p>
       </article>
     </div>
   </section>
@@ -710,9 +748,9 @@ section{ padding-block:var(--sec-y); }
   <div class="hatch"></div>
 
   <section class="pad prose reveal">
-    <h2 class="h-sec">what comes next.</h2>
-    <p>The next layer compares AI-supported learning across schools. A student's preparation, knowledge gained and assessment activity will become points on a scoreboard. A school's score will be the average of its student scores.</p>
-    <p>This is planned, not live. The goal is to give schools a transparent way to track AI adoption in their area while teachers retain control over student scores and activity.</p>
+    <h2 class="h-sec">the bigger goal.</h2>
+    <p>Bose is demo-ready today. The next layer is a school-wide view of how students are learning with AI. Preparation, knowledge gained and assessment activity will contribute to a student score. The average will show a school's progress over time and allow comparison with schools in the same area.</p>
+    <p>This layer is planned. Teachers will be able to inspect the activity behind each score, so the number remains useful instead of becoming another unexplained rank.</p>
   </section>
 
   </main>

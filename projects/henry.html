@@ -217,6 +217,28 @@ section{ padding-block:var(--sec-y); }
 }
 .note b{ color:var(--text-2); font-weight:600; }
 
+.story-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:28px;
+}
+.story-card{
+  position:relative; min-width:0; padding:22px;
+  border:1px dashed var(--rule); border-radius:13px; background:var(--panel); overflow:hidden;
+}
+.story-card::before{ content:""; position:absolute; inset:0 auto 0 0; width:2px; background:var(--c1); }
+.story-index{
+  display:block; margin-bottom:12px; color:var(--c1);
+  font:12px/1.3 var(--f-mono); letter-spacing:.12em; text-transform:uppercase;
+}
+.story-card h3{ font-size:19px; margin-bottom:9px; }
+.story-card p{ color:var(--text-2); font-size:14.5px; line-height:1.55; }
+.story-close{
+  margin-top:14px; padding:17px 18px; border:1px solid color-mix(in srgb,var(--c1) 34%,var(--rule));
+  border-radius:12px; background:color-mix(in srgb,var(--c1) 7%,var(--panel));
+  color:var(--text-2); font-size:15px; line-height:1.6;
+}
+.story-close b{ color:var(--text); font-weight:650; }
+@media (max-width:640px){ .story-grid{ grid-template-columns:minmax(0,1fr); } }
+
 /* ============================================================
    7. FIGURE / DIAGRAM
    ============================================================ */
@@ -374,7 +396,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad hero">
     <p class="kicker">Case study · flagship agent</p>
     <h1>Henry</h1>
-    <p class="lede">The personal work agent I use every day. It remembers context, finds knowledge and runs focused workflows from my terminal or phone.</p>
+    <p class="lede">The personal work agent I built because useful work should not restart with every chat. Henry remembers the decisions behind a task, finds the right knowledge and runs repeatable workflows from my terminal or phone.</p>
     <div class="chips">
       <span class="chip">Personal work agent</span>
       <span class="chip alt">open source</span>
@@ -388,20 +410,34 @@ section{ padding-block:var(--sec-y); }
   <!-- ============ STAT TILES ============ -->
   <section class="pad reveal">
     <div class="st-row" role="group" aria-label="Henry at a glance">
-      <div class="st-cell"><p class="st-value sm">Daily</p><p class="st-caption">Used for job search, documents and scheduled work</p></div>
-      <div class="st-cell"><p class="st-value">900+</p><p class="st-caption">Knowledge modules under eval-gated retrieval</p></div>
-      <div class="st-cell"><p class="st-value">2</p><p class="st-caption">Separate stores for personal memory and reusable knowledge</p></div>
-      <div class="st-cell"><p class="st-value">₹0</p><p class="st-caption">API spend per run, on an M1 Air</p></div>
+      <div class="st-cell"><p class="st-value sm">Daily</p><p class="st-caption">Job search, documents, standups and scheduled work</p></div>
+      <div class="st-cell"><p class="st-value">900+</p><p class="st-caption">Knowledge modules with tested retrieval changes</p></div>
+      <div class="st-cell"><p class="st-value sm">Local-first</p><p class="st-caption">Personal memory and reusable knowledge stay separate</p></div>
+      <div class="st-cell"><p class="st-value sm">Approval</p><p class="st-caption">External actions wait for my explicit decision</p></div>
     </div>
   </section>
 
   <div class="hatch"></div>
 
-  <!-- ============ THE PROBLEM ============ -->
-  <section class="pad prose reveal">
-    <h2 class="h-sec">the problem.</h2>
-    <p>I kept losing context between chats, documents and job-search tasks. A chatbot could answer one prompt, but it could not reliably continue yesterday's work.</p>
-    <p>Henry keeps that context locally, chooses a focused workflow and asks for approval before external action.</p>
+  <!-- ============ ORIGIN STORY ============ -->
+  <section class="pad reveal">
+    <h2 class="h-sec">why I built Henry.</h2>
+    <div class="prose">
+      <p>I was using AI every day, but too much of the work still depended on me rebuilding the context.</p>
+    </div>
+    <div class="story-grid" role="list" aria-label="The two problems Henry solves">
+      <article class="story-card" role="listitem">
+        <span class="story-index">01 · continuity</span>
+        <h3>A new chat should not mean a fresh start.</h3>
+        <p>Job applications, documents and project decisions spill across days. I wanted an agent that could remember what happened, retrieve the useful parts and continue from there.</p>
+      </article>
+      <article class="story-card" role="listitem">
+        <span class="story-index">02 · execution</span>
+        <h3>An answer is useful. A finished workflow is better.</h3>
+        <p>The repeated work was predictable: find roles, compare them with my resume, prepare documents, collect standups and run reminders. Henry turns those jobs into workflows I can reuse.</p>
+      </article>
+    </div>
+    <p class="story-close"><b>The product idea:</b> give one personal agent memory, tools and clear limits. It should carry context forward, do the repeatable work and stop for approval before anything leaves my machine.</p>
   </section>
 
   <div class="hatch"></div>
@@ -410,7 +446,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">the architecture.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>Read the system top to bottom: a request arrives, the router loads the right context, then one focused capability does the work.</p>
+      <p>Every request follows the same path: understand the job, load only the context it needs, choose a focused workflow and return something I can use.</p>
     </div>
 
     <div class="fig">
@@ -512,14 +548,14 @@ section{ padding-block:var(--sec-y); }
 
   <!-- ============ THE RAILS ============ -->
   <section class="pad prose reveal">
-    <h2 class="h-sec">the rails.</h2>
-    <p>Henry can access real accounts, so the limits are enforced in code.</p>
+    <h2 class="h-sec">how I keep it useful.</h2>
+    <p>A personal agent touches real work, so reliability is part of the product.</p>
     <ul class="deflist">
-      <li><b>One post a day</b>The publishing pipeline has a hard daily cap and a kill switch.</li>
-      <li><b>Every post comes back to me</b>I receive a copy of anything Henry publishes in my name.</li>
-      <li><b>One Telegram update loop</b>A single loop handles incoming messages, which prevents duplicate replies.</li>
-      <li><b>Tested retrieval changes</b>Ranking changes ship only when the evaluation scores improve.</li>
-      <li><b>Fixed document formats</b>Resume and cover-letter tools return the finished document, not extra commentary.</li>
+      <li><b>Approval before external action</b>Email, applications and other outbound work stay drafted until I approve the exact item.</li>
+      <li><b>Memory with a reason</b>Recall combines semantic and keyword matches, then shows why a memory was selected.</li>
+      <li><b>Tested knowledge retrieval</b>Ranking changes ship only when the evaluation scores improve.</li>
+      <li><b>One phone update loop</b>A single Telegram loop handles incoming messages and prevents duplicate replies.</li>
+      <li><b>Outputs with a job to do</b>Resume and cover-letter tools return the finished format instead of a wall of commentary.</li>
     </ul>
     <p class="note">Bose turns this engineering pattern into a school product. Henry remains the personal agent I use for my own work.</p>
   </section>
@@ -530,7 +566,7 @@ section{ padding-block:var(--sec-y); }
   <section class="pad reveal">
     <h2 class="h-sec">what's live.</h2>
     <div class="prose" style="margin-bottom:28px">
-      <p>These features run daily on an 8&nbsp;GB M1 Air:</p>
+      <p>The system runs locally on my 8&nbsp;GB M1 Air. These are the parts I use as real workflows:</p>
     </div>
 
     <div class="mc-grid" role="list" aria-label="Henry shipped modules">
@@ -539,8 +575,8 @@ section{ padding-block:var(--sec-y); }
           <rect x="4" y="3" width="16" height="7" rx="2"/><rect x="4" y="14" width="16" height="7" rx="2"/><path d="M8 10v4M16 10v4"/><path d="M8 6h.01M8 17h.01"/>
         </svg>
         <p class="mc-kicker">memory</p>
-        <h3>two-store memory</h3>
-        <p>Keeps personal memory separate from reusable knowledge, so each store can be tuned on its own.</p>
+        <h3>memory that carries work forward</h3>
+        <p>Keeps personal history separate from reusable knowledge, then retrieves only what the current task needs.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -548,8 +584,8 @@ section{ padding-block:var(--sec-y); }
           <ellipse cx="10" cy="5" rx="6" ry="2.5"/><path d="M4 5v9c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V5"/><path d="M4 9.5C4 10.9 6.7 12 10 12s6-1.1 6-2.5"/><circle cx="17.5" cy="16.5" r="3.5"/><path d="m20 19 2 2"/>
         </svg>
         <p class="mc-kicker">knowledge</p>
-        <h3>knowledge RAG</h3>
-        <p>Searches 900+ modules. Ranking changes ship only when evaluation scores improve.</p>
+        <h3>tested knowledge search</h3>
+        <p>Searches 900+ modules and only ships ranking changes when retrieval evaluations improve.</p>
       </article>
 
       <article class="mc-card" role="listitem">
@@ -557,8 +593,8 @@ section{ padding-block:var(--sec-y); }
           <circle cx="12" cy="12" r="3"/><circle cx="4" cy="5" r="2"/><circle cx="20" cy="5" r="2"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="19" r="2"/><path d="M10 10 5.5 6.5M14 10l4.5-3.5M10 14l-4.5 3.5M14 14l4.5 3.5"/>
         </svg>
         <p class="mc-kicker">routing</p>
-        <h3>routing brain</h3>
-        <p>Chooses the right capability and model tier for each request.</p>
+        <h3>one request, one clear route</h3>
+        <p>Chooses the right workflow and model tier instead of sending every task through the same prompt.</p>
       </article>
 
       <article class="mc-card" role="listitem">
