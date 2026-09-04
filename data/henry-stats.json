@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-17T15:43:01.394Z",
-  "queriesAnswered": 82,
-  "totalMemories": 228,
+  "generatedAt": "2026-09-04T21:27:11.314Z",
+  "queriesAnswered": 111,
+  "totalMemories": 279,
   "activeSinceIso": "2026-08-05T18:01:27.741Z",
-  "activeFor": "<1 month",
+  "activeFor": "1 month",
   "embeddingDims": 384,
   "runsOn": "8GB M1 Air",
   "marginalCost": "₹0"
