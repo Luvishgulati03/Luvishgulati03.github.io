@@ -48,6 +48,9 @@ projects/
   risk-ai-council.html            case study — Risk AI Council (GTM + content)
   carbonnex.html                  case study — CarbonNex (ESG reporting workflows)
 
+writing.html                      writing hub — life and technology notes
+life.html / tech.html             coming-soon writing category pages
+
 scripts/
   audit.mjs                       pre-publish gate — 56 headless-Chromium checks
   build-stats.mjs                 reads Henry's live DBs  → data/henry-stats.json
