@@ -8,9 +8,13 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { createRequire } from "node:module";
 
-const HENRY = process.env.HENRY_DIR || "/Users/luvishgulati/dev/henry";
+// ~/dev/henry no longer exists; prefer the real checkout and keep the env override.
+const HENRY = process.env.HENRY_DIR
+  || [path.join(os.homedir(), "Downloads/henry"), path.join(os.homedir(), "dev/henry")].find((d) => fs.existsSync(d))
+  || path.join(os.homedir(), "Downloads/henry");
 const require = createRequire(path.join(HENRY, "package.json"));
 const Database = require("better-sqlite3");
 

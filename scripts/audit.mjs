@@ -1,11 +1,44 @@
 // Portfolio pre-publish audit (v3 structure + case-study pages).
-// Run from the henry repo root (Playwright lives there):
-//   cd ~/dev/henry && node ~/dev/portfolio/scripts/audit.mjs
+// The portfolio has no dependencies of its own, so it borrows Playwright from the
+// Henry checkout. Run it from anywhere:
+//   node ~/dev/portfolio/scripts/audit.mjs
+//   HENRY_DIR=/path/to/henry node ~/dev/portfolio/scripts/audit.mjs   # explicit override
 // Exit 0 = safe to publish. Any FAIL = fix before pushing.
 // Writes shots/v3.png plus one screenshot per case-study page.
 import fs from "node:fs";
 import path from "node:path";
-import { chromium } from "/Users/luvishgulati/dev/henry/node_modules/playwright/index.mjs";
+import os from "node:os";
+import { pathToFileURL } from "node:url";
+
+/**
+ * Playwright used to be imported from a single hardcoded absolute path
+ * (`~/dev/henry/node_modules/...`). That directory no longer exists, so this
+ * script died at import and the audit had not actually run for some time —
+ * a silent failure that reads exactly like "no problems found". Resolve it
+ * from the environment first, then the known checkouts, and if none of them
+ * has it, SAY so instead of exiting non-zero for a mysterious reason.
+ */
+async function loadChromium() {
+  const candidates = [
+    process.env.HENRY_DIR && path.join(process.env.HENRY_DIR, "node_modules/playwright/index.mjs"),
+    path.join(os.homedir(), "Downloads/henry/node_modules/playwright/index.mjs"),
+    path.join(os.homedir(), "dev/henry/node_modules/playwright/index.mjs"),
+  ].filter(Boolean);
+  for (const candidate of candidates) {
+    if (!fs.existsSync(candidate)) continue;
+    return (await import(pathToFileURL(candidate).href)).chromium;
+  }
+  // Last resort: a Playwright that is genuinely resolvable from here.
+  try { return (await import("playwright")).chromium; } catch { /* fall through to the real message */ }
+  console.error(
+    "FAIL  Playwright not found. The portfolio has no dependencies of its own and borrows it from Henry.\n" +
+    "      Looked in:\n" + candidates.map((c) => `        ${c}`).join("\n") +
+    "\n      Fix: set HENRY_DIR to your Henry checkout, e.g.\n" +
+    "        HENRY_DIR=~/Downloads/henry node scripts/audit.mjs",
+  );
+  process.exit(1);
+}
+const chromium = await loadChromium();
 
 const REPO = "/Users/luvishgulati/dev/portfolio";
 // Contribution expectations come from the DATA FILE, never hardcoded — the nightly

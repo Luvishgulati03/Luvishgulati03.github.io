@@ -53,7 +53,7 @@ console.log(
   `refreshed ${replaced} stat marker(s)${changed ? "" : " — already up to date"}` +
   (skipped.length ? `; not shown on the page: ${skipped.join(", ")}` : "")
 );
-console.log("now run:  cd ~/dev/henry && node ~/dev/portfolio/scripts/audit.mjs");
+console.log("now run:  node ~/dev/portfolio/scripts/audit.mjs");
 
 // Extra keys in the JSON that the page doesn't display (activeSinceIso, embeddingDims)
 // are fine to skip. Zero markers found is not — that means index.html drifted.
