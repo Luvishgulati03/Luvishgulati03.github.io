@@ -59,12 +59,16 @@ headshot, drop the file at `assets/me.jpg` and replace the avatar block in `inde
 Nothing else changes — `.avatar` already carries `object-fit: cover`. (Optionally drop
 `filter: grayscale(1)` from the `.avatar` rule if the photo should be in colour.)
 
-## Constraint: zero dependencies
+## Runtime dependencies
 
-Everything — CSS, JS, the project cover art, the skill icons, the favicon — is inline in
-`index.html`. Nothing is fetched at runtime: no CDN, no web fonts (system stack only), no
-analytics, no trackers, no hotlinked logos. This is enforced, not aspirational: the audit fails
-if a single request leaves `file://`.
+The main portfolio and case-study pages remain self-contained, with no analytics,
+trackers, external fonts or runtime dependencies. The file-based audit verifies this.
+
+The first HTTP visit opens `studio.html`, the 3D laptop and robot introduction.
+It loads Three.js 0.180.0 from jsDelivr; library source is not committed here.
+The geometry, characters, screen artwork and animation timeline are original code
+in that page. Skip and enter navigation also work when the CDN or WebGL fails.
+After entry, the intro stays dismissed for that tab. Deep links go directly to content.
 
 ## How to run
 
@@ -72,12 +76,18 @@ if a single request leaves `file://`.
 open index.html          # macOS
 ```
 
-No install, no server, no `npm`.
+The main portfolio needs no installation. To preview the 3D entry flow:
+
+```sh
+python3 -m http.server 4199 --bind 127.0.0.1
+# Open http://127.0.0.1:4199/ (or studio.html to replay the intro).
+```
 
 ## Layout
 
 ```
 index.html                       the homepage
+studio.html                      first-visit 3D laptop and robot introduction
 AGENT-GUIDE.md                   context file for agents editing this repo
 index-v2-backup.html             previous version, kept for reference
 content-dossier.md               the only source of factual claims on the site

@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Luvish Gulati · AI-Native Product Engineer</title>
+<script>
+// Show the studio once per tab. Deep links and file previews go straight to content.
+(function(){
+  if (!/^https?:$/.test(location.protocol) || location.hash) return;
+  try { if (sessionStorage.getItem('lg-studio-seen') === '1') return; } catch (_) {}
+  location.replace('studio.html');
+})();
+</script>
 <meta name="description" content="AI-native product engineer in Bengaluru. I design and build working AI products, including Bose for schools and Henry for my own work.">
 <meta name="author" content="Luvish Gulati">
 <meta name="color-scheme" content="dark light">
@@ -115,6 +123,7 @@ body{
   font-family:var(--f-sans); font-size:16px; line-height:1.62;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
+
 img,svg{ max-width:100%; }
 h1,h2,h3,h4{ margin:0; line-height:1.18; letter-spacing:-.02em; font-weight:700; }
 p{ margin:0; }
@@ -654,6 +663,7 @@ li:hover .spark{ color:var(--accent); }
 </head>
 <body>
 <a class="sr" href="#main">Skip to content</a>
+
 
 <div class="sheet">
 <div class="col">
@@ -1345,6 +1355,7 @@ li:hover .spark{ color:var(--accent); }
 </script>
 
 <script>
+
 (function () {
   'use strict';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luvish Gulati — The agent studio</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#050607;color:#edf1ee}*{box-sizing:border-box}body{margin:0;overflow:hidden}canvas{display:block;width:100%;height:100%;touch-action:pan-y}#stage{position:fixed;inset:0}header{position:fixed;top:32px;left:4%;right:4%;display:flex;justify-content:space-between;align-items:center;pointer-events:none}a,button{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}header a{font-size:23px;font-weight:750;letter-spacing:-1px;color:#eef3ef;text-decoration:none;pointer-events:auto}header span,.eyebrow,.meta,footer{font-family:ui-monospace,SFMono-Regular,monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase}header span{color:#79837e}header i{display:inline-block;width:5px;height:5px;background:#7ef0b6;border-radius:50%;margin-right:10px;box-shadow:0 0 12px #5bea9e}.intro-copy{position:fixed;top:13%;width:100%;text-align:center;pointer-events:none;transition:opacity .6s,transform .6s}.eyebrow{color:#8caaa0;margin-bottom:17px}.intro-copy h1{font-size:clamp(25px,3.2vw,46px);line-height:1.15;letter-spacing:-1.8px;font-weight:500;margin:0}.intro-copy h1 span{color:#75817b}.meta{position:fixed;bottom:29px;left:4%;color:#76867c;letter-spacing:1px;line-height:1.7}footer{position:fixed;right:4%;bottom:28px;display:flex;gap:8px;align-items:center}footer button{color:#a3b0a8;background:#101512;border:1px solid #29352e;border-radius:30px;padding:11px 16px;font-size:10px;letter-spacing:1px;text-transform:uppercase}footer button:hover{border-color:#86d9ac;color:white}button:focus-visible,a:focus-visible{outline:2px solid #8dffc1;outline-offset:5px}#enter{position:fixed;bottom:13%;left:50%;transform:translate(-50%,12px);border:1px solid #a5f1c7;border-radius:30px;background:#c2f3d8;color:#112519;padding:15px 25px;font-size:12px;letter-spacing:.3px;opacity:0;pointer-events:none;transition:opacity .5s,transform .5s,background .2s;box-shadow:0 0 40px #61d69e12}#enter span{margin-left:28px}body.ready #enter{opacity:1;transform:translate(-50%,0);pointer-events:auto}#enter:hover{background:#e5fff0}.label{position:fixed;pointer-events:none;text-align:center;opacity:0;transition:opacity .6s;transform:translate(-50%,0);white-space:nowrap}.label strong{font-size:13px;letter-spacing:1px;font-weight:500}.label small{display:block;color:#798d82;font-size:10px;margin-top:6px;letter-spacing:.3px}.label.bose strong{color:#c1b5ff}.label.henry strong{color:#99e5ba}body.ready .label{opacity:1}#loading{position:fixed;left:50%;top:53%;transform:translate(-50%,-50%);font-size:12px;color:#91a298;transition:opacity .4s}#curtain{position:fixed;inset:0;background:#050607;opacity:0;pointer-events:none;transition:opacity .4s}body.leaving #curtain{opacity:1}body.leaving .intro-copy,body.leaving footer,body.leaving .meta,body.leaving #enter,body.leaving .label{opacity:0;pointer-events:none}@media(max-width:600px){header{top:23px}header span{font-size:8px;letter-spacing:1px}.intro-copy{top:15%}.intro-copy h1{letter-spacing:-1px}.eyebrow{font-size:8px}.meta{bottom:23px;font-size:8px;max-width:40%}footer{bottom:23px}footer button{padding:10px 12px;font-size:9px}#enter{bottom:19%;padding:14px 22px}.label small{font-size:9px}.label strong{font-size:11px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:600px){#enter{bottom:12%}}
+</style>
+</head>
+<body>
+<div id="stage" aria-label="Interactive 3D laptop with Henry and Bose robot agents"></div>
+<header><a href="index.html" id="home">lg.</a><span><i></i>independent intelligence / human judgment</span></header>
+<div class="intro-copy"><div class="eyebrow">A small studio. A bigger imagination.</div><h1>One human.<span> Two curious machines.</span></h1></div>
+<div id="loading" role="status">Setting the scene…</div>
+<div class="label henry" id="henry-label"><strong>HENRY</strong><small>your work, remembered.</small></div>
+<div class="label bose" id="bose-label"><strong>BOSE</strong><small>curiosity, amplified.</small></div>
+<button id="enter">Explore my world <span aria-hidden="true">↗</span></button>
+<p class="meta" id="status" aria-live="polite">01 / the arrival</p>
+<footer><button id="replay">Replay</button><button id="skip">Skip intro ↗</button></footer>
+<div id="curtain"></div>
+<script type="module">
+// Original geometry and motion. Three.js is the rendering dependency only.
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const host=document.querySelector('#stage'), status=document.querySelector('#status');
+function navigate(){try{sessionStorage.setItem('lg-studio-seen','1')}catch{}location.href='index.html#main'}
+document.querySelector('#skip').onclick=navigate;document.querySelector('#home').onclick=e=>{e.preventDefault();navigate()};
+document.querySelector('#enter').onclick=navigate;
+// Pin the external rendering dependency; no third-party source is vendored.
+let T;
+try { T = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js'); }
+catch (_) { /* Navigation remains usable if the CDN or WebGL is unavailable. */ }
+let renderer;
+try { renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'}); }
+catch(e){document.querySelector('#loading').textContent='3D is unavailable on this device. You can still explore the portfolio.';document.body.classList.add('ready');}
+if(renderer){
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x050607);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;host.appendChild(renderer.domElement);
+const scene=new T.Scene();scene.fog=new T.FogExp2(0x050607,.037);
+const camera=new T.PerspectiveCamera(35,innerWidth/innerHeight,.1,80);
+const root=new T.Group();scene.add(root);
+const mat=(color,metalness=.0,roughness=.45)=>new T.MeshStandardMaterial({color,metalness,roughness});
+const alloy=mat(0x7c8387,.83,.29), edge=mat(0x42484e,.8,.25), dark=mat(0x080c10,.35,.33), keymat=mat(0x10161b,.3,.5), ivory=mat(0xc0cec6,.55,.29);
+function box(w,h,d,r=.05){r=Math.min(r,h/2-.001,w/2-.001);const s=new T.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);const g=new T.ExtrudeGeometry(s,{depth:d-.02,bevelEnabled:true,bevelSegments:3,steps:1,bevelSize:.01,bevelThickness:.01,curveSegments:8});g.translate(0,0,-(d-.02)/2);return g;}
+function mesh(g,m,parent,x=0,y=0,z=0){const o=new T.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o;}
+function orb(r,m,p,x=0,y=0,z=0){return mesh(new T.SphereGeometry(r,24,16),m,p,x,y,z)}
+scene.add(new T.HemisphereLight(0xbdd3e4,0x1b2820,2));
+function light(color,power,x,y,z){const l=new T.DirectionalLight(color,power);l.position.set(x,y,z);scene.add(l);return l;}
+const key=light(0xe1ecff,4,-4,7,5);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-9;key.shadow.camera.right=9;key.shadow.camera.top=8;key.shadow.camera.bottom=-8;key.shadow.bias=-.001;
+light(0x7be8b0,2.6,-7,3,-4);light(0xb8a5ff,3,6,4,-3);light(0xffffff,1,1,2,7);
+const floor=mesh(new T.PlaneGeometry(180,180),mat(0x090e0c,.3,.34),scene,0,-.85,0);floor.rotation.x=-Math.PI/2;
+// Laptop assembled in its physically closed pose. Lid opens about its rear edge.
+const laptop=new T.Group();root.add(laptop);
+mesh(box(4.8,.22,3.04,.09),alloy,laptop,0,.04,0);
+mesh(box(4.73,.035,2.98,.013),edge,laptop,0,-.088,0);
+mesh(box(3.9,.025,1.37,.01),edge,laptop,0,.159,-.51);
+const keyG=box(.24,.037,.19,.014);
+for(let row=0;row<5;row++)for(let col=0;col<14;col++){mesh(keyG,keymat,laptop,-1.76+col*.271,.19,-1.04+row*.235)}
+mesh(box(1.52,.035,.17,.015),keymat,laptop,0,.191,.135);
+mesh(box(1.58,.008,.72,.003),edge,laptop,0,.156,.79);
+mesh(box(1.54,.012,.685,.004),alloy,laptop,0,.165,.79);
+// Speaker perforations, chassis seams, USB-C ports and front opening notch.
+const holeG=new T.SphereGeometry(.008,5,4);
+for(const side of [-1,1])for(let row=0;row<22;row++)for(let col=0;col<3;col++)mesh(holeG,dark,laptop,side*(2.08+col*.035),.164,-1.08+row*.06);
+for(let i=0;i<2;i++)mesh(box(.018,.07,.22,.014),dark,laptop,-2.406,.04,-.85+i*.34);
+mesh(box(.018,.065,.065,.015),dark,laptop,2.406,.04,-.85);
+mesh(box(.7,.055,.025,.021),edge,laptop,0,.13,1.524);
+const hinge=new T.Group();hinge.position.set(0,.23,-1.5);laptop.add(hinge);
+for(const x of [-1.7,1.7]){const o=mesh(new T.CylinderGeometry(.09,.09,.5,20),edge,laptop,x,.16,-1.45);o.rotation.z=Math.PI/2}
+mesh(box(4.8,.14,3.04,.06),alloy,hinge,0,0,1.5);
+mesh(box(4.68,.02,2.93,.009),dark,hinge,0,-.083,1.5);
+// An original LG mark etched on the OUTER lid, visible during the closed spin.
+function textureCanvas(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return[c,c.getContext('2d')]}
+const [logo,lc]=textureCanvas(256,256);lc.clearRect(0,0,256,256);lc.fillStyle='#b5c8be';lc.font='600 85px sans-serif';lc.textAlign='center';lc.fillText('lg.',128,151);const logot=new T.CanvasTexture(logo);logot.colorSpace=T.SRGBColorSpace;const mark=mesh(new T.PlaneGeometry(.5,.5),new T.MeshBasicMaterial({map:logot,transparent:true}),hinge,0,.081,1.5);mark.rotation.x=-Math.PI/2;
+const [screen,ctx]=textureCanvas(1600,1000), st=new T.CanvasTexture(screen);st.colorSpace=T.SRGBColorSpace;
+const display=mesh(new T.PlaneGeometry(4.38,2.72),new T.MeshBasicMaterial({map:st}),hinge,0,-.12,1.53);display.rotation.x=Math.PI/2;
+orb(.018,mat(0x122b28,.5,.2),hinge,0,-.103,2.974);
+// Compact robots: rounded body shells, glass visors, luminous eyes and jointed arms.
+function robot(color,isBose){const g=new T.Group();root.add(g);const shell=isBose?mat(0xa6a1bb,.6,.28):ivory;const glow=new T.MeshStandardMaterial({color,emissive:color,emissiveIntensity:2,roughness:.22});const body=mesh(box(.57,.61,.43,.19),shell,g,0,.2,0);orb(.16,edge,g,0,-.23,0);mesh(box(.72,.46,.48,.18),shell,g,0,.77,0);mesh(box(.61,.26,.035,.12),dark,g,0,.78,.253);for(const x of [-.155,.155]){const eye=mesh(box(.08,.065,.024,.025),glow,g,x,.8,.282)}mesh(box(.14,.022,.02,.009),glow,g,0,.697,.279);mesh(new T.TorusGeometry(.09,.012,8,28),glow,g,0,.23,.224);const arms=[];for(const s of [-1,1]){const arm=new T.Group();arm.position.set(s*.37,.46,0);g.add(arm);orb(.095,edge,arm);mesh(box(.12,.34,.14,.055),shell,arm,0,-.2,0);orb(.082,glow,arm,0,-.41,0);arms.push(arm);mesh(box(.16,.2,.24,.07),edge,g,s*.16,-.28,.075)}const antenna=mesh(new T.CylinderGeometry(.014,.014,.18,10),edge,g,0,1.1,0);orb(.045,glow,g,0,1.21,0);return{g,arms,isBose};}
+const henry=robot(0x6ce4a3,false),bose=robot(0xa392ff,true);
+const ringMat=new T.MeshBasicMaterial({color:0x407455,transparent:true,opacity:.19});const ring=mesh(new T.TorusGeometry(4.3,.008,6,100),ringMat,root,0,-.82,0);ring.rotation.x=Math.PI/2;
+// One timeline controls entrance, settle, hinge opening, display boot and robots.
+const clamp=v=>Math.max(0,Math.min(1,v)), ease=v=>{v=clamp(v);return v*v*(3-2*v)}, lerp=T.MathUtils.lerp;
+let started=performance.now(),ready=false,exitAt=null,px=0,py=0,lastScreen=-1,hover=null;
+let screenPhase='';
+function drawScreen(t){const boot=clamp((t-3.4)/1.4);ctx.fillStyle='#070e0c';ctx.fillRect(0,0,1600,1000);const glow=ctx.createRadialGradient(1260,300,0,1260,300,850);glow.addColorStop(0,'#173c2c');glow.addColorStop(1,'#070e0c');ctx.fillStyle=glow;ctx.fillRect(0,0,1600,1000);ctx.globalAlpha=boot;ctx.fillStyle='#8bac9a';ctx.font='21px monospace';ctx.fillText('LG / PERSONAL INTELLIGENCE',95,90);ctx.fillStyle='#84daa9';ctx.fillText('HENRY + BOSE   •   ONLINE',1120,90);for(let i=0;i<30;i++){const x=1200+Math.cos(i*2.4+t*.13)*(90+i*5),y=475+Math.sin(i*1.7+t*.15)*(70+i*5);ctx.fillStyle='#70e3a5';ctx.globalAlpha=boot*.35;ctx.beginPath();ctx.arc(x,y,2+(i%3),0,7);ctx.fill();if(i%2===0){ctx.strokeStyle='#8bc9a1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(1200,470);ctx.stroke()}}ctx.globalAlpha=boot;ctx.fillStyle='#f0f6f1';ctx.font='500 84px sans-serif';ctx.fillText('AI will shape',95,305);ctx.fillText('the future.',95,405);ctx.fillStyle='#a0ecc0';ctx.fillText('Don’t surrender',95,535);ctx.fillText('your judgment.',95,635);ctx.font='29px sans-serif';ctx.fillStyle='#9bad9f';ctx.fillText('It can be confidently wrong.',98,755);ctx.fillText('Question the output. Own the decision.',98,804);ctx.fillStyle='#9fe8bb';ctx.font='22px monospace';ctx.fillText('ENTER THE PORTFOLIO   ↗',98,925);ctx.globalAlpha=1;st.needsUpdate=true;}
+function projectLabel(r,id){const p=r.g.position.clone();p.y-=.57;p.project(camera);const el=document.getElementById(id);el.style.left=Math.max(70,Math.min(innerWidth-70,(p.x*.5+.5)*innerWidth))+'px';el.style.top=(-p.y*.5+.5)*innerHeight+'px'}
+function fit(){renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix()}addEventListener('resize',fit);
+const ray=new T.Raycaster(),mouse=new T.Vector2();
+function point(e){mouse.set(e.clientX/innerWidth*2-1,-e.clientY/innerHeight*2+1);ray.setFromCamera(mouse,camera);return ray.intersectObjects([display,henry.g,bose.g],true)}
+renderer.domElement.addEventListener('pointermove',e=>{px=(e.clientX/innerWidth-.5);py=(e.clientY/innerHeight-.5);hover=null;const hits=point(e);if(hits.length){let o=hits[0].object;while(o){if(o===henry.g)hover=henry;if(o===bose.g)hover=bose;o=o.parent}}renderer.domElement.style.cursor=ready&&hits.length?'pointer':'default'});
+renderer.domElement.addEventListener('pointerleave',()=>{hover=null;px=py=0});
+renderer.domElement.addEventListener('click',e=>{const hits=point(e);if(ready&&hits.some(h=>h.object===display))enter();else if(hits.length){let o=hits[0].object;while(o){for(const r of [henry,bose])if(o===r.g)r.waveUntil=performance.now()+1800;o=o.parent;}}});
+function enter(){if(exitAt!==null)return;if(reduced){navigate();return}exitAt=performance.now();document.querySelector('#enter').disabled=true;setTimeout(()=>document.body.classList.add('leaving'),650);setTimeout(navigate,1050)}
+document.querySelector('#enter').onclick=enter;document.querySelector('#replay').onclick=()=>{started=performance.now();ready=false;document.body.classList.remove('ready');};
+addEventListener('keydown',e=>{if(e.key==='Escape')navigate();if(e.key==='Enter'&&e.target===document.body&&ready)enter()});
+document.querySelector('#loading').style.opacity=0;
+function frame(now){requestAnimationFrame(frame);const raw=(now-started)/1000,t=reduced?7:raw,mobile=innerWidth<650;
+const approach=ease(t/2.7),open=ease((t-2.7)/1.5),wake=ease((t-4.1)/1.3);
+laptop.position.set(lerp(.8,0,approach),lerp(1.7,.1,approach)+(reduced?0:Math.sin(t*1.1)*.035),0);
+laptop.rotation.set(lerp(.35,0,approach),lerp(-Math.PI*1.65,0,approach),lerp(-.13,0,approach));hinge.rotation.x=-open*Math.PI*.59;
+const aspect=innerWidth/innerHeight,dist=aspect<1?10.7/aspect:13.5;
+camera.position.set(lerp(4.8,0,approach)+(!reduced&&ready?px*.28:0),lerp(5.4,3.65,approach)+(!reduced&&ready?py*.13:0),dist);camera.lookAt(0,1.42,0);
+if(exitAt!==null){const z=ease((now-exitAt)/950);camera.position.lerp(new T.Vector3(0,1.92,1.7),z);camera.lookAt(0,1.72,-.52)}
+for(const [i,r] of [henry,bose].entries()){const sign=i?1:-1;r.g.visible=t>4.1;r.g.position.set(sign*(mobile?1.9:3.85),lerp(-1.4,mobile?-.75:.55,wake)+(reduced?0:Math.sin(t*2.4+i*2)*.11),mobile?2.9:.5);r.g.scale.setScalar(mobile?.9:1.08);r.g.rotation.set(0,-sign*.22, reduced?0:Math.sin(t*2.4+i)*.06);r.arms[0].rotation.z=reduced?.25:.28+Math.sin(t*3+i)*.32;r.arms[1].rotation.z=reduced?-.25:-.28-Math.sin(t*3+i+1)*.32;if(!reduced&&(hover===r||r.waveUntil>now))r.arms[1].rotation.z=-2+Math.sin(t*11)*.2;}
+if(t>5.4&&!ready){ready=true;document.body.classList.add('ready');status.textContent='03 / meet your collaborators'}else if(t<2.7)status.textContent='01 / the arrival';else if(t<5.4)status.textContent='02 / intelligence, unfolding';
+if(now-lastScreen>70){drawScreen(t);lastScreen=now}projectLabel(henry,'henry-label');projectLabel(bose,'bose-label');renderer.render(scene,camera);
+}requestAnimationFrame(frame);
+}else{document.querySelector('#enter').onclick=navigate;document.querySelector('#replay').hidden=true}
+</script>
+</body></html>
