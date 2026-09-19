@@ -332,20 +332,21 @@ const insecure = httpLinks.filter((l) => !l.startsWith("https://"));
 const projectRepos = [
   "https://github.com/Luvishgulati03/henry-digital-personality-of-luvish",
   "https://github.com/Luvishgulati03/luvish-ai-twin-recruiters",
+  "https://github.com/Luvishgulati03/kelly",
 ];
 // Repos that must NOT be linked anywhere on the page any more.
 const bannedRepos = dom.links.filter((l) => /risk-council|carbonnex-website|Compiler-Project/i.test(l));
 // Relative .html links from index must resolve to real files.
 const caseHrefs = [...new Set(dom.links.filter((l) => /^projects\/.+\.html$/.test(l)))];
 const missingCaseFiles = caseHrefs.filter((h) => !fs.existsSync(path.join(REPO, h)));
-// Four rows must offer "Case study →" (bose, henry, risk council, carbonnex); Henry and
-// the AI twin also keep their GitHub repo buttons. Bose never gets one: private repo.
+// Four rows offer a case study. Henry, Kelly and the AI twin link to public repositories.
+// Bose never gets a repository link because it is private.
 const caseStudyBtns = dom.caseBtns.filter((b) => /^projects\/.+\.html$/.test(b.href));
 const repoBtns = dom.caseBtns.filter((b) => /^https:\/\/github\.com\//.test(b.href));
 const caseBtnsOk =
   caseStudyBtns.length === 4 &&
   caseStudyBtns.every((b) => /case\s*study/i.test(b.text)) &&
-  repoBtns.length === 2 &&
+  repoBtns.length === 3 &&
   caseStudyBtns.length + repoBtns.length === dom.caseBtns.length;
 
 /* ---------- leak gate: agent pages + the flagship block carry nothing private ---------- */
@@ -382,7 +383,7 @@ const checks = {
   "heatmap present (real day cells match data)": dom.hmCells === GH_DAYS,
   "heatmap labelled + count matches data": dom.hmLabelled.includes(`${GH_TOTAL} contributions`) && dom.ghCount === GH_TOTAL,
   "clock ticks (hh:mm:ss, value advances)": clockFormat && t1 !== t2,
-  "6 project covers + 6 project rows": dom.thumbs === 6 && dom.projRows === 6,
+  "7 project covers + 7 project rows": dom.thumbs === 7 && dom.projRows === 7,
   "3 work-experience rows": dom.xpRows === 3,
   "skill tiles rendered": dom.tiles >= 20,
   "icon-only buttons have aria-labels": dom.iconBtnsLabelled,
