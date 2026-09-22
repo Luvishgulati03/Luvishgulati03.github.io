@@ -251,3 +251,24 @@ networks.
   workflows and pauses before external action.
 - Keep the stories distinct. Bose is a demo-ready school product. Henry is Luvish's local,
   open-source personal work agent.
+
+## Update 2026-09-22 — Kelly and guided portfolio experience
+
+- Kelly began with a real problem in Luvish's cousin's shop: preparing the same quotation
+  across different brands meant repeatedly searching catalogues and rebuilding the quote.
+- Kelly is now positioned as a configurable, locally running voice and quotation agent for
+  Indian small businesses. The electrical-shop workflow is the origin, not the product limit.
+- The current demo supports supplier catalogue imports from PDF, XLSX and CSV; a reviewed,
+  published catalogue; catalogue-grounded retrieval; pricing and GST calculations; quotations;
+  spreadsheet workflows; terminal, web and Telegram surfaces; and Hindi or Hinglish voice with
+  a Roman Hinglish transcript for the operator.
+- Questions and Kelly's answers are indexed in an isolated conversation RAG layer. Current
+  catalogue records, pricing rules and source evidence always override past conversational
+  answers. Customer scopes stay separate.
+- Voice transcripts and external actions remain reviewable by the owner. Do not describe speech
+  recognition as perfect or claim production performance. Kelly is demo-ready.
+- The portfolio entry keeps the existing 3D laptop, opening sequence and camera movement. Its
+  screen becomes a usable route to work, skills, the career journey, resume and contact.
+- The career journey uses verified stages only: Amity University, Cvent, Pink Unicorn Algorithms,
+  GrowthX and independent builds. It is navigation, not a game score, and every destination stays
+  directly accessible.
