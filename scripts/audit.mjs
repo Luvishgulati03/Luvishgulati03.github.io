@@ -54,7 +54,6 @@ const PAGE = `file://${REPO}/index.html`;
 const CASE_PAGES = [
   { file: "projects/bose.html", shot: "case-bose.png", h1: "Bose", chip: "school AI product" },
   { file: "projects/henry.html", shot: "case-henry.png", h1: "Henry", chip: "Personal work agent" },
-  { file: "projects/kelly.html", shot: "case-kelly.png", h1: "Kelly", chip: "local" },
   { file: "projects/risk-ai-council.html", shot: "case-risk-ai-council.png", h1: "Risk AI Council", chip: "Product, GTM + website design" },
   { file: "projects/carbonnex.html", shot: "case-carbonnex.png", h1: "CarbonNex", chip: "Associate Product Manager" },
 ];
@@ -73,23 +72,7 @@ const FORBIDDEN = [
   { re: /github\.com\/[^"'\s<]*bose/i, why: "Bose is a private repo, never link one" },
   { re: /mailto:(?!Gulatiluvish@gmail\.com)/i, why: "no third-party contact details" },
 ];
-const AGENT_PAGES = ["projects/bose.html", "projects/henry.html", "projects/kelly.html"];
-
-// The one named exception to "zero external requests" (AGENT-GUIDE.md hard rule 2,
-// owner-approved 2026-09-25): the "Talk to Kelly" live-status check. Nothing else may
-// ever leave file://, on any page, including a different path on the same host.
-const KELLY_HEALTH_URL = "https://kelly-test.luvishgulati.com/api/health";
-function isAllowedExternal(u) {
-  try {
-    const p = new URL(u);
-    return p.protocol === "https:" && p.host === "kelly-test.luvishgulati.com" && p.pathname === "/api/health";
-  } catch {
-    return false;
-  }
-}
-function onlyAllowedExternal(urls) {
-  return urls.every(isAllowedExternal);
-}
+const AGENT_PAGES = ["projects/bose.html", "projects/henry.html"];
 
 /** Scroll the whole page so every IntersectionObserver reveal fires, then return
  *  to the top. Without this a fullPage screenshot captures .reveal sections at
@@ -242,24 +225,10 @@ for (const cp of CASE_PAGES) {
   const res = { ...cp, exists: fs.existsSync(abs), errors: [], external: [], shotPath: `${REPO}/shots/${cp.shot}` };
   if (!res.exists) { caseResults.push(res); continue; }
 
-  // kelly.html calls the one named external exception (KELLY_HEALTH_URL) live, from a
-  // file:// page. Kelly only answers CORS for the real luvishgulati.com origins, so this
-  // browser's cross-origin fetch is expected to fail here and Chromium logs it to the
-  // console as a network error even though the page's own .catch() handles it and shows
-  // "Sleeping right now". Only these two known, generic browser messages are excused, and
-  // only on kelly.html — anything else still fails the audit.
-  const isExpectedKellyHealthNoise = (text) =>
-    cp.file === "projects/kelly.html" &&
-    (/blocked by CORS policy/i.test(text) || /^Failed to load resource: net::ERR_FAILED$/.test(text.trim()));
-
   const cctx = await b.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 2 });
   const cpage = await cctx.newPage();
   cpage.on("pageerror", (e) => res.errors.push(String(e)));
-  cpage.on("console", (m) => {
-    if (m.type() !== "error") return;
-    if (isExpectedKellyHealthNoise(m.text())) return;
-    res.errors.push(m.text());
-  });
+  cpage.on("console", (m) => m.type() === "error" && res.errors.push(m.text()));
   cpage.on("request", (r) => {
     const u = r.url();
     if (!u.startsWith("file://") && !u.startsWith("data:") && !u.startsWith("about:")) res.external.push(u);
@@ -279,12 +248,7 @@ for (const cp of CASE_PAGES) {
     hatches: document.querySelectorAll(".hatch").length,
     figs: document.querySelectorAll(".fig svg").length,
     figLabelled: [...document.querySelectorAll(".fig svg")].every(
-      (s) => {
-        const direct = (s.getAttribute("aria-label") || "").trim();
-        const ids = (s.getAttribute("aria-labelledby") || "").trim().split(/\s+/).filter(Boolean);
-        const referenced = ids.map((id) => document.getElementById(id)?.textContent || "").join(" ").trim();
-        return direct.length > 20 || referenced.length > 20;
-      }
+      (s) => (s.getAttribute("aria-label") || "").trim().length > 20
     ),
     chips: [...document.querySelectorAll(".chip")].map((c) => c.textContent.trim()),
     imgTags: document.querySelectorAll("img").length,
@@ -380,7 +344,7 @@ const missingCaseFiles = caseHrefs.filter((h) => !fs.existsSync(path.join(REPO, 
 const caseStudyBtns = dom.caseBtns.filter((b) => /^projects\/.+\.html$/.test(b.href));
 const repoBtns = dom.caseBtns.filter((b) => /^https:\/\/github\.com\//.test(b.href));
 const caseBtnsOk =
-  caseStudyBtns.length === 5 &&
+  caseStudyBtns.length === 4 &&
   caseStudyBtns.every((b) => /case\s*study/i.test(b.text)) &&
   repoBtns.length === 3 &&
   caseStudyBtns.length + repoBtns.length === dom.caseBtns.length;
@@ -402,14 +366,14 @@ for (const [where, src] of leakTargets) {
 const boseSrc = leakTargets[0][1];
 const boseRepoLinks = [...boseSrc.matchAll(/https?:\/\/(?:www\.)?(?:github|gitlab|bitbucket)\.com\/[^"'\s<]*/gi)].map((m) => m[0]);
 // Copy-style rule (Luvish, 2026-08-09): no em dashes in site copy, on any page.
-const emDashPages = ["index.html", "studio.html", "journey.html", ...CASE_PAGES.map((c) => c.file)].filter((f) =>
+const emDashPages = ["index.html", ...CASE_PAGES.map((c) => c.file)].filter((f) =>
   fs.existsSync(path.join(REPO, f)) && fs.readFileSync(path.join(REPO, f), "utf8").includes("—")
 );
 
 const checks = {
   /* ---- index: existing gates ---- */
   "zero console/page errors": errors.length === 0,
-  "zero external requests beyond the named Kelly health-check exception": onlyAllowedExternal(external),
+  "zero external requests": external.length === 0,
   "no horizontal scroll @360/375/768/1440": Object.values(overflow).every((v) => v === false),
   "nav anchors resolve to real sections": dom.navHrefs.length >= 3 && dom.navTargetsResolve,
   "all v3 sections present": dom.sections.length === 0,
@@ -439,25 +403,25 @@ const checks = {
   /* ---- index: new gates ---- */
   "index has zero Compiler references": !/compiler/i.test(idxSrc),
   "no repo links for riskaicouncil / carbonnex / compiler": bannedRepos.length === 0,
-  "work products use a Case study → affordance": caseBtnsOk,
-  "case-study links resolve to existing files": caseHrefs.length === 5 && missingCaseFiles.length === 0,
+  "both work products use a Case study → affordance": caseBtnsOk,
+  "case-study links resolve to existing files": caseHrefs.length === 4 && missingCaseFiles.length === 0,
 
-  /* ---- the three flagship agents ---- */
-  "flagship section presents exactly three agent cards": dom.flagship?.cards === 3,
-  "flagship cards name Bose, Henry and Kelly": (() => {
+  /* ---- the two flagship agents ---- */
+  "flagship section presents exactly two agent cards": dom.flagship?.cards === 2,
+  "flagship cards name Bose and Henry, Bose first": (() => {
     const n = dom.flagship?.names || [];
-    return n.length === 3 && n[0] === "Bose" && n[1] === "Henry" && n[2] === "Kelly";
+    return n.length === 2 && n[0] === "Bose" && n[1] === "Henry";
   })(),
   "flagship cards are equals (same spec rows, same chip count)": (() => {
     const f = dom.flagship;
     if (!f) return false;
-    return f.specRows.length === 3 && f.specRows.every((n) => n === f.specRows[0]) && f.specRows[0] >= 3 &&
-      f.chips.length === 3 && Math.max(...f.chips) - Math.min(...f.chips) <= 1 && f.chips[0] >= 6;
+    return f.specRows.length === 2 && f.specRows[0] === f.specRows[1] && f.specRows[0] >= 3 &&
+      f.chips.length === 2 && Math.abs(f.chips[0] - f.chips[1]) <= 1 && f.chips[0] >= 6;
   })(),
   "flagship section carries a labelled shared-architecture figure": (dom.flagship?.figs || 0) >= 1,
-  "all agent case pages linked from the flagship section": (() => {
+  "both agent case pages linked from the flagship section": (() => {
     const l = (dom.flagship?.links || []).flat();
-    return l.includes("projects/bose.html") && l.includes("projects/henry.html") && l.includes("projects/kelly.html");
+    return l.includes("projects/bose.html") && l.includes("projects/henry.html");
   })(),
   "Bose card carries no repo link (private repo)": (() => {
     const l = (dom.flagship?.links || [])[0] || [];
@@ -477,12 +441,7 @@ const checks = {
   /* ---- case pages ---- */
   "case pages exist": caseResults.every((r) => r.exists),
   "case pages: zero console/page errors": caseResults.every((r) => r.errors.length === 0),
-  "case pages: zero external requests beyond the named Kelly health-check exception": caseResults.every(
-    (r) => onlyAllowedExternal(r.external)
-  ),
-  "only kelly.html may use the health-check exception; every other page stays at zero": caseResults
-    .filter((r) => r.file !== "projects/kelly.html")
-    .every((r) => r.external.length === 0),
+  "case pages: zero external requests": caseResults.every((r) => r.external.length === 0),
   "case pages: no horizontal scroll @360/375/768/1440": caseResults.every(
     (r) => r.overflow && Object.values(r.overflow).every((v) => v === false)
   ),

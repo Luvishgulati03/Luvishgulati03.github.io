@@ -372,12 +372,6 @@ These are not style preferences. Breaking one is a defect.
    No CDN, no web fonts, no analytics, no trackers, no hotlinked images or logos. Everything —
    CSS, JS, cover art, icons, the favicon — is inline or a local file. This is enforced: the audit
    fails if a single request leaves `file://`.
-   **One named exception (owner-approved 2026-09-25):** `projects/kelly.html` (and, if added
-   there, `index.html`) may call `GET https://kelly-test.luvishgulati.com/api/health` at runtime,
-   and only that exact host and path — it is the live-status check for the "Talk to Kelly" link,
-   and there is no other way to tell a visitor whether Kelly is actually reachable before they
-   click through. `scripts/audit.mjs` allow-lists exactly this one URL and fails if any other
-   external request appears anywhere on the site, including a different path or host.
 
 3. **The audit must pass before any commit.**
    `cd ~/dev/henry && node ~/dev/portfolio/scripts/audit.mjs` → all 56 PASS. No commits on a

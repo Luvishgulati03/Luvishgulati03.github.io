@@ -88,10 +88,10 @@
   --sec-y:clamp(34px,5vw,52px);
 }
 :root[data-theme="light"]{
-  --page:#eee4d1;
-  --col-bg:#f7efdf;
-  --panel:#fcf7ed;
-  --panel-2:#f1e6d2;
+  --page:#efeee9;
+  --col-bg:#faf9f6;
+  --panel:#ffffff;
+  --panel-2:#f3f2ed;
 
   --rule:rgba(20,22,26,.22);
   --rule-soft:rgba(20,22,26,.12);
@@ -133,7 +133,6 @@ a:hover{ text-decoration:underline; text-underline-offset:3px; }
 :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
 ::selection{ background:var(--accent); color:var(--accent-ink); }
 .sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
-.sr:focus{ width:auto; height:auto; margin:10px; padding:10px 14px; overflow:visible; clip:auto; white-space:normal; z-index:1000; background:var(--panel); color:var(--text); border:1px solid var(--accent); }
 
 @media (prefers-reduced-motion:reduce){
   html{ scroll-behavior:auto; }
@@ -294,10 +293,6 @@ section[id],footer[id],span[id]{ scroll-margin-top:88px; }
   display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   padding-block:22px;
 }
-.start-here{display:grid;grid-template-columns:1.25fr repeat(3,1fr);gap:10px;padding-block:18px;border-top:1px dashed var(--rule-soft)}
-.start-title{padding:12px 0}.start-title b{display:block;font-size:15px}.start-title span{display:block;color:var(--text-3);font:11px/1.5 var(--f-mono);margin-top:4px}
-.start-link{display:flex;flex-direction:column;justify-content:space-between;min-height:86px;padding:13px;border:1px solid var(--edge);border-radius:12px;background:var(--panel);color:var(--text);text-decoration:none;transition:.2s}
-.start-link small{color:var(--text-3);font:10px/1.4 var(--f-mono);letter-spacing:.05em;text-transform:uppercase}.start-link span{font-weight:650}.start-link:hover{transform:translateY(-2px);border-color:var(--accent);color:var(--accent);text-decoration:none}
 .sq,.pill{
   display:inline-flex; align-items:center; justify-content:center; gap:9px;
   height:46px; border:1px solid var(--edge); border-radius:12px;
@@ -531,7 +526,7 @@ li:hover .spark{ color:var(--accent); }
 }
 
 .fg-grid{
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:18px; margin-top:22px;
 }
 .fg-card{
@@ -644,8 +639,6 @@ li:hover .spark{ color:var(--accent); }
   .stats div:nth-child(-n+2){ border-bottom:1px dashed var(--rule); }
 }
 @media (max-width:760px){
-  .start-here{grid-template-columns:1fr}.start-title{padding-bottom:2px}.start-link{min-height:68px}
-  .fg-grid{grid-template-columns:1fr}
   .geo{ margin-left:0; text-align:left; width:100%; }
   .geo .loc{ justify-content:flex-start; }
   .xp li,.plist li{ flex-wrap:wrap; }
@@ -656,7 +649,6 @@ li:hover .spark{ color:var(--accent); }
   .nav-links{ gap:13px; }
   .nav-links a{ font-size:13.5px; }
   .nav-links a.hide-s{ display:none; }
-  .nav-links a.hide-mobile{ display:none; }
   .mark{ font-size:20px; }
   .avatar{ width:66px; height:66px; font-size:22px; }
   .xp-meta{ padding-left:0; }
@@ -683,11 +675,10 @@ li:hover .spark{ color:var(--accent); }
       <nav class="nav-links" aria-label="Primary">
         <a href="#skills" class="hide-s">skills</a>
         <a href="#projects" class="hide-s">projects</a>
-        <a href="#flagships" class="hide-mobile">builds</a>
-        <a href="journey.html">journey</a>
-        <a href="writing.html" class="hide-mobile">writing</a>
-        <a href="#contact" class="hide-mobile">contact</a>
-        <a href="assets/Luvish_Gulati_Resume.pdf?v=20260925" download>resume</a>
+        <a href="#flagships">builds</a>
+        <a href="writing.html">writing</a>
+        <a href="#contact">contact</a>
+        <a href="assets/Luvish_Gulati_Resume.pdf" download>resume</a>
         <button class="tt" id="tt" type="button" aria-label="Switch colour theme">
           <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.9 5.9L4.4 4.4M19.6 19.6l-1.5-1.5M18.1 5.9l1.5-1.5M4.4 19.6l1.5-1.5"/></svg>
           <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
@@ -736,7 +727,7 @@ li:hover .spark{ color:var(--accent); }
   <!-- ============ INTRO ============ -->
   <section class="pad intro" style="padding-block:30px">
     <p>I find slow, repetitive workflows and turn them into working products. Right now I am a software engineering intern at <b>GrowthX</b>, where I work across product decisions, system design and implementation.</p>
-    <p>My own builds cover three different users: <a href="projects/bose.html">Bose</a> for schools, <a href="projects/kelly.html">Kelly</a> for Indian small businesses, and <a href="projects/henry.html">Henry</a> for personal work.</p>
+    <p>My own builds cover three different users: <a href="projects/bose.html">Bose</a> for schools, Kelly for Indian small businesses, and <a href="projects/henry.html">Henry</a> for personal work.</p>
   </section>
 
   <!-- ============ SOCIAL ============ -->
@@ -751,7 +742,7 @@ li:hover .spark{ color:var(--accent); }
       <a class="sq" href="mailto:Gulatiluvish@gmail.com" aria-label="Email Luvish">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.4"/><path d="M3.4 6.6l8.6 6 8.6-6"/></svg>
       </a>
-      <a class="pill" href="assets/Luvish_Gulati_Resume.pdf?v=20260925" download>
+      <a class="pill" href="assets/Luvish_Gulati_Resume.pdf" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.6h9.6L19 8v12.4H5z"/><path d="M14.2 3.8V8.2H18.8M8.2 12.4h7.6M8.2 16.2h5.6"/></svg>
         Resume
       </a>
@@ -762,17 +753,10 @@ li:hover .spark{ color:var(--accent); }
     </div>
   </div>
 
-  <div class="pad start-here" aria-label="Choose where to start">
-    <div class="start-title"><b>Not sure where to start?</b><span>Choose the route that matches your time.</span></div>
-    <a class="start-link" href="journey.html"><small>3 minute route</small><span>Explore my journey →</span></a>
-    <a class="start-link" href="#flagships"><small>See the products</small><span>Meet Bose, Henry and Kelly →</span></a>
-    <a class="start-link" href="assets/Luvish_Gulati_Resume.pdf?v=20260925"><small>Recruiter shortcut</small><span>Open résumé →</span></a>
-  </div>
-
   <div class="hatch"></div>
 
   <!-- ============ FLAGSHIP BUILDS ============
-       Three focused agents. They are presented as equals on purpose:
+       One school product and one personal agent. They are presented as equals on purpose:
        same card component, same spec-row count, same chip count. The audit
        enforces that (see scripts/audit.mjs). Bose is listed first because it
        is the product; Henry second because it is the origin story.
@@ -785,10 +769,9 @@ li:hover .spark{ color:var(--accent); }
 
     <div class="fg-fig">
       <div class="arch-switch" role="group" aria-label="Choose an architecture path">
-        <button type="button" data-arch="both" aria-pressed="true">compare all</button>
+        <button type="button" data-arch="both" aria-pressed="true">compare both</button>
         <button type="button" data-arch="bose" aria-pressed="false">show Bose</button>
         <button type="button" data-arch="henry" aria-pressed="false">show Henry</button>
-        <button type="button" data-arch="kelly" aria-pressed="false">show Kelly</button>
       </div>
 
       <div class="arch-lane" data-lane="bose" style="--lane:var(--bose)">
@@ -817,16 +800,7 @@ li:hover .spark{ color:var(--accent); }
         <span class="arch-node"><strong>draft, reminder or finished task</strong></span>
       </div>
 
-      <div class="arch-lane" data-lane="kelly" style="--lane:#ef9f43">
-        <span class="arch-name">KELLY</span>
-        <span class="arch-node"><strong>owner or customer asks naturally</strong></span>
-        <span class="arch-node">find published catalogue and past context</span>
-        <span class="arch-node">apply pricing, GST and quotation rules</span>
-        <span class="arch-node">owner reviews transcript and output</span>
-        <span class="arch-node"><strong>answer, sheet or quotation</strong></span>
-      </div>
-
-      <p class="arch-readout" id="arch-readout" aria-live="polite">Bose supports schools. Henry carries personal work forward. Kelly turns repeatable business work into a reviewed local workflow.</p>
+      <p class="arch-readout" id="arch-readout" aria-live="polite">Bose carries learning context into the next lesson and keeps results traceable. Henry carries my work context into the next task.</p>
     </div>
 
     <div class="fg-grid">
@@ -885,22 +859,9 @@ li:hover .spark{ color:var(--accent); }
           </a>
         </div>
       </article>
-
-      <article class="fg-card" style="--c1:#ef9f43">
-        <div class="fg-chips"><span class="fg-chip">LOCAL BUSINESS AGENT</span><span class="fg-chip ghost">OPEN SOURCE</span></div>
-        <h3>Kelly</h3>
-        <p class="fg-pos">A configurable voice and quotation agent for repeated small-business work.</p>
-        <ul class="fg-spec">
-          <li><b>listen</b><span>hands-free in Hindi, Hinglish or English, always answers in English</span></li>
-          <li><b>ground</b><span>answers from published catalogues imported from PDF, XLSX or CSV</span></li>
-          <li><b>prepare</b><span>applies pricing and GST rules before the owner reviews the output</span></li>
-        </ul>
-        <div class="fg-cloud"><span class="fg-cap">local voice</span><span class="fg-cap">catalogue RAG</span><span class="fg-cap">quotations</span><span class="fg-cap">GST rules</span><span class="fg-cap">spreadsheets</span><span class="fg-cap">conversation memory</span><span class="fg-cap">owner review</span></div>
-        <div class="fg-act"><a class="pill" href="projects/kelly.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a><a class="sq" href="https://github.com/Luvishgulati03/kelly" target="_blank" rel="noopener noreferrer" aria-label="Kelly on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg></a></div>
-      </article>
     </div>
 
-    <p class="fg-thesis"><i aria-hidden="true"></i><span>Three users. Three focused products. One habit: start with the work.</span><i aria-hidden="true"></i></p>
+    <p class="fg-thesis"><i aria-hidden="true"></i><span>Different users, different controls, and no generic chatbot pasted over the problem.</span><i aria-hidden="true"></i></p>
   </section>
 
   <div class="hatch"></div>
@@ -1101,7 +1062,7 @@ li:hover .spark{ color:var(--accent); }
         <span class="cap"><span>CarbonNex</span><small>collect → report</small></span>
       </a>
 
-      <a class="thumb" role="listitem" href="projects/kelly.html" style="--c1:#ff9f43; --c2:#3ddc84" aria-label="Kelly: read the case study">
+      <a class="thumb" role="listitem" href="https://github.com/Luvishgulati03/kelly" target="_blank" rel="noopener noreferrer" style="--c1:#ff9f43; --c2:#3ddc84" aria-label="Kelly: view the repository">
         <svg viewBox="0 0 400 190" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
           <defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".22"/><stop offset="1" stop-color="var(--c2)" stop-opacity=".05"/></linearGradient></defs>
           <rect width="400" height="190" fill="url(#gk)"/>
@@ -1168,13 +1129,11 @@ li:hover .spark{ color:var(--accent); }
             <h3>Kelly
               <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.1L20.4 10l-6.2 1.9L12 18l-2.2-6.1L3.6 10l6.2-1.9z"/><path d="M18.6 15.2l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9z"/></svg>
             </h3>
-            <p class="d">A voice counter assistant for two real shops. Customers talk hands-free; Kelly understands Hindi, Hinglish and English, and always answers in English, showing designs and preparing quotations.</p>
+            <p class="d">A local business agent for Indian small businesses. The current build handles catalogues, quotations, pricing rules and spreadsheets. Voice is the next interface.</p>
           </div>
           <div class="p-btns">
-            <a class="pill" href="projects/kelly.html">Case&nbsp;study <span class="arw" aria-hidden="true">→</span></a>
-            <a class="sq" href="https://github.com/Luvishgulati03/kelly" target="_blank" rel="noopener noreferrer" aria-label="Kelly on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.22 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.45-1.3.1-2.7 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.55 1.4.2 2.44.1 2.7.65.72 1.05 1.63 1.05 2.75 0 3.93-2.4 4.8-4.68 5.05.37.32.7.94.7 1.9l-.01 2.82c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg></a>
+            <a class="pill" href="https://github.com/Luvishgulati03/kelly" target="_blank" rel="noopener noreferrer">View&nbsp;repo <span class="arw" aria-hidden="true">→</span></a>
           </div>
-          <p class="p-note">Live test build: <a href="projects/kelly.html#kellyLink">talk to Kelly →</a> (only online while her Mac is awake)</p>
         </li>
         <li>
           <div class="p-main">
@@ -1434,17 +1393,10 @@ li:hover .spark{ color:var(--accent); }
   /* ---------- theme toggle ---------- */
   var tt = document.getElementById('tt');
   if (tt) {
-    var updateThemeLabel = function () {
-      var isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      tt.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
-      tt.setAttribute('aria-pressed', String(isLight));
-    };
-    updateThemeLabel();
     tt.addEventListener('click', function () {
       var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('lg-theme', next); } catch (e) {}
-      updateThemeLabel();
     });
   }
 
@@ -1524,10 +1476,9 @@ li:hover .spark{ color:var(--accent); }
   var archLanes = [].slice.call(document.querySelectorAll('[data-lane]'));
   var archReadout = document.getElementById('arch-readout');
   var archCopy = {
-    both: 'Bose supports schools. Henry carries personal work forward. Kelly turns repeatable business work into a reviewed local workflow.',
+    both: 'Bose carries learning context into the next lesson and keeps results traceable. Henry carries my work context into the next task.',
     bose: 'Bose turns learner context into the next explanation, practice set or exam, then keeps each result open for teacher review.',
-    henry: 'Henry remembers the decisions behind a task, routes it to a repeatable workflow and waits for my approval before external action.',
-    kelly: 'Kelly retrieves current catalogue records, applies pricing rules and lets the owner review the transcript and output.'
+    henry: 'Henry remembers the decisions behind a task, routes it to a repeatable workflow and waits for my approval before external action.'
   };
   archButtons.forEach(function (button) {
     button.addEventListener('click', function () {
