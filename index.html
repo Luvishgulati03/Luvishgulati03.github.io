@@ -659,6 +659,24 @@ li:hover .spark{ color:var(--accent); }
   .stats div:last-child{ border-bottom:0; }
   .p-note{ white-space:normal; }
 }
+/* A contained playground keeps the invitations out of the reading path. */
+.agent-playground{padding-block:22px 26px;border-top:1px dashed var(--rule-soft)}
+.agent-playground-title{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:15px}
+.agent-playground-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.agent-playground-card{min-width:0;border:1px solid var(--rule-soft);border-radius:12px;background:var(--panel);padding:14px}
+.agent-playground-track{position:relative;height:64px;border-bottom:1px dashed var(--rule);margin-bottom:12px;overflow:hidden}
+.agent-playground-track::before,.agent-playground-track::after{content:"";position:absolute;bottom:0;width:2px;height:18px;background:var(--rule);z-index:1}.agent-playground-track::before{left:0}.agent-playground-track::after{right:0}
+.mini-agent{position:absolute;left:8px;bottom:6px;width:46px;height:47px;display:block;animation:agent-roam 10s ease-in-out infinite alternate;filter:drop-shadow(0 3px 5px #0004)}
+.agent-playground-card.kelly .mini-agent{animation-duration:13s;animation-direction:alternate-reverse}
+.mini-agent::before{content:"";position:absolute;left:3px;top:4px;width:40px;height:29px;border:3px solid #83928b;border-radius:11px;background:#d8e4dc;transform:rotate(-4deg)}
+.mini-agent::after{content:"";position:absolute;left:11px;top:12px;width:25px;height:13px;border-radius:6px;background:#111818;box-shadow:0 22px 0 -1px #b4c4b8}
+.mini-agent i{position:absolute;z-index:1;left:17px;top:18px;width:5px;height:5px;border-radius:2px;background:var(--agent-color);box-shadow:10px 0 var(--agent-color),5px 29px 0 1px #65746b}
+.agent-playground-card.henry{--agent-color:#3ddc84}.agent-playground-card.kelly{--agent-color:#f0bd65}
+.agent-playground-info{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.agent-playground-info strong{font-size:14px}.agent-playground-links{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;font-weight:600}.agent-playground-links a{white-space:nowrap}
+.mini-agent:hover,.mini-agent:focus-visible{animation-play-state:paused}
+@keyframes agent-roam{0%{left:8px;transform:rotate(-7deg) translateY(0)}45%{transform:rotate(4deg) translateY(-5px)}100%{left:calc(100% - 54px);transform:rotate(7deg) translateY(0)}}
+@media(max-width:700px){.agent-playground-grid{grid-template-columns:1fr}.agent-playground-track{height:58px}}
+@media(prefers-reduced-motion:reduce){.mini-agent{animation:none!important}.agent-playground-card.kelly .mini-agent{left:calc(100% - 54px)}}
 </style>
 </head>
 <body>
@@ -752,6 +770,20 @@ li:hover .spark{ color:var(--accent); }
       </a>
     </div>
   </div>
+
+  <section class="agent-playground pad" aria-label="Meet the agents">
+    <p class="agent-playground-title">Two agents, ready to meet you</p>
+    <div class="agent-playground-grid">
+      <div class="agent-playground-card henry">
+        <div class="agent-playground-track"><a class="mini-agent" href="projects/henry.html" aria-label="Meet Henry"><i aria-hidden="true"></i></a></div>
+        <div class="agent-playground-info"><strong>Henry</strong><div class="agent-playground-links"><a href="projects/henry.html">Read his story ↗</a><a href="https://github.com/Luvishgulati03/henry-digital-personality-of-luvish" target="_blank" rel="noopener noreferrer">View code ↗</a></div></div>
+      </div>
+      <div class="agent-playground-card kelly">
+        <div class="agent-playground-track"><a class="mini-agent" href="https://kelly-test.luvishgulati.com/" target="_blank" rel="noopener noreferrer" aria-label="Try Kelly"><i aria-hidden="true"></i></a></div>
+        <div class="agent-playground-info"><strong>Kelly</strong><div class="agent-playground-links"><a href="https://kelly-test.luvishgulati.com/" target="_blank" rel="noopener noreferrer">Try Kelly ↗</a><a href="projects/kelly.html">Read her story ↗</a></div></div>
+      </div>
+    </div>
+  </section>
 
   <div class="hatch"></div>
 
