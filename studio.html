@@ -12,15 +12,17 @@
   #enter{bottom:10.5%;min-width:190px;padding:14px 20px;white-space:nowrap}#enter span{margin-left:22px}
   .meta{bottom:21px;max-width:32%;line-height:1.45}footer{bottom:20px}footer button{padding:10px 11px}
 }
+#matrix-field{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;opacity:.72}header,.intro-copy,.label,#enter,.meta,footer,#loading{z-index:2}#curtain{z-index:3}.label.agent-link{min-width:92px;min-height:44px;padding:7px;color:inherit;text-decoration:none}.label.agent-link:hover strong{text-shadow:0 0 18px currentColor}.label.kelly strong{color:#f0c883}body.ready .label.agent-link{pointer-events:auto}@media(prefers-reduced-motion:reduce){#matrix-field{opacity:.28}}
 </style>
 </head>
 <body>
-<div id="stage" aria-label="Interactive 3D laptop with Henry and Bose robot agents"></div>
+<div id="stage" aria-label="Interactive 3D laptop with Henry, Bose and Kelly robot agents"></div><canvas id="matrix-field" aria-hidden="true"></canvas>
 <header><a href="index.html" id="home">lg.</a><span><i></i>independent intelligence / human judgment</span></header>
-<div class="intro-copy"><div class="eyebrow">A small studio. A bigger imagination.</div><h1>One human.<span> Two curious machines.</span></h1></div>
+<div class="intro-copy"><div class="eyebrow">Built for three very different jobs.</div><h1>I made three agents.<span> Each has a job.</span></h1></div>
 <div id="loading" role="status">Setting the scene…</div>
-<div class="label henry" id="henry-label"><strong>HENRY</strong><small>your work, remembered.</small></div>
-<div class="label bose" id="bose-label"><strong>BOSE</strong><small>curiosity, amplified.</small></div>
+<a class="label henry agent-link" id="henry-label" href="projects/henry.html"><strong>HENRY</strong><small>your work, remembered.</small></a>
+<a class="label bose agent-link" id="bose-label" href="projects/bose.html"><strong>BOSE</strong><small>curiosity, amplified.</small></a>
+<a class="label kelly agent-link" id="kelly-label" href="projects/kelly.html"><strong>KELLY</strong><small>business, made clearer.</small></a>
 <button id="enter">Explore my world <span aria-hidden="true">↗</span></button>
 <p class="meta" id="status" aria-live="polite">01 / the arrival</p>
 <footer><button id="replay">Replay</button><button id="skip">Skip intro ↗</button></footer>
@@ -29,9 +31,14 @@
 // Original geometry and motion. Three.js is the rendering dependency only.
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const host=document.querySelector('#stage'), status=document.querySelector('#status');
-function navigate(){try{sessionStorage.setItem('lg-studio-seen','1')}catch{}location.href='index.html#main'}
-document.querySelector('#skip').onclick=navigate;document.querySelector('#home').onclick=e=>{e.preventDefault();navigate()};
-document.querySelector('#enter').onclick=navigate;
+function navigate(href='index.html#main'){try{sessionStorage.setItem('lg-studio-seen','1')}catch{}location.href=href}
+document.querySelector('#skip').onclick=()=>navigate();document.querySelector('#home').onclick=e=>{e.preventDefault();navigate()};
+document.querySelector('#enter').onclick=()=>navigate();
+// Seeded green signals live at the edges; the laptop and faces stay unobscured.
+const field=document.querySelector('#matrix-field'),fc=field.getContext('2d');let seed=31027;const rand=()=>((seed=(seed*1664525+1013904223)>>>0)/4294967296);
+const lights=Array.from({length:86},()=>{const r=rand(),edge=r<.5?rand()*.24:.76+rand()*.24;return{x:edge,y:rand(),size:.6+rand()*1.7,phase:rand()*Math.PI*2,speed:.00002+rand()*.00004}});
+function sizeField(){const d=Math.min(devicePixelRatio,1.5);field.width=Math.round(innerWidth*d);field.height=Math.round(innerHeight*d);fc.setTransform(d,0,0,d,0,0)}sizeField();addEventListener('resize',sizeField);
+function drawField(now){fc.clearRect(0,0,innerWidth,innerHeight);const staticFrame=reduced?0:now;for(const p of lights){const x=p.x*innerWidth,y=((p.y-staticFrame*p.speed+1)%1)*innerHeight,a=.13+.28*(.5+.5*Math.sin(staticFrame*.0015+p.phase));fc.fillStyle=`rgba(88,239,151,${a})`;fc.shadowColor='#35ef8b';fc.shadowBlur=p.size>1.6?12:5;fc.beginPath();fc.arc(x,y,p.size,0,Math.PI*2);fc.fill();if(p.size>1.6){fc.fillRect(x-.4,y-8,.8,16);fc.fillRect(x-7,y-.4,14,.8)}}fc.shadowBlur=0;if(!reduced)requestAnimationFrame(drawField)}requestAnimationFrame(drawField);
 // Pin the external rendering dependency; no third-party source is vendored.
 let T;
 try { T = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js'); }
@@ -40,8 +47,8 @@ let renderer;
 try { renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'}); }
 catch(e){document.querySelector('#loading').textContent='3D is unavailable on this device. You can still explore the portfolio.';document.body.classList.add('ready');}
 if(renderer){
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x050607);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;host.appendChild(renderer.domElement);
-const scene=new T.Scene();scene.fog=new T.FogExp2(0x050607,.037);
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x030d08);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;host.appendChild(renderer.domElement);
+const scene=new T.Scene();scene.fog=new T.FogExp2(0x030d08,.037);
 const camera=new T.PerspectiveCamera(35,innerWidth/innerHeight,.1,80);
 const root=new T.Group();scene.add(root);
 const mat=(color,metalness=.0,roughness=.45)=>new T.MeshStandardMaterial({color,metalness,roughness});
@@ -82,20 +89,22 @@ const display=mesh(new T.PlaneGeometry(4.38,2.72),new T.MeshBasicMaterial({map:s
 orb(.018,mat(0x122b28,.5,.2),hinge,0,-.103,2.974);
 // Compact robots: rounded body shells, glass visors, luminous eyes and jointed arms.
 function robot(color,isBose){const g=new T.Group();root.add(g);const shell=isBose?mat(0xa6a1bb,.6,.28):ivory;const glow=new T.MeshStandardMaterial({color,emissive:color,emissiveIntensity:2,roughness:.22});const body=mesh(box(.57,.61,.43,.19),shell,g,0,.2,0);orb(.16,edge,g,0,-.23,0);mesh(box(.72,.46,.48,.18),shell,g,0,.77,0);mesh(box(.61,.26,.035,.12),dark,g,0,.78,.253);for(const x of [-.155,.155]){const eye=mesh(box(.08,.065,.024,.025),glow,g,x,.8,.282)}mesh(box(.14,.022,.02,.009),glow,g,0,.697,.279);mesh(new T.TorusGeometry(.09,.012,8,28),glow,g,0,.23,.224);const arms=[];for(const s of [-1,1]){const arm=new T.Group();arm.position.set(s*.37,.46,0);g.add(arm);orb(.095,edge,arm);mesh(box(.12,.34,.14,.055),shell,arm,0,-.2,0);orb(.082,glow,arm,0,-.41,0);arms.push(arm);mesh(box(.16,.2,.24,.07),edge,g,s*.16,-.28,.075)}const antenna=mesh(new T.CylinderGeometry(.014,.014,.18,10),edge,g,0,1.1,0);orb(.045,glow,g,0,1.21,0);return{g,arms,isBose};}
-const henry=robot(0x6ce4a3,false),bose=robot(0xa392ff,true);
+const henry=robot(0x6ce4a3,false),bose=robot(0xa392ff,true),kelly=robot(0xf0bd65,false);
+const robots=[henry,bose,kelly];const robotPage=new Map([[henry,'henry'],[bose,'bose'],[kelly,'kelly']]);
 const ringMat=new T.MeshBasicMaterial({color:0x407455,transparent:true,opacity:.19});const ring=mesh(new T.TorusGeometry(4.3,.008,6,100),ringMat,root,0,-.82,0);ring.rotation.x=Math.PI/2;
 // One timeline controls entrance, settle, hinge opening, display boot and robots.
 const clamp=v=>Math.max(0,Math.min(1,v)), ease=v=>{v=clamp(v);return v*v*(3-2*v)}, lerp=T.MathUtils.lerp;
 let started=performance.now(),ready=false,exitAt=null,px=0,py=0,lastScreen=-1,hover=null;
 let screenPhase='';
-function drawScreen(t){const boot=clamp((t-3.4)/1.4);ctx.fillStyle='#070e0c';ctx.fillRect(0,0,1600,1000);const glow=ctx.createRadialGradient(1260,300,0,1260,300,850);glow.addColorStop(0,'#173c2c');glow.addColorStop(1,'#070e0c');ctx.fillStyle=glow;ctx.fillRect(0,0,1600,1000);ctx.globalAlpha=boot;ctx.fillStyle='#8bac9a';ctx.font='21px monospace';ctx.fillText('LG / PERSONAL INTELLIGENCE',95,90);ctx.fillStyle='#84daa9';ctx.fillText('HENRY + BOSE   •   ONLINE',1120,90);for(let i=0;i<30;i++){const x=1200+Math.cos(i*2.4+t*.13)*(90+i*5),y=475+Math.sin(i*1.7+t*.15)*(70+i*5);ctx.fillStyle='#70e3a5';ctx.globalAlpha=boot*.35;ctx.beginPath();ctx.arc(x,y,2+(i%3),0,7);ctx.fill();if(i%2===0){ctx.strokeStyle='#8bc9a1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(1200,470);ctx.stroke()}}ctx.globalAlpha=boot;ctx.fillStyle='#f0f6f1';ctx.font='500 84px sans-serif';ctx.fillText('AI will shape',95,305);ctx.fillText('the future.',95,405);ctx.fillStyle='#a0ecc0';ctx.fillText('Don’t surrender',95,535);ctx.fillText('your judgment.',95,635);ctx.font='29px sans-serif';ctx.fillStyle='#9bad9f';ctx.fillText('It can be confidently wrong.',98,755);ctx.fillText('Question the output. Own the decision.',98,804);ctx.fillStyle='#9fe8bb';ctx.font='22px monospace';ctx.fillText('ENTER THE PORTFOLIO   ↗',98,925);ctx.globalAlpha=1;st.needsUpdate=true;}
+function drawScreen(t){const boot=clamp((t-3.4)/1.4);ctx.fillStyle='#070e0c';ctx.fillRect(0,0,1600,1000);const glow=ctx.createRadialGradient(1260,300,0,1260,300,850);glow.addColorStop(0,'#173c2c');glow.addColorStop(1,'#070e0c');ctx.fillStyle=glow;ctx.fillRect(0,0,1600,1000);ctx.globalAlpha=boot;ctx.fillStyle='#8bac9a';ctx.font='21px monospace';ctx.fillText('LG / PERSONAL INTELLIGENCE',95,90);ctx.fillStyle='#84daa9';ctx.fillText('HENRY • BOSE • KELLY',1120,90);for(let i=0;i<30;i++){const x=1200+Math.cos(i*2.4+t*.13)*(90+i*5),y=475+Math.sin(i*1.7+t*.15)*(70+i*5);ctx.fillStyle='#70e3a5';ctx.globalAlpha=boot*.35;ctx.beginPath();ctx.arc(x,y,2+(i%3),0,7);ctx.fill();if(i%2===0){ctx.strokeStyle='#8bc9a1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(1200,470);ctx.stroke()}}ctx.globalAlpha=boot;ctx.fillStyle='#f0f6f1';ctx.font='500 84px sans-serif';ctx.fillText('AI will shape',95,305);ctx.fillText('the future.',95,405);ctx.fillStyle='#a0ecc0';ctx.fillText('Don’t surrender',95,535);ctx.fillText('your judgment.',95,635);ctx.font='29px sans-serif';ctx.fillStyle='#9bad9f';ctx.fillText('It can be confidently wrong.',98,755);ctx.fillText('Question the output. Own the decision.',98,804);ctx.fillStyle='#9fe8bb';ctx.font='22px monospace';ctx.fillText('ENTER THE PORTFOLIO   ↗',98,925);ctx.globalAlpha=1;st.needsUpdate=true;}
 function projectLabel(r,id){const p=r.g.position.clone();p.y-=.57;p.project(camera);const edge=innerWidth<600?54:70,el=document.getElementById(id);el.style.left=Math.max(edge,Math.min(innerWidth-edge,(p.x*.5+.5)*innerWidth))+'px';el.style.top=(-p.y*.5+.5)*innerHeight+'px'}
 function fit(){renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix()}addEventListener('resize',fit);
 const ray=new T.Raycaster(),mouse=new T.Vector2();
-function point(e){mouse.set(e.clientX/innerWidth*2-1,-e.clientY/innerHeight*2+1);ray.setFromCamera(mouse,camera);return ray.intersectObjects([display,henry.g,bose.g],true)}
-renderer.domElement.addEventListener('pointermove',e=>{px=(e.clientX/innerWidth-.5);py=(e.clientY/innerHeight-.5);hover=null;const hits=point(e);if(hits.length){let o=hits[0].object;while(o){if(o===henry.g)hover=henry;if(o===bose.g)hover=bose;o=o.parent}}renderer.domElement.style.cursor=ready&&hits.length?'pointer':'default'});
+function point(e){mouse.set(e.clientX/innerWidth*2-1,-e.clientY/innerHeight*2+1);ray.setFromCamera(mouse,camera);return ray.intersectObjects([display,...robots.map(r=>r.g)],true)}
+function robotFrom(object){for(let o=object;o;o=o.parent){const found=robots.find(r=>r.g===o);if(found)return found}return null}
+renderer.domElement.addEventListener('pointermove',e=>{px=(e.clientX/innerWidth-.5);py=(e.clientY/innerHeight-.5);hover=robotFrom(point(e)[0]?.object);renderer.domElement.style.cursor=ready&&hover?'pointer':'default'});
 renderer.domElement.addEventListener('pointerleave',()=>{hover=null;px=py=0});
-renderer.domElement.addEventListener('click',e=>{const hits=point(e);if(ready&&hits.some(h=>h.object===display))enter();else if(hits.length){let o=hits[0].object;while(o){for(const r of [henry,bose])if(o===r.g)r.waveUntil=performance.now()+1800;o=o.parent;}}});
+renderer.domElement.addEventListener('click',e=>{const hits=point(e),r=robotFrom(hits[0]?.object);if(ready&&r)navigate(`projects/${robotPage.get(r)}.html`);else if(ready&&hits.some(h=>h.object===display))enter()});
 function enter(){if(exitAt!==null)return;if(reduced){navigate();return}exitAt=performance.now();document.querySelector('#enter').disabled=true;setTimeout(()=>document.body.classList.add('leaving'),650);setTimeout(navigate,1050)}
 document.querySelector('#enter').onclick=enter;document.querySelector('#replay').onclick=()=>{started=performance.now();ready=false;document.body.classList.remove('ready');};
 addEventListener('keydown',e=>{if(e.key==='Escape')navigate();if(e.key==='Enter'&&e.target===document.body&&ready)enter()});
@@ -107,10 +116,10 @@ laptop.rotation.set(lerp(.35,0,approach),lerp(-Math.PI*1.65,0,approach),lerp(-.1
 const dist=mobile?18.8:13.5;
 camera.position.set(lerp(mobile?3.2:4.8,0,approach)+(!reduced&&ready?px*.28:0),lerp(mobile?4.5:5.4,mobile?3.2:3.65,approach)+(!reduced&&ready?py*.13:0),dist);camera.lookAt(0,mobile?.88:1.42,0);
 if(exitAt!==null){const z=ease((now-exitAt)/950);camera.position.lerp(new T.Vector3(0,1.92,1.7),z);camera.lookAt(0,1.72,-.52)}
-for(const [i,r] of [henry,bose].entries()){const sign=i?1:-1;r.g.visible=t>4.1;r.g.position.set(sign*(mobile?2.02:3.85),lerp(-1.4,mobile?-.35:.55,wake)+(reduced?0:Math.sin(t*2.4+i*2)*.11),mobile?3:.5);r.g.scale.setScalar(mobile?.66:1.08);r.g.rotation.set(0,-sign*.22, reduced?0:Math.sin(t*2.4+i)*.06);r.arms[0].rotation.z=reduced?.25:.28+Math.sin(t*3+i)*.32;r.arms[1].rotation.z=reduced?-.25:-.28-Math.sin(t*3+i+1)*.32;if(!reduced&&(hover===r||r.waveUntil>now))r.arms[1].rotation.z=-2+Math.sin(t*11)*.2;}
+for(const [i,r] of robots.entries()){const sign=i===0?-1:i===1?1:0;r.g.visible=t>4.1;r.g.position.set(i===2?(mobile?0:-1.5):sign*(mobile?2.02:3.85),lerp(-1.4,i===2?(mobile?-.1:0):(mobile?-.35:.55),wake)+(reduced?0:Math.sin(t*2.4+i*2)*.11),i===2?(mobile?4.7:4.1):(mobile?3:.5));r.g.scale.setScalar(i===2?(mobile?.55:.78):(mobile?.66:1.08));r.g.rotation.set(0,-sign*.22, reduced?0:Math.sin(t*2.4+i)*.06);r.arms[0].rotation.z=reduced?.25:.28+Math.sin(t*3+i)*.32;r.arms[1].rotation.z=reduced?-.25:-.28-Math.sin(t*3+i+1)*.32;if(!reduced&&(hover===r||r.waveUntil>now))r.arms[1].rotation.z=-2+Math.sin(t*11)*.2;}
 if(t>5.4&&!ready){ready=true;document.body.classList.add('ready');status.textContent='03 / meet your collaborators'}else if(t<2.7)status.textContent='01 / the arrival';else if(t<5.4)status.textContent='02 / intelligence, unfolding';
-if(now-lastScreen>70){drawScreen(t);lastScreen=now}projectLabel(henry,'henry-label');projectLabel(bose,'bose-label');renderer.render(scene,camera);
+if(now-lastScreen>70){drawScreen(t);lastScreen=now}projectLabel(henry,'henry-label');projectLabel(bose,'bose-label');projectLabel(kelly,'kelly-label');renderer.render(scene,camera);
 }requestAnimationFrame(frame);
-}else{document.querySelector('#enter').onclick=navigate;document.querySelector('#replay').hidden=true}
+}else{document.querySelector('#enter').onclick=()=>navigate();document.querySelector('#replay').hidden=true}
 </script>
 </body></html>

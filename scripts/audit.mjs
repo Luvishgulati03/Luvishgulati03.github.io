@@ -404,7 +404,7 @@ const checks = {
   "index has zero Compiler references": !/compiler/i.test(idxSrc),
   "no repo links for riskaicouncil / carbonnex / compiler": bannedRepos.length === 0,
   "both work products use a Case study → affordance": caseBtnsOk,
-  "case-study links resolve to existing files": caseHrefs.length === 4 && missingCaseFiles.length === 0,
+  "case-study links resolve to existing files": caseHrefs.length === 5 && missingCaseFiles.length === 0,
 
   /* ---- the two flagship agents ---- */
   "flagship section presents exactly two agent cards": dom.flagship?.cards === 2,
