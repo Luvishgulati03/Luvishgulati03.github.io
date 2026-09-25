@@ -75,6 +75,22 @@ const FORBIDDEN = [
 ];
 const AGENT_PAGES = ["projects/bose.html", "projects/henry.html", "projects/kelly.html"];
 
+// The one named exception to "zero external requests" (AGENT-GUIDE.md hard rule 2,
+// owner-approved 2026-09-25): the "Talk to Kelly" live-status check. Nothing else may
+// ever leave file://, on any page, including a different path on the same host.
+const KELLY_HEALTH_URL = "https://kelly-test.luvishgulati.com/api/health";
+function isAllowedExternal(u) {
+  try {
+    const p = new URL(u);
+    return p.protocol === "https:" && p.host === "kelly-test.luvishgulati.com" && p.pathname === "/api/health";
+  } catch {
+    return false;
+  }
+}
+function onlyAllowedExternal(urls) {
+  return urls.every(isAllowedExternal);
+}
+
 /** Scroll the whole page so every IntersectionObserver reveal fires, then return
  *  to the top. Without this a fullPage screenshot captures .reveal sections at
  *  opacity:0 — and it also verifies the reveals actually work. */
@@ -226,10 +242,24 @@ for (const cp of CASE_PAGES) {
   const res = { ...cp, exists: fs.existsSync(abs), errors: [], external: [], shotPath: `${REPO}/shots/${cp.shot}` };
   if (!res.exists) { caseResults.push(res); continue; }
 
+  // kelly.html calls the one named external exception (KELLY_HEALTH_URL) live, from a
+  // file:// page. Kelly only answers CORS for the real luvishgulati.com origins, so this
+  // browser's cross-origin fetch is expected to fail here and Chromium logs it to the
+  // console as a network error even though the page's own .catch() handles it and shows
+  // "Sleeping right now". Only these two known, generic browser messages are excused, and
+  // only on kelly.html — anything else still fails the audit.
+  const isExpectedKellyHealthNoise = (text) =>
+    cp.file === "projects/kelly.html" &&
+    (/blocked by CORS policy/i.test(text) || /^Failed to load resource: net::ERR_FAILED$/.test(text.trim()));
+
   const cctx = await b.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 2 });
   const cpage = await cctx.newPage();
   cpage.on("pageerror", (e) => res.errors.push(String(e)));
-  cpage.on("console", (m) => m.type() === "error" && res.errors.push(m.text()));
+  cpage.on("console", (m) => {
+    if (m.type() !== "error") return;
+    if (isExpectedKellyHealthNoise(m.text())) return;
+    res.errors.push(m.text());
+  });
   cpage.on("request", (r) => {
     const u = r.url();
     if (!u.startsWith("file://") && !u.startsWith("data:") && !u.startsWith("about:")) res.external.push(u);
@@ -379,7 +409,7 @@ const emDashPages = ["index.html", "studio.html", "journey.html", ...CASE_PAGES.
 const checks = {
   /* ---- index: existing gates ---- */
   "zero console/page errors": errors.length === 0,
-  "zero external requests": external.length === 0,
+  "zero external requests beyond the named Kelly health-check exception": onlyAllowedExternal(external),
   "no horizontal scroll @360/375/768/1440": Object.values(overflow).every((v) => v === false),
   "nav anchors resolve to real sections": dom.navHrefs.length >= 3 && dom.navTargetsResolve,
   "all v3 sections present": dom.sections.length === 0,
@@ -447,7 +477,12 @@ const checks = {
   /* ---- case pages ---- */
   "case pages exist": caseResults.every((r) => r.exists),
   "case pages: zero console/page errors": caseResults.every((r) => r.errors.length === 0),
-  "case pages: zero external requests": caseResults.every((r) => r.external.length === 0),
+  "case pages: zero external requests beyond the named Kelly health-check exception": caseResults.every(
+    (r) => onlyAllowedExternal(r.external)
+  ),
+  "only kelly.html may use the health-check exception; every other page stays at zero": caseResults
+    .filter((r) => r.file !== "projects/kelly.html")
+    .every((r) => r.external.length === 0),
   "case pages: no horizontal scroll @360/375/768/1440": caseResults.every(
     (r) => r.overflow && Object.values(r.overflow).every((v) => v === false)
   ),

@@ -260,8 +260,9 @@ networks.
   Indian small businesses. The electrical-shop workflow is the origin, not the product limit.
 - The current demo supports supplier catalogue imports from PDF, XLSX and CSV; a reviewed,
   published catalogue; catalogue-grounded retrieval; pricing and GST calculations; quotations;
-  spreadsheet workflows; terminal, web and Telegram surfaces; and Hindi or Hinglish voice with
-  a Roman Hinglish transcript for the operator.
+  spreadsheet workflows; and terminal, web and Telegram surfaces. (The voice-language detail in
+  this bullet, Hindi or Hinglish only with a Roman Hinglish transcript, was later refined; see
+  the 2026-09-25 entry below for the current, authoritative language and voice facts.)
 - Questions and Kelly's answers are indexed in an isolated conversation RAG layer. Current
   catalogue records, pricing rules and source evidence always override past conversational
   answers. Customer scopes stay separate.
@@ -272,3 +273,23 @@ networks.
 - The career journey uses verified stages only: Amity University, Cvent, Pink Unicorn Algorithms,
   GrowthX and independent builds. It is navigation, not a game score, and every destination stays
   directly accessible.
+
+## Update 2026-09-25 (authoritative) — "Talk to Kelly" live test link
+
+This entry is the current, authoritative description of Kelly. Where it differs from the
+2026-09-22 entry above (voice language, in particular), this entry wins.
+
+- Kelly is a voice counter assistant built for two real shops: an electrical shop and Luvish's
+  mother's boutique, She Fashion House.
+- Customers talk to Kelly hands-free. She understands Hindi, Hinglish and English, and always
+  answers in English. She shows designs and puts together quotations, with prices computed in
+  code (not guessed by the model).
+- A live test build is reachable at https://kelly-test.luvishgulati.com. It requires a counter
+  login; Luvish gives out a guest login on request.
+- Kelly runs locally on Luvish's Mac and is reached through a Cloudflare tunnel. She is only
+  reachable while the Mac is awake and Kelly is running there; there is no separate always-on
+  server. Do not claim or imply guaranteed uptime.
+- The live-status check on the portfolio calls `GET https://kelly-test.luvishgulati.com/api/health`
+  from the page, which Kelly answers cross-site for `https://luvishgulati.com` and
+  `https://www.luvishgulati.com` only. This is the one named exception to the site's
+  zero-external-requests rule; see `AGENT-GUIDE.md` hard rule 2 and `scripts/audit.mjs`.
